@@ -8,7 +8,7 @@
       <div class="logo" />
       <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
         <a-menu-item key="1">
-          <router-link to="/home">
+          <router-link to="/">
             <a-icon type="home" />
             <span>首页</span>
           </router-link>
@@ -68,19 +68,7 @@
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', paddingTop: '0', minHeight: '100vh' }">
         <div>
-          <a-breadcrumb :routes="routes">
-            <template slot="itemRender" slot-scope="{route, params, routes, paths}">
-              <span v-if="routes.indexOf(route) === routes.length - 1">
-                {{route.meta.title}}
-                <!-- {{paths}} -->
-              </span>
-              <router-link v-else :to="`/${paths.join('/')}`">
-                {{route.meta.title}}
-              </router-link>
-            </template>
-          </a-breadcrumb>
-          <br/>
-          {{$route.path}}
+          {{title}}
         </div>
         <router-view/>
       </a-layout-content>
@@ -90,22 +78,19 @@
 <script>
 export default {
   data () {
-    // const {lang} = this.$route.params
-    console.log(this.$route.matched)
-    // console.log(routes.indexOf(route))
     return {
       collapsed: false,
-      // basePath: '',
-      routes: []
+      title: ''
     }
   },
   created () {
-    this.routes = this.$route.matched
+    // console.log(this.$route)
+    this.title = this.$route.meta.title
   },
   watch: {
     '$route' (to, from) {
-      this.routes = this.$route.matched
-      console.log(this.routes)
+      this.title = to.meta.title
+      // console.log(this.routes)
     }
   },
   methods: {

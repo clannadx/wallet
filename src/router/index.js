@@ -18,7 +18,7 @@ export default new Router({
       component: () => import('@/views/home/home'),
       children: [
         {
-          path: '/home',
+          path: '/',
           name: 'Home',
           component: () => import('@/views/first-view/first-view'),
           meta: {title: '首页'}
