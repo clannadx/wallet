@@ -67,7 +67,7 @@
         <a-icon class="trigger logout" type="logout"/>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', paddingTop: '0', minHeight: '100vh' }">
-        <div>
+        <div class="main-title">
           {{title}}
         </div>
         <router-view/>
@@ -128,5 +128,12 @@ export default {
 }
 #components-layout-trigger .logout{
   float: right;
+}
+.main-title{
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #858585;
+  margin-bottom: 14px;
 }
 </style>

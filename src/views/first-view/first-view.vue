@@ -1,13 +1,157 @@
 <template>
-  <div>first-view</div>
+  <div>
+    <div class="information" >
+      <a-row class="etm-info" type="flex" justify="space-around" align="middle">
+          <a-col class="etm-info-li" :span="8">
+            <p>我的余额</p>
+            <p>{{accountInfo.balance}}Mole</p>
+          </a-col>
+          <a-col class="etm-info-li" :span="8">
+            <p>最后出块高度</p>
+            <p>{{accountInfo.height}}</p>
+          </a-col>
+          <a-col class="etm-info-li last" :span="8">
+            <p>版本信息</p>
+            <p>V{{accountInfo.version}}</p>
+          </a-col>
+      </a-row>
+    </div>
+    <div class="transaction">
+      <p>交易记录</p>
+      <div class="lists">
+        <a-table :columns="columns"
+         :dataSource="data"
+         :pagination="pagination"
+         :loading="loading"
+         @change="handleTableChange"
+          bordered>
+
+        </a-table>
+      </div>
+
+    </div>
+  </div>
 </template>
 <script>
+import {getAccount, getTransaction} from '@/api/account'
+import {genAddress} from '@/utils/gen'
+const columns = [{
+  title: 'ID',
+  dataIndex: 'id'
+}, {
+  title: '类型',
+  className: 'column-money',
+  dataIndex: ''
+}, {
+  title: '发送者',
+  dataIndex: 'senderId'
+}, {
+  title: '接收者',
+  dataIndex: 'recipientId'
+}, {
+  title: '日期',
+  dataIndex: 'timestamp'
+}, {
+  title: '备注',
+  dataIndex: 'message'
+}, {
+  title: '金额（Mole）',
+  dataIndex: 'amount'
+}]
+
 export default {
   data () {
-    return {}
+    return {
+      data: [],
+      columns,
+      accountInfo: {},
+      address: '', // 地址
+      pagination: {
+        defaultPageSize: 10 // 每页个数
+      },
+      loading: false
+    }
+  },
+  created () {
+    this._getAccount()
+    this._getTransaction()
+  },
+  methods: {
+    async _getAccount () {
+      const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
+      this.address = genAddress(secret)
+      const result = await getAccount(this.address)
+      if (result.data.success) {
+        this.accountInfo = Object.assign({}, result.data.account, result.data.latestBlock, result.data.version)
+      }
+    },
+    async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {
+      this.loading = true
+      const result = await getTransaction(params)
+      if (result.data.success) {
+        this.data = result.data.transactions
+        const pagination = {...this.pagination}
+        pagination.total = result.data.count
+        this.pagination = pagination
+        this.loading = false
+      }
+    },
+    handleTableChange (pagination) {
+      const pager = {...this.pagination}
+      pager.current = pagination.current
+      this.pagination = pager
+      this._getTransaction({
+        senderId: this.address,
+        limit: pagination.pageSize,
+        offset: pagination.pageSize * (pagination.current - 1),
+        orderBy: 't_timestamp:desc'
+      })
+    }
   }
 }
 </script>
-<style>
-
+<style lang="less" >
+.information {
+  background: #fff;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.65);
+  height: 100px;
+  padding-top: 20px;
+  .etm-info {
+    text-align: center;
+    .etm-info-li {
+      p {
+        border-right: 1px solid #e9e9e9;
+        margin: 0;
+      }
+      p:first-child {
+        color: #8d8d8d;
+        font-size: 14px;
+      }
+      p:last-child {
+        color: #4b4b4b;
+        font-size: 24px;
+      }
+    }
+    .last {
+      p {
+        border: none;
+      }
+    }
+  }
+}
+.transaction {
+  margin: 20px 0 ;
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .lists{
+  background: #fff;
+  border-radius: 2px;
+    padding:10px;
+  }
+}
 </style>

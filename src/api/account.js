@@ -8,3 +8,19 @@ export const login = (key) => {
     data: data
   })
 }
+
+export const getAccount = (address) => {
+  return http({
+    url: '/api/accounts',
+    method: 'get',
+    params: {address}
+  })
+}
+
+export const getTransaction = (params) => {
+  return http({
+    url: '/api/transactions',
+    method: 'get',
+    params
+  })
+}

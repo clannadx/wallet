@@ -12,5 +12,5 @@ export function genPrivateKey (secret) {
 // 生成地址
 export function genAddress (secret) {
   let publicKey = window.entanmoJs.crypto.getKeys(secret).publicKey
-  return window.entanmoJs.crypto.getAddress(publicKey)
+  return window.entanmoJs.crypto.getNewAddress(publicKey)
 }

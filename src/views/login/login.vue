@@ -87,6 +87,9 @@ export default {
         console.log(key)
         const result = await login(key)
         console.log(result)
+        if (result.data) {
+          this.$router.push('/')
+        }
       }
     },
     register () {
