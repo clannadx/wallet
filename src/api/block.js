@@ -15,3 +15,10 @@ export const searchBlock = (params) => {
     params
   })
 }
+
+export const getHighest = () => {
+  return http({
+    url: '/api/blocks/getHeight',
+    method: 'get'
+  })
+}

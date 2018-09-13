@@ -25,23 +25,30 @@
          :loading="loading"
          @change="handleTableChange"
           bordered>
-
+          <template slot="typeIN" slot-scope="text, record">
+            {{mapType(record.type)}}
+          </template>
+          <template slot="time" slot-scope="text, record">
+            {{convertTime(record.timestamp)}}
+          </template>
+        <template slot="footer" slot-scope="currentPageData">
+          总计:      {{totalAmount()}} Mole
+        </template>
         </a-table>
       </div>
-
     </div>
   </div>
 </template>
 <script>
 import {getAccount, getTransaction} from '@/api/account'
-import {genAddress} from '@/utils/gen'
+import {genAddress, convertTime} from '@/utils/gen'
 const columns = [{
   title: 'ID',
   dataIndex: 'id'
 }, {
   title: '类型',
-  className: 'column-money',
-  dataIndex: ''
+  scopedSlots: { customRender: 'typeIN' },
+  dataIndex: 'type'
 }, {
   title: '发送者',
   dataIndex: 'senderId'
@@ -50,7 +57,8 @@ const columns = [{
   dataIndex: 'recipientId'
 }, {
   title: '日期',
-  dataIndex: 'timestamp'
+  dataIndex: 'timestamp',
+  scopedSlots: {customRender: 'time'}
 }, {
   title: '备注',
   dataIndex: 'message'
@@ -69,7 +77,8 @@ export default {
       pagination: {
         defaultPageSize: 10 // 每页个数
       },
-      loading: false
+      loading: false,
+      convertTime: convertTime // 方法
     }
   },
   created () {
@@ -106,6 +115,35 @@ export default {
         offset: pagination.pageSize * (pagination.current - 1),
         orderBy: 't_timestamp:desc'
       })
+    },
+    totalAmount () {
+      if (!this.data.length) {
+        return 0
+      }
+      const amount = this.data.map(item => item.amount)
+      return amount.reduce((prev, next) => {
+        return prev + next
+      })
+    },
+    mapType (type) {
+      switch (type) {
+        case 0:
+          return '普通转账'
+        case 1:
+          return '设置二级密码'
+        case 2:
+          return '注册受托人'
+        case 3:
+          return '投票'
+        case 4:
+          return '多重签名'
+        case 5:
+          return 'DAPP'
+        case 6:
+          return 'IN_TRANSFER'
+        case 7:
+          return 'OUT_TRANSFER'
+      }
     }
   }
 }

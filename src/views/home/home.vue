@@ -6,55 +6,39 @@
       v-model="collapsed"
     >
       <div class="logo" />
-      <a-menu theme="dark" mode="inline" :defaultSelectedKeys="['1']">
-        <a-menu-item key="1">
-          <router-link to="/">
+      <a-menu theme="dark" mode="inline" @click="handleClick" >
+        <router-link class="ant-menu-item" role="menuitem" tag="li" exact to="/home">
             <a-icon type="home" />
             <span>首页</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <router-link to="/person">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/person">
             <a-icon type="user" />
             <span>个人中心</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <router-link to="/application">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/application">
             <a-icon type="appstore" />
             <span>应用中心</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="4">
-          <router-link to="/block-production">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-production">
             <a-icon type="line-chart" />
             <span>区块生产</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="5">
-          <router-link to="/block-scan">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-scan">
             <a-icon type="user" />
             <span>区块浏览</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="6">
-          <router-link to="/vote">
-            <a-icon type="like-o" />
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/vote">
+             <a-icon type="like-o" />
             <span>投票</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="7">
-          <router-link to="transfer">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/transfer">
             <a-icon type="pay-circle-o" />
             <span>转账</span>
-          </router-link>
-        </a-menu-item>
-        <a-menu-item key="8">
-          <router-link to="/miners-list">
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/miners-list">
             <a-icon type="pie-chart" />
             <span>SCV矿工列表</span>
-          </router-link>
-        </a-menu-item>
+        </router-link>
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -84,19 +68,17 @@ export default {
     }
   },
   created () {
-    // console.log(this.$route)
     this.title = this.$route.meta.title
   },
   watch: {
     '$route' (to, from) {
       this.title = to.meta.title
-      // console.log(this.routes)
     }
   },
   methods: {
-    select (item) {
-      console.log(1)
-      console.log(item)
+    handleClick (e) {
+      console.log('click ', e)
+      this.selectItem = e.keyPath
     }
   }
 }
