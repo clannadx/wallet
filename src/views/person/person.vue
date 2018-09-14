@@ -1,13 +1,42 @@
 <template>
-  <div>2</div>
+  <div class="person">
+    <a-tabs defaultActiveKey="1" @change="callback">
+      <a-tab-pane tab="账户信息" key="1">
+        <account></account>
+      </a-tab-pane>
+      <a-tab-pane tab="二级密码" key="2" forceRender>
+        <second-password></second-password>
+      </a-tab-pane>
+      <a-tab-pane tab="锁仓" key="3">
+        <lock-up></lock-up>
+      </a-tab-pane>
+    </a-tabs>
+  </div>
 </template>
 <script>
+import Account from '@/components/account/account'
+import SecondPassword from '@/components/second-password/second-password'
+import LockUp from '@/components/lock-up/lock-up'
 export default {
   data () {
     return {}
+  },
+  methods: {
+    callback (key) {
+      console.log(key)
+    }
+  },
+  components: {
+    Account,
+    SecondPassword,
+    LockUp
   }
 }
 </script>
-<style>
-
+<style lang="less" scoped>
+  .person{
+    background: #fff;
+    padding: 10px;
+    min-height: 600px;
+  }
 </style>

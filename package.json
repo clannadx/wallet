@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@xkeshi/vue-qrcode": "^1.0.0",
     "ant-design-vue": "^1.0.3",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.8.0",
@@ -18,7 +19,7 @@
     "less": "^3.8.1",
     "less-loader": "^4.1.0",
     "long": "^4.0.0",
-    "vue": "^2.5.2",
+    "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

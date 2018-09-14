@@ -22,3 +22,10 @@ export const getHighest = () => {
     method: 'get'
   })
 }
+
+export const transactions = () => {
+  return http({
+    url: '/api/transactions',
+    method: 'put'
+  })
+}

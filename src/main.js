@@ -7,6 +7,9 @@ import router from './router'
 import './assets/css/reset.css'
 
 import 'ant-design-vue/dist/antd.css'
+// qrcode
+import VueQrcode from '@xkeshi/vue-qrcode'
+Vue.component(VueQrcode.name, VueQrcode)
 Vue.use(Antd)
 Vue.config.productionTip = false
 

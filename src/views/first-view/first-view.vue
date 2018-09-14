@@ -4,7 +4,7 @@
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>我的余额</p>
-            <p>{{accountInfo.balance}}Mole</p>
+            <p>{{accountInfo.balance}} ETM</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>最后出块高度</p>
@@ -23,6 +23,7 @@
          :dataSource="data"
          :pagination="pagination"
          :loading="loading"
+          :scroll="{ x: 1300 }"
          @change="handleTableChange"
           bordered>
           <template slot="typeIN" slot-scope="text, record">
@@ -32,7 +33,7 @@
             {{convertTime(record.timestamp)}}
           </template>
         <template slot="footer" slot-scope="currentPageData">
-          总计:      {{totalAmount()}} Mole
+          总计:      {{totalAmount()}} ETM
         </template>
         </a-table>
       </div>
@@ -44,7 +45,10 @@ import {getAccount, getTransaction} from '@/api/account'
 import {genAddress, convertTime} from '@/utils/gen'
 const columns = [{
   title: 'ID',
-  dataIndex: 'id'
+  dataIndex: 'id',
+  width: 510,
+  fixed: 'left'
+
 }, {
   title: '类型',
   scopedSlots: { customRender: 'typeIN' },
@@ -63,8 +67,10 @@ const columns = [{
   title: '备注',
   dataIndex: 'message'
 }, {
-  title: '金额（Mole）',
-  dataIndex: 'amount'
+  title: '金额（ETMM）',
+  dataIndex: 'amount',
+  width: 150,
+  fixed: 'right'
 }]
 
 export default {
@@ -99,6 +105,7 @@ export default {
       const result = await getTransaction(params)
       if (result.data.success) {
         this.data = result.data.transactions
+        console.log(this.data)
         const pagination = {...this.pagination}
         pagination.total = result.data.count
         this.pagination = pagination
