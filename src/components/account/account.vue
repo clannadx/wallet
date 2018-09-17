@@ -3,11 +3,11 @@
     <p class="title">账号信息</p>
     <div class="list">
         <ul>
-            <li><span>总余额：</span><span>{{accountInfo.balance}}</span></li>
-            <li><span>地址：</span><span>{{accountInfo.address}}</span></li>
-            <li><span>二级密码：</span><span>{{accountInfo.secondSignature ? '已设置' : '未设置'}}</span></li>
+            <li><span>总余额：</span><span>{{accounts.balance}}</span></li>
+            <li><span>地址：</span><span>{{accounts.address}}</span></li>
+            <li><span>二级密码：</span><span>{{accounts.secondSignature ? '已设置' : '未设置'}}</span></li>
             <li><span>锁仓状态：</span><span>未锁仓</span></li>
-            <li><span>公钥：</span><span>{{accountInfo.publicKey}}</span></li>
+            <li><span>公钥：</span><span>{{accounts.publicKey}}</span></li>
             <li><span>主秘钥二维码：</span><span><a href="javascript:;" @click="keyQrcode">点击获取</a></span></li>
             <li><span>地址二维码：</span><span><a href="javascript:;" @click="addressQrcode">点击获取</a></span></li>
         </ul>
@@ -23,39 +23,31 @@
   </div>
 </template>
 <script>
-import {genAddress} from '@/utils/gen'
-import {getAccount} from '@/api/account'
+
 export default {
   name: 'Account',
   data () {
     return {
       accountInfo: {},
       visible: false,
-      qrvalue: '',
-      address: '',
-      publicKey: ''
+      qrvalue: ''
     }
   },
   created () {
-    this._getAccounts()
+  },
+  computed: {
+    accounts () {
+      return this.$store.state.user.accountInfo || {}
+    }
   },
   methods: {
-    async _getAccounts () {
-      const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
-      this.address = genAddress(secret)
-      const result = await getAccount(this.address)
-      if (result.data.success) {
-        console.log(result)
-        this.accountInfo = {...result.data.account, ...result.data.laststBlock, ...result.data.version}
-      }
-    },
     keyQrcode () {
       this.visible = true
-      this.qrvalue = this.accountInfo.publicKey
+      this.qrvalue = this.accounts.publicKey
     },
     addressQrcode () {
       this.visible = true
-      this.qrvalue = this.accountInfo.address
+      this.qrvalue = this.accounts.address
     }
   }
 }

@@ -4,15 +4,15 @@
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>我的余额</p>
-            <p>{{accountInfo.balance}} ETM</p>
+            <p>{{accounts.balance}} ETM</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>最后出块高度</p>
-            <p>{{accountInfo.height}}</p>
+            <p>{{accounts.height}}</p>
           </a-col>
           <a-col class="etm-info-li last" :span="8">
             <p>版本信息</p>
-            <p>V{{accountInfo.version}}</p>
+            <p>V{{accounts.version}}</p>
           </a-col>
       </a-row>
     </div>
@@ -41,8 +41,8 @@
   </div>
 </template>
 <script>
-import {getAccount, getTransaction} from '@/api/account'
-import {genAddress, convertTime} from '@/utils/gen'
+import { getTransaction } from '@/api/account'
+import { convertTime } from '@/utils/gen'
 const columns = [{
   title: 'ID',
   dataIndex: 'id',
@@ -78,7 +78,6 @@ export default {
     return {
       data: [],
       columns,
-      accountInfo: {},
       address: '', // 地址
       pagination: {
         defaultPageSize: 10 // 每页个数
@@ -87,19 +86,15 @@ export default {
       convertTime: convertTime // 方法
     }
   },
+  computed: {
+    accounts () {
+      return this.$store.state.user.accountInfo || {}
+    }
+  },
   created () {
-    this._getAccount()
     this._getTransaction()
   },
   methods: {
-    async _getAccount () {
-      const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
-      this.address = genAddress(secret)
-      const result = await getAccount(this.address)
-      if (result.data.success) {
-        this.accountInfo = Object.assign({}, result.data.account, result.data.latestBlock, result.data.version)
-      }
-    },
     async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {
       this.loading = true
       const result = await getTransaction(params)

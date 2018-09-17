@@ -2,12 +2,16 @@ import {login, getAccount} from '@/api/account'
 
 const user = {
   state: {
+    accountInfo: {},
     address: '',
     secondSecret: false,
     key: '',
     lang: ''
   },
   mutations: {
+    SET_INFO: (state, info) => {
+      state.accountInfo = {...info}
+    },
     SET_ADDRESS: (state, address) => {
       state.address = address
     },
@@ -30,15 +34,13 @@ const user = {
     },
     async GetInfo ({commit}) {
       const secret = sessionStorage.getItem('etmUse')
-      console.log(JSON.parse(secret))
       const address = JSON.parse(secret).account.address
-      console.log(address)
-      // const address = getAddress(publicKey)
-      // commit('SET_KEY', publicKey)
-      // const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
-      // const address = genAddress(secret)
       const result = await getAccount(address)
-      console.log(result)
+      if (result.data.success) {
+        const info = {...result.data.account, ...result.data.laststBlock, ...result.data.version}
+        commit('SET_INFO', info)
+        console.log(this.state)
+      }
 
       if (result.data.success) {
         // commit('SET_SECONDSECRET',)

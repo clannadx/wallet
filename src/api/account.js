@@ -25,14 +25,6 @@ export const getTransaction = (params) => {
   })
 }
 
-export const accounts = (params) => {
-  return http({
-    url: '/api/accounts',
-    method: 'get',
-    params
-  })
-}
-
 export const setSecondSecret = (secret, secondSecret) => {
   const data = {secret: secret, secondSecret: secondSecret}
   return http({
