@@ -9,14 +9,18 @@ import './assets/css/reset.css'
 import 'ant-design-vue/dist/antd.css'
 // qrcode
 import VueQrcode from '@xkeshi/vue-qrcode'
+import i18n from '@/lang'
+import store from '@/store'
+import './permission'
 Vue.component(VueQrcode.name, VueQrcode)
 Vue.use(Antd)
 Vue.config.productionTip = false
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  i18n,
+  store,
   components: { App },
   template: '<App/>'
 })

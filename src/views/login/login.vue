@@ -13,15 +13,13 @@
         <a-checkbox  > 保持登录状态</a-checkbox>
       </div>
       <div>
-        <a-select size="small" defaultValue="CN" style="width: 120px" >
-          <a-select-option value="CN">中文简体</a-select-option>
-          <a-select-option value="lucy">Lucy</a-select-option>
-          <a-select-option value="disabled" disabled>Disabled</a-select-option>
-          <a-select-option value="Yiminghe">yiminghe</a-select-option>
+        <a-select size="small" defaultValue="zh_CN" @change='changeLocale'  style="width: 120px" >
+          <a-select-option value="zh_CN">中文简体</a-select-option>
+          <a-select-option value="en_GB">英文</a-select-option>
         </a-select>
       </div>
       <div class="div_btn">
-        <a-button @click="handleSubmit" type="primary">登录</a-button>
+        <a-button @click="handleSubmit" type="primary">{{$t("login.loginBtn")}}</a-button>
         <a-button @click="register" >新账户</a-button>
       </div>
     </form>
@@ -57,8 +55,8 @@
 
 <script>
 import bip39 from 'bip39'
-import {login} from '@/api/account'
 import {genPublicKey} from '@/utils/gen'
+import {mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -78,6 +76,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'login'
+    ]),
     async handleSubmit () {
       if (!bip39.validateMnemonic(this.password)) {
         this.$message.error('密码格式不符合')
@@ -85,10 +86,12 @@ export default {
         console.log(this.password, 'password')
         const key = genPublicKey(this.password)
         console.log(key)
-        const result = await login(key)
-        console.log(result)
+        const result = await this.login(key)
+        console.log(result, '2222')
         if (result.data) {
-          this.$router.push('/')
+          const data = JSON.stringify(result.data)
+          sessionStorage.setItem('etmUse', data)
+          // this.$router.push('/')
         }
       }
     },
@@ -111,6 +114,12 @@ export default {
     onChange (e) {
       console.log(`checked = ${e.target.checked}`)
       console.log(this.checkitem01)
+    },
+    changeLocale (lang) { // 切换语言
+      console.log(lang)
+      window.localStorage.setItem('localeLanguage', lang)
+      this.$i18n.local = lang
+      console.log(this.$i18n)
     }
   }
 }

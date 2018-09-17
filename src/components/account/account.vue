@@ -26,6 +26,7 @@
 import {genAddress} from '@/utils/gen'
 import {getAccount} from '@/api/account'
 export default {
+  name: 'Account',
   data () {
     return {
       accountInfo: {},
@@ -44,6 +45,7 @@ export default {
       this.address = genAddress(secret)
       const result = await getAccount(this.address)
       if (result.data.success) {
+        console.log(result)
         this.accountInfo = {...result.data.account, ...result.data.laststBlock, ...result.data.version}
       }
     },
