@@ -1,5 +1,4 @@
 import {login, getAccount} from '@/api/account'
-import {genAddress} from '@/utils/gen'
 
 const user = {
   state: {
@@ -30,14 +29,14 @@ const user = {
       return result
     },
     async GetInfo ({commit}) {
-      // const secret = sessionStorage.getItem('etmUse')
-      // console.log(JSON.parse(secret))
-      // const publicKey = JSON.parse(secret).account.publicKey
-      // console.log(publicKey)
+      const secret = sessionStorage.getItem('etmUse')
+      console.log(JSON.parse(secret))
+      const address = JSON.parse(secret).account.address
+      console.log(address)
       // const address = getAddress(publicKey)
       // commit('SET_KEY', publicKey)
-      const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
-      const address = genAddress(secret)
+      // const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
+      // const address = genAddress(secret)
       const result = await getAccount(address)
       console.log(result)
 

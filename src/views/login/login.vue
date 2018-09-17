@@ -91,7 +91,7 @@ export default {
         if (result.data) {
           const data = JSON.stringify(result.data)
           sessionStorage.setItem('etmUse', data)
-          // this.$router.push('/')
+          this.$router.push('/')
         }
       }
     },
