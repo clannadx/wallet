@@ -34,12 +34,15 @@
 </template>
 <script>
 import {setSecondSecret} from '@/api/account'
+import {unit} from '@/utils/utils'
+
 export default {
   data () {
     return {
       form: null,
       secondSecret: '',
       confirmSecondSecret: '',
+      unit: unit,
       labelCol: {
         xs: { span: 24 },
         sm: { span: 6 },
@@ -55,8 +58,16 @@ export default {
       }
     }
   },
+  computed: {
+    secret () {
+      return this.$store.state.user.secret || ''
+    },
+    balance () {
+      return this.$store.state.user.accountInfo.balance || 0
+    }
+  },
   mounted () {
-
+    console.log(this.$store.state.user.accountInfo.secret)
   },
   methods: {
     check () {
@@ -68,19 +79,25 @@ export default {
                 message: '提示',
                 description: '两次密码不一致'
               })
-            } else {
-              this.setSecondSecret()
+              return false
             }
-            console.info('success')
+            if (unit(this.balance) < 5) {
+              this.$notification.info({
+                message: '提示',
+                description: '余额不足'
+              })
+              return false
+            }
+            this.setSecondSecret()
           }
         }
       )
     },
     async setSecondSecret () {
-      const secret = 'someone manual strong movie roof episode eight spatial brown soldier soup motor'
-      const result = await setSecondSecret(secret, this.secondSecret)
+      const result = await setSecondSecret(this.secret, this.secondSecret)
       console.log(result)
       if (result.data.success) {
+        this.$store.commit('SET_SECONDSECRET', true)
         this.$notification.info({
           message: '提示',
           description: '设置成功'

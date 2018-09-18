@@ -4,7 +4,7 @@
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>我的余额</p>
-            <p>{{accounts.balance}} ETM</p>
+            <p>{{unit(accounts.balance)}} ETM</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>最后出块高度</p>
@@ -43,6 +43,7 @@
 <script>
 import { getTransaction } from '@/api/account'
 import { convertTime } from '@/utils/gen'
+import {unit} from '@/utils/utils'
 const columns = [{
   title: 'ID',
   dataIndex: 'id',
@@ -78,17 +79,20 @@ export default {
     return {
       data: [],
       columns,
-      address: '', // 地址
       pagination: {
         defaultPageSize: 10 // 每页个数
       },
       loading: false,
+      unit: unit,
       convertTime: convertTime // 方法
     }
   },
   computed: {
     accounts () {
       return this.$store.state.user.accountInfo || {}
+    },
+    address () {
+      return this.$store.state.user.accountInfo.address
     }
   },
   created () {

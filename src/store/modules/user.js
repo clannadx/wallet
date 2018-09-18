@@ -1,49 +1,52 @@
 import {login, getAccount} from '@/api/account'
+import {genPublicKey} from '@/utils/gen'
 
 const user = {
   state: {
-    accountInfo: {},
-    address: '',
-    secondSecret: false,
-    key: '',
+    accountInfo: {}, // 用户信息
+    secret: '',
     lang: ''
   },
   mutations: {
     SET_INFO: (state, info) => {
       state.accountInfo = {...info}
     },
-    SET_ADDRESS: (state, address) => {
-      state.address = address
+    SET_SECRET: (state, secret) => {
+      state.secret = secret
     },
     SET_LANG: (state, lang) => {
       state.lang = lang
     },
     SET_SECONDSECRET: (state, secondSecret) => {
-      state.secondSecret = secondSecret
+      state.accountInfo.secondSignature = secondSecret
     },
-    SET_KEY: (state, key) => {
-      state.key = key
+    LOGIN_OUT: (state) => {
+      state.accountInfo = {}
     }
   },
   actions: {
-    async login ({commit}, key) {
-      commit('SET_KEY', key)
+    async login ({commit}, password) {
+      const key = genPublicKey(password)
       const result = await login(key)
-      console.log(result)
       return result
     },
+    async loginOut ({commit}) {
+      commit('LOGIN_OUT', {})
+      commit('SET_SECRET', '')
+      commit('SET_SECONDSECRET', '')
+      sessionStorage.removeItem('etmUse')
+      sessionStorage.removeItem('localeLanguage')
+    },
     async GetInfo ({commit}) {
-      const secret = sessionStorage.getItem('etmUse')
-      const address = JSON.parse(secret).account.address
+      const informations = sessionStorage.getItem('etmUse')
+      const address = JSON.parse(informations).account.address
+      const secret = JSON.parse(informations).account.secret
       const result = await getAccount(address)
       if (result.data.success) {
         const info = {...result.data.account, ...result.data.laststBlock, ...result.data.version}
         commit('SET_INFO', info)
+        commit('SET_SECRET', secret)
         console.log(this.state)
-      }
-
-      if (result.data.success) {
-        // commit('SET_SECONDSECRET',)
       }
       return result
     }

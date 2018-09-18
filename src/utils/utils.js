@@ -64,3 +64,7 @@ export function compareEqualArrObj (arr1, arr2) {
     indexs
   }
 }
+
+export const unit = (pay) => {
+  return pay / Math.pow(10, 8)
+}

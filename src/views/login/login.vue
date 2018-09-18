@@ -55,7 +55,6 @@
 
 <script>
 import bip39 from 'bip39'
-import {genPublicKey} from '@/utils/gen'
 import {mapActions} from 'vuex'
 export default {
   data () {
@@ -83,15 +82,15 @@ export default {
       if (!bip39.validateMnemonic(this.password)) {
         this.$message.error('密码格式不符合')
       } else {
-        console.log(this.password, 'password')
-        const key = genPublicKey(this.password)
-        console.log(key)
-        const result = await this.login(key)
-        console.log(result, '2222')
-        if (result.data) {
+        let result = await this.login(this.password)
+        if (result.data.success) {
+          console.log(result)
+          result.data.account.secret = this.password
           const data = JSON.stringify(result.data)
           sessionStorage.setItem('etmUse', data)
           this.$router.push('/')
+        } else {
+          this.$message.error('登录失败')
         }
       }
     },
@@ -116,10 +115,9 @@ export default {
       console.log(this.checkitem01)
     },
     changeLocale (lang) { // 切换语言
-      console.log(lang)
-      window.localStorage.setItem('localeLanguage', lang)
-      this.$i18n.local = lang
-      console.log(this.$i18n)
+      // window.localStorage.setItem('localeLanguage', lang)
+      this.$i18n.locale = lang
+      // console.log(this.$i18n)
     }
   }
 }

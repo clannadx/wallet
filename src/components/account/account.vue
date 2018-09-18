@@ -3,11 +3,11 @@
     <p class="title">账号信息</p>
     <div class="list">
         <ul>
-            <li><span>总余额：</span><span>{{accounts.balance}}</span></li>
+            <li><span>总余额：</span><span>{{unit(accounts.balance)}} ETM</span></li>
             <li><span>地址：</span><span>{{accounts.address}}</span></li>
             <li><span>二级密码：</span><span>{{accounts.secondSignature ? '已设置' : '未设置'}}</span></li>
             <li><span>锁仓状态：</span><span>未锁仓</span></li>
-            <li><span>公钥：</span><span>{{accounts.publicKey}}</span></li>
+            <li><span>公钥：</span><span>{{publicKey}}</span></li>
             <li><span>主秘钥二维码：</span><span><a href="javascript:;" @click="keyQrcode">点击获取</a></span></li>
             <li><span>地址二维码：</span><span><a href="javascript:;" @click="addressQrcode">点击获取</a></span></li>
         </ul>
@@ -23,14 +23,15 @@
   </div>
 </template>
 <script>
-
+import {unit} from '@/utils/utils'
 export default {
   name: 'Account',
   data () {
     return {
       accountInfo: {},
       visible: false,
-      qrvalue: ''
+      qrvalue: '',
+      unit: unit
     }
   },
   created () {
@@ -38,6 +39,10 @@ export default {
   computed: {
     accounts () {
       return this.$store.state.user.accountInfo || {}
+    },
+    publicKey () {
+      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      return this.$store.state.user.accountInfo.publicKey || data
     }
   },
   methods: {

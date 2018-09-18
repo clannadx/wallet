@@ -15,6 +15,9 @@
       @change="handleTableChange"
       :scroll="{ x: 1300 }"
       :dataSource="data" bordered>
+      <template slot="time" slot-scope="text, record">
+        {{convertTime(record.timestamp)}}
+      </template>
       <template slot="action" slot-scope="text, record, index">
         <a slot="action"  @click="showDetails(record.height)" href="javascript:;">查看详情</a>
       </template>
@@ -83,6 +86,8 @@
 </template>
 <script>
 import {getHighest, blocks, searchBlock} from '@/api/block'
+import { convertTime } from '@/utils/gen'
+
 const columns = [{
   title: '高度',
   width: 100,
@@ -90,7 +95,9 @@ const columns = [{
   fixed: 'left'
 }, {
   title: '日期',
-  dataIndex: 'timestamp'
+  dataIndex: 'timestamp',
+  scopedSlots: {customRender: 'time'}
+
 }, {
   title: 'ID',
   dataIndex: 'id'
@@ -128,7 +135,8 @@ export default {
       height: '', // 查询高度
       detailHeight: '',
       blockDetail: {},
-      visible: false // 弹出框
+      visible: false, // 弹出框
+      convertTime: convertTime // 方法
     }
   },
   created () {

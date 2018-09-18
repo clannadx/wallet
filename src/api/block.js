@@ -29,3 +29,19 @@ export const transactions = () => {
     method: 'put'
   })
 }
+
+export const getDelegate = (params) => {
+  return http({
+    url: '/api/delegates/get',
+    method: 'get',
+    params
+  })
+}
+
+export const setDelegate = (params) => {
+  return http({
+    url: '/api/delegates',
+    method: 'put',
+    data: params
+  })
+}

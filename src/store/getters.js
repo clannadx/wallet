@@ -1,7 +1,7 @@
 const getters = {
-  address: state => state.user.address,
+  accountInfo: state => state.user.accountInfo,
   secondSecret: state => state.user.secondSecret,
-  key: state => state.user.key,
+  secret: state => state.user.secret,
   lang: state => state.user.lang
 }
 

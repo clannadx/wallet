@@ -48,7 +48,7 @@
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
           @click="()=> collapsed = !collapsed"
         />
-        <a-icon class="trigger logout" type="logout"/>
+        <a-icon class="trigger logout" title="退出" @click="logout" type="logout"/>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', paddingTop: '0', minHeight: '100vh' }">
         <div class="main-title">
@@ -60,6 +60,7 @@
   </a-layout>
 </template>
 <script>
+import {mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -76,9 +77,17 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'loginOut'
+    ]),
     handleClick (e) {
       console.log('click ', e)
       this.selectItem = e.keyPath
+    },
+    async logout () {
+      await this.loginOut()
+      this.$message.success('退出成功')
+      this.$router.push('/login')
     }
   }
 }
