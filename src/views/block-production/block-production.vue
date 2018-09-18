@@ -29,6 +29,7 @@
     <div class="production">
       <p>生产的区块</p>
       <div class="table">
+        <div>
           <a-table :columns="columns"
           :pagination="pagination"
           :loading="loading"
@@ -39,6 +40,8 @@
             {{convertTime(record.timestamp)}}
           </template>
           </a-table>
+        </div>
+         <no-data v-show="nodata" ></no-data>
         </div>
     </div>
     <a-modal
@@ -100,6 +103,7 @@
   </div>
 </template>
 <script>
+import noData from '@/components/nodata/nodata'
 import { getDelegate, setDelegate, blocks } from '@/api/block'
 import { convertTime } from '@/utils/gen'
 import {mapState} from 'vuex'
@@ -139,6 +143,7 @@ export default {
         defaultPageSize: 10 // 每页个数
       },
       loading: false,
+      nodata: false,
       height: '', // 查询高度
       detailHeight: '',
       blockDetail: {},
@@ -216,6 +221,7 @@ export default {
           this._getTableLists()
         } else {
           this.onOff = '未开启'
+          this.nodata = true
         }
       } catch (err) {
         console.log(err)
@@ -226,6 +232,9 @@ export default {
       const result = await blocks(params)
       console.log(result, 'block')
       if (result.data.success) {
+        if (result.data.count) {
+          this.nodata = true
+        }
         this.loading = false
         this.data = result.data.blocks
         const pagination = { ...this.pagination }
@@ -244,6 +253,9 @@ export default {
         orderBy: 'height:desc'
       })
     }
+  },
+  components: {
+    'no-data': noData
   }
 }
 </script>
@@ -292,6 +304,7 @@ export default {
       background: #fff;
       border-radius: 2px;
       padding:10px;
+      position: relative;
     }
   }
 .foot {

@@ -26,9 +26,13 @@ export default {
 
 <style scoped>
 .wrapper {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     height: 500px;
-    /* background: #f0f2f5; */
+    width: 100%;
+    background: #fff;
+    z-index: 10;
 }
 .no-data {
     position: absolute;

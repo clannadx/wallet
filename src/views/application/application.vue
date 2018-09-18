@@ -2,10 +2,14 @@
   <div class="application">
     <a-tabs defaultActiveKey="1" >
       <a-tab-pane tab="应用列表" key="1">
-        <no-data v-show="!tableData.length"></no-data>
+        <div class="tab">
+          <no-data v-show="!tableData.length"></no-data>
+        </div>
       </a-tab-pane>
       <a-tab-pane tab="已安装" key="2" forceRender>
-        <no-data v-show="!tableData.length"></no-data>
+        <div class="tab">
+          <no-data v-show="!tableData.length"></no-data>
+        </div>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -25,7 +29,12 @@ export default {
 </script>
 <style lang="less" scoped>
 .application{
-  background-color: #fff;
-  border-radius: 2px;
+  background: #fff;
+  padding: 10px;
+  min-height: 600px;
+  .tab{
+  position: relative;
+  height: 500px;
+  }
 }
 </style>

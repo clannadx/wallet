@@ -18,24 +18,30 @@
     </div>
     <div class="transaction">
       <p>交易记录</p>
-      <div class="lists">
-        <a-table :columns="columns"
-         :dataSource="data"
-         :pagination="pagination"
-         :loading="loading"
-          :scroll="{ x: 1300 }"
-         @change="handleTableChange"
-          bordered>
-          <template slot="typeIN" slot-scope="text, record">
-            {{mapType(record.type)}}
+      <div class="lists" >
+        <div>
+          <a-table :columns="columns"
+          :dataSource="data"
+          :pagination="pagination"
+          :loading="loading"
+            :scroll="{ x: 1300 }"
+          @change="handleTableChange"
+            bordered>
+            <template slot="typeIN" slot-scope="text, record">
+              {{mapType(record.type)}}
+            </template>
+            <template slot="time" slot-scope="text, record">
+              {{convertTime(record.timestamp)}}
+            </template>
+            <template slot="amount" slot-scope="text, record">
+              {{unit(record.amount)}}
+            </template>
+          <template slot="footer" slot-scope="currentPageData">
+            总计:      {{totalAmount()}} ETM
           </template>
-          <template slot="time" slot-scope="text, record">
-            {{convertTime(record.timestamp)}}
-          </template>
-        <template slot="footer" slot-scope="currentPageData">
-          总计:      {{totalAmount()}} ETM
-        </template>
-        </a-table>
+          </a-table>
+        </div>
+        <no-data v-show="nodata"  ></no-data>
       </div>
     </div>
   </div>
@@ -44,6 +50,7 @@
 import { getTransaction } from '@/api/account'
 import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
+import noData from '@/components/nodata/nodata'
 const columns = [{
   title: 'ID',
   dataIndex: 'id',
@@ -68,10 +75,12 @@ const columns = [{
   title: '备注',
   dataIndex: 'message'
 }, {
-  title: '金额（ETMM）',
+  title: '金额（ETM）',
   dataIndex: 'amount',
   width: 150,
-  fixed: 'right'
+  fixed: 'right',
+  scopedSlots: {customRender: 'amount'}
+
 }]
 
 export default {
@@ -83,6 +92,7 @@ export default {
         defaultPageSize: 10 // 每页个数
       },
       loading: false,
+      nodata: false,
       unit: unit,
       convertTime: convertTime // 方法
     }
@@ -95,16 +105,22 @@ export default {
       return this.$store.state.user.accountInfo.address
     }
   },
+  components: {
+    'no-data': noData
+  },
   created () {
     this._getTransaction()
+    console.log(this.accounts)
   },
   methods: {
     async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {
       this.loading = true
       const result = await getTransaction(params)
       if (result.data.success) {
+        if (result.data.count === 0) {
+          this.nodata = true
+        }
         this.data = result.data.transactions
-        console.log(this.data)
         const pagination = {...this.pagination}
         pagination.total = result.data.count
         this.pagination = pagination
@@ -126,7 +142,7 @@ export default {
       if (!this.data.length) {
         return 0
       }
-      const amount = this.data.map(item => item.amount)
+      const amount = this.data.map(item => unit(item.amount))
       return amount.reduce((prev, next) => {
         return prev + next
       })
@@ -193,6 +209,7 @@ export default {
     margin-bottom: 10px;
   }
   .lists{
+  position: relative;
   background: #fff;
   border-radius: 2px;
     padding:10px;

@@ -9,19 +9,23 @@
     />
     </div>
     <div class="table">
-      <a-table :columns="columns"
-      :pagination="pagination"
-      :loading="loading"
-      @change="handleTableChange"
-      :scroll="{ x: 1300 }"
-      :dataSource="data" bordered>
-      <template slot="time" slot-scope="text, record">
-        {{convertTime(record.timestamp)}}
-      </template>
-      <template slot="action" slot-scope="text, record, index">
-        <a slot="action"  @click="showDetails(record.height)" href="javascript:;">查看详情</a>
-      </template>
-      </a-table>
+      <div>
+        <a-table :columns="columns"
+        :pagination="pagination"
+        :loading="loading"
+        @change="handleTableChange"
+        :scroll="{ x: 1300 }"
+        :dataSource="data" bordered>
+        <template slot="time" slot-scope="text, record">
+          {{convertTime(record.timestamp)}}
+        </template>
+        <template slot="action" slot-scope="text, record, index">
+          <a slot="action"  @click="showDetails(record.height)" href="javascript:;">查看详情</a>
+        </template>
+        </a-table>
+      </div>
+      <no-data v-show="nodata" ></no-data>
+    </div>
 <!-- 详情 -->
       <a-modal
       title="区块详情"
@@ -81,12 +85,13 @@
         </div>
       </div>
     </a-modal>
-    </div>
+
   </div>
 </template>
 <script>
 import {getHighest, blocks, searchBlock} from '@/api/block'
 import { convertTime } from '@/utils/gen'
+import noData from '@/components/nodata/nodata'
 
 const columns = [{
   title: '高度',
@@ -132,6 +137,7 @@ export default {
         defaultPageSize: 10 // 每页个数
       },
       loading: false,
+      nodata: false,
       height: '', // 查询高度
       detailHeight: '',
       blockDetail: {},
@@ -192,6 +198,9 @@ export default {
       this.loading = true
       const result = await searchBlock(params)
       if (result.data.success) {
+        if (result.data.count === 0) {
+          this.nodata = true
+        }
         this.loading = false
         this.data = []
         this.data.push(result.data.block)
@@ -220,6 +229,10 @@ export default {
         orderBy: 'height:desc'
       })
     }
+  },
+  components: {
+    'no-data': noData
+
   }
 }
 </script>
@@ -230,6 +243,9 @@ export default {
   padding: 20px 10px;
   .search{
     margin-bottom: 20px;
+  }
+  .table{
+    position: relative;
   }
 
 }

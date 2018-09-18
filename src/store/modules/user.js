@@ -43,7 +43,10 @@ const user = {
       const secret = JSON.parse(informations).account.secret
       const result = await getAccount(address)
       if (result.data.success) {
-        const info = {...result.data.account, ...result.data.laststBlock, ...result.data.version}
+        console.log(result)
+        console.log(result.data.latestBlock)
+        const info = {...result.data.account, ...result.data.latestBlock, ...result.data.version}
+        console.log(info)
         commit('SET_INFO', info)
         commit('SET_SECRET', secret)
         console.log(this.state)
