@@ -1,7 +1,7 @@
 <template>
       <a-modal
       title="取消投票"
-      v-model="modal1Visible"
+      v-model="visible"
       destroyOnClose
       @cancel="aaa"
   >
@@ -36,7 +36,15 @@ export default {
   },
   data () {
     return {
-      aaaa: this.modal1Visible
+      visible: this.modal1Visible
+    }
+  },
+  watch: {
+    modal1Visible (val) {
+      this.visible = val
+    },
+    visible (val) {
+      this.$emit('hidden1', val)
     }
   },
   methods: {
@@ -45,6 +53,7 @@ export default {
     },
     aaa () {
       console.log(this.modal1Visible)
+      console.log(this.visible)
       // this.$emit('hidden1')
     }
   }

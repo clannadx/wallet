@@ -4,6 +4,7 @@
   centered
   destroyOnClose
   v-model="modal2Visible"
+  @cancel="handleCancel"
 >
     <a-form :autoFormCreate="(form)=>{this.form = form}">
       <a-form-item
@@ -42,6 +43,11 @@ export default {
   methods: {
     handleSecondOk () {
       this.$emit('secondSubmit', this.secondSecret)
+    },
+    handleCancel () {
+      console.log(2)
+      this.modal2Visible = false
+      this.$emit('update:modal2Visible', false)
     }
   }
 }

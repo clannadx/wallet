@@ -13,7 +13,7 @@
         @change="handleTableChange"
         ></a-table>
     </div>
-    <pop-voted v-bind:modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"   @handleOk="handleOk"></pop-voted>
+    <pop-voted :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows" @hidden1="hidden1"  @handleOk="handleOk"></pop-voted>
     <pop-password :modal2Visible.sync="modal2Visible" @secondSubmit="secondSubmit"></pop-password>
   </div>
 </template>
@@ -141,6 +141,10 @@ export default {
       this._getRecord(pagination.current - 1)
       this.selectedRowKeys = []
       this.selectedRows = []
+    },
+    hidden1 (val) {
+      console.log(this.modal1Visible)
+      this.modal1Visible = val
     }
   },
   components: {
