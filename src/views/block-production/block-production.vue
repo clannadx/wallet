@@ -56,6 +56,7 @@
           :labelCol="{ span: 5 }"
           :wrapperCol="{ span: 16 }"
           fieldDecoratorId="受托人名称"
+          destroyOnClose
           :fieldDecoratorOptions="{rules: [{ required: true, message: '用户名不能为空' }]}"
           >
             <a-input type="text" v-model="delegateName" placeholder="用户名只能包含除了@$&_的字母、数字、字符" />
@@ -79,6 +80,7 @@
     <a-modal
       title="请输入二级密码"
       centered
+      destroyOnClose
       v-model="modal2Visible"
     >
         <a-form :autoFormCreate="(form)=>{this.form = form}">
@@ -89,7 +91,7 @@
           fieldDecoratorId="二级密码"
           :fieldDecoratorOptions="{rules: [{ required: true, message: '二级密码不能为空' }]}"
           >
-            <a-input type="text" v-model="secondSecret" placeholder="请输入二级密码" />
+            <a-input type="password" v-model="secondSecret" placeholder="请输入二级密码" />
           </a-form-item>
         </a-form>
       <template slot="footer" class="foot">
@@ -135,7 +137,7 @@ const columns = [{
 export default {
   data () {
     return {
-      onOff: '',
+      onOff: '未开启',
       delegateInfo: {},
       data: [],
       columns,
@@ -202,6 +204,7 @@ export default {
         const res = await setDelegate(params)
         console.log(res)
         if (res.data.success) {
+          this.modal2Visible = false
           this.$notification.info({
             message: '提示',
             description: '注册成功'
@@ -232,7 +235,7 @@ export default {
       const result = await blocks(params)
       console.log(result, 'block')
       if (result.data.success) {
-        if (result.data.count) {
+        if (result.data.count === 0) {
           this.nodata = true
         }
         this.loading = false

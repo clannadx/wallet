@@ -16,7 +16,21 @@ export const getAccount = (address) => {
     params: {address}
   })
 }
-
+// 投票
+export const getRecord = (params) => {
+  return http({
+    url: '/api/accounts/delegates',
+    method: 'get',
+    params
+  })
+}
+export const submitVoter = (params) => {
+  return http({
+    url: '/api/accounts/delegates',
+    method: 'put',
+    data: params
+  })
+}
 export const getTransaction = (params) => {
   return http({
     url: '/api/transactions',

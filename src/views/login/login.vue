@@ -84,10 +84,10 @@ export default {
       } else {
         let result = await this.login(this.password)
         if (result.data.success) {
-          console.log(result)
           result.data.account.secret = this.password
           const data = JSON.stringify(result.data)
           sessionStorage.setItem('etmUse', data)
+          this.$message.success('登录成功')
           this.$router.push('/')
         } else {
           this.$message.error('登录失败')
