@@ -16,7 +16,15 @@ export const getAccount = (address) => {
     params: {address}
   })
 }
-// 投票
+// 受托人列表
+export const getVoteLists = (params) => {
+  return http({
+    url: '/api/delegates',
+    method: 'get',
+    params
+  })
+}
+// 根据地址获取其投票列表
 export const getRecord = (params) => {
   return http({
     url: '/api/accounts/delegates',
@@ -24,11 +32,19 @@ export const getRecord = (params) => {
     params
   })
 }
+// 投票
 export const submitVoter = (params) => {
   return http({
     url: '/api/accounts/delegates',
     method: 'put',
     data: params
+  })
+}
+export const voteForMe = (params) => {
+  return http({
+    url: '/api/delegates/voters',
+    method: 'get',
+    params
   })
 }
 export const getTransaction = (params) => {

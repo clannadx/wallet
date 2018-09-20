@@ -2,18 +2,24 @@
   <div class="record">
     <a-row type="flex" justify="space-between" align="middle">
         <a-col class="count" >共 {{totalVoters}} 条</a-col>
-        <a-col ><a-button type="primary" @click="deleteRecord" >删除</a-button></a-col>
+        <a-col >
+          <a-button class="refresh" type="primary" @click="refresh">刷新</a-button>
+          <a-button type="primary" @click="deleteRecord" >删除</a-button>
+          </a-col>
     </a-row>
     <div class="table">
-      <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-        :columns="columns"
-        :dataSource="data"
-         :pagination="pagination"
-        :loading="loading"
-        @change="handleTableChange"
-        ></a-table>
+      <div>
+        <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+          :columns="columns"
+          :dataSource="data"
+          :pagination="pagination"
+          :loading="loading"
+          @change="handleTableChange"
+          ></a-table>
+      </div>
+        <no-data v-show="nodata"  ></no-data>
     </div>
-    <pop-voted :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows" @hidden1="hidden1"  @handleOk="handleOk"></pop-voted>
+    <pop-voted :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"  @handleOk="handleOk"></pop-voted>
     <pop-password :modal2Visible.sync="modal2Visible" @secondSubmit="secondSubmit"></pop-password>
   </div>
 </template>
@@ -22,6 +28,8 @@ import {getRecord, submitVoter} from '@/api/account'
 import {mapState} from 'vuex'
 import PopPassword from '@/components/pop-password/pop-password'
 import PopVoted from '@/components/pop-voted/pop-voted'
+import noData from '@/components/nodata/nodata'
+
 const columns = [{
   title: '排名',
   dataIndex: 'rate'
@@ -48,7 +56,7 @@ export default {
       data: [],
       columns,
       selectedRowKeys: [],
-      selectedRows: [],
+      selectedRows: [], // 选择的行
       totalVoters: 0,
       pagination: {
         defaultPageSize: 10 // 每页个数
@@ -56,7 +64,8 @@ export default {
       selectRecord: [],
       loading: false,
       modal1Visible: false,
-      modal2Visible: false
+      modal2Visible: false,
+      nodata: false
     }
   },
   created () {
@@ -66,7 +75,8 @@ export default {
     ...mapState({
       secret: state => state.user.secret,
       address: state => state.user.accountInfo.address,
-      secondSignature: state => state.user.accountInfo.secondSignature
+      secondSignature: state => state.user.accountInfo.secondSignature,
+      balance: state => state.user.accountInfo.balance
     }),
     cancelVote () {
       const cancel = []
@@ -77,6 +87,12 @@ export default {
     }
   },
   methods: {
+    refresh () {
+      this.nodata = false
+      this.selectedRowKeys = []
+      this.selectedRows = []
+      this._getRecord(this.pagination.current)
+    },
     deleteRecord () {
       if (this.selectedRows.length === 0) {
         this.$notification.info({
@@ -88,7 +104,12 @@ export default {
       }
     },
     handleOk () {
-      if (this.secondSignature) {
+      if (this.balance < 0.1) {
+        this.$notification.info({
+          message: '提示',
+          description: '余额不足'
+        })
+      } else if (this.secondSignature) {
         this.modal1Visible = false
         this.modal2Visible = true
       } else {
@@ -104,7 +125,6 @@ export default {
     },
     async _submitVoter (params = {secret: this.secret, delegates: this.cancelVote}) {
       const result = await submitVoter(params)
-      console.log(result)
       if (result.data.success) {
         this.$notification.info({
           message: '提示',
@@ -112,6 +132,11 @@ export default {
         })
         this.modal1Visible = false
         this.modal2Visible = false
+        this.selectedRowKeys = []
+        this.selectedRows = []
+        setTimeout(() => {
+          this._getRecord(this.pagination.current)
+        }, 4000)
       }
     },
     async _getRecord (p) {
@@ -122,16 +147,18 @@ export default {
         if (result.data.success) {
           this.loading = false
           this.totalVoters = result.data.delegates.length
+          if (this.totalVoters === 0) {
+            this.nodata = true
+          }
           this.data = result.data.delegates.slice(
             this.pagination.defaultPageSize * p,
             this.pagination.defaultPageSize * p + 10
 
           )
           const pagination = { ...this.pagination }
-          console.log(pagination)
           pagination.total = result.data.delegates.length
+          pagination.current = p
           this.pagination = pagination
-          console.log(this.pagination)
         }
       } catch (err) {
         console.log(err)
@@ -141,26 +168,28 @@ export default {
       this._getRecord(pagination.current - 1)
       this.selectedRowKeys = []
       this.selectedRows = []
-    },
-    hidden1 (val) {
-      console.log(this.modal1Visible)
-      this.modal1Visible = val
     }
   },
   components: {
     'pop-password': PopPassword,
-    'pop-voted': PopVoted
+    'pop-voted': PopVoted,
+    noData
   }
 }
 </script>
 <style lang="less" scoped>
 .record{
+  min-height: 600px;
+  .refresh{
+    margin-right: 10px;
+  }
   .count{
     font-size: 18px;
     padding-left: 15px;
   }
   .table{
     margin-top: 20px;
+    position: relative;
   }
 }
 

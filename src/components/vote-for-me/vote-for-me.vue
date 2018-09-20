@@ -1,13 +1,102 @@
 <template>
-  <div>vote-for-me</div>
+  <div class="vote-for-me">
+    <a-row type="flex" justify="space-between" align="middle">
+        <a-col class="count" >共{{data.length}}人</a-col>
+        <a-col>
+          <a-button class="refresh" type="primary" @click="refresh">刷新</a-button>
+        </a-col>
+    </a-row>
+    <div class="table">
+      <div>
+        <a-table :columns="columns"
+                :dataSource="data"
+                :pagination="pagination"
+                :loading="loading"
+                @change="handleTableChange"
+        ></a-table>
+      </div>
+        <no-data v-show="nodata"  ></no-data>
+    </div>
+  </div>
 </template>
 <script>
+import {voteForMe} from '@/api/account'
+import noData from '@/components/nodata/nodata'
+const columns = [{
+  title: '用户名',
+  dataIndex: 'name'
+}, {
+  title: '地址',
+  dataIndex: 'address'
+}, {
+  title: '权重',
+  dataIndex: 'weight'
+}]
 export default {
   data () {
-    return {}
+    return {
+      columns,
+      data: [],
+      pagination: {
+        defaultPageSize: 10 // 每页个数
+      },
+      loading: false,
+      nodata: false
+    }
+  },
+  created () {
+    this._voteForMe(0)
+  },
+  computed: {
+    publicKey () {
+      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      return this.$store.state.user.accountInfo.publicKey || data
+    }
+  },
+  methods: {
+    refresh () {
+      this.nodata = false
+      this._voteForMe(this.pagination.current)
+    },
+    async _voteForMe (p) {
+      this.loading = true
+      const params = {publicKey: this.publicKey}
+      const result = await voteForMe(params)
+      console.log(result)
+      if (result.data.success) {
+        this.loading = false
+        if (result.data.accounts.length === 0) {
+          this.nodata = true
+        }
+        this.data = result.data.accounts.slice(
+          this.pagination.defaultPageSize * p,
+          this.pagination.defaultPageSize * p + 10
+        )
+        const pagination = {...this.pagination}
+        pagination.total = result.data.accounts.length
+        pagination.current = p
+        this.pagination = pagination
+      }
+    },
+    handleTableChange (pagination) {
+      this.voteForMe(pagination.current - 1)
+    }
+  },
+  components: {
+    noData
   }
 }
 </script>
 <style lang="less" scoped>
-
+.vote-for-me{
+  min-height: 600px;
+  .count{
+    font-size: 18px;
+    padding-left: 15px;
+  }
+  .table{
+    margin-top: 20px;
+    position: relative;
+  }
+}
 </style>

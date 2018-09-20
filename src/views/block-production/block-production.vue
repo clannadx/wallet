@@ -161,10 +161,13 @@ export default {
   },
   computed: {
     ...mapState({
-      key: state => state.user.accountInfo.publicKey,
       secondSignature: state => state.user.accountInfo.secondSignature,
       secret: state => state.user.secret
-    })
+    }),
+    publicKey () {
+      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      return this.$store.state.user.accountInfo.publicKey || data
+    }
   },
   methods: {
     handleOk () {
@@ -214,7 +217,7 @@ export default {
         console.log(err)
       }
     },
-    async _getDelegateDetail (params = {publicKey: this.key}) {
+    async _getDelegateDetail (params = {publicKey: this.publicKey}) {
       try {
         const result = await getDelegate(params)
         console.log(result)
@@ -230,7 +233,7 @@ export default {
         console.log(err)
       }
     },
-    async _getTableLists (params = {generatorPublicKey: this.key, limit: 10, orderBy: 'height:desc'}) {
+    async _getTableLists (params = {generatorPublicKey: this.publicKey, limit: 10, orderBy: 'height:desc'}) {
       this.loading = true
       const result = await blocks(params)
       console.log(result, 'block')
@@ -250,7 +253,7 @@ export default {
       pager.current = pagination.current
       this.pagination = pager
       this._getTableLists({
-        generatorPublicKey: this.key,
+        generatorPublicKey: this.publicKey,
         limit: pagination.pageSize,
         offset: pagination.pageSize * (pagination.current - 1),
         orderBy: 'height:desc'

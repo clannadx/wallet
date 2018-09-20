@@ -4,7 +4,7 @@
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>我的余额</p>
-            <p>{{unit(accounts.balance)}} ETM</p>
+            <p>{{unit(accounts.balance).toFixed(2)}} ETM</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>最后出块高度</p>
@@ -37,7 +37,7 @@
               {{unit(record.amount)}}
             </template>
           <template slot="footer" slot-scope="currentPageData">
-            总计:      {{totalAmount()}} ETM
+            总计:      {{totalAmount().toFixed(2)}} ETM
           </template>
           </a-table>
         </div>
@@ -54,7 +54,7 @@ import noData from '@/components/nodata/nodata'
 const columns = [{
   title: 'ID',
   dataIndex: 'id',
-  width: 510,
+  width: 520,
   fixed: 'left'
 
 }, {

@@ -3,7 +3,7 @@
     <p class="title">账号信息</p>
     <div class="list">
         <ul>
-            <li><span>总余额：</span><span>{{unit(accounts.balance)}} ETM</span></li>
+            <li><span>总余额：</span><span>{{unit(accounts.balance).toFixed(2)}} ETM</span></li>
             <li><span>地址：</span><span>{{accounts.address}}</span></li>
             <li><span>二级密码：</span><span>{{accounts.secondSignature ? '已设置' : '未设置'}}</span></li>
             <li><span>锁仓状态：</span><span>未锁仓</span></li>

@@ -1,9 +1,11 @@
 <template>
       <a-modal
       title="取消投票"
+      width="450px"
       v-model="visible"
       destroyOnClose
-      @cancel="aaa"
+      @cancel="handleCancel"
+
   >
       <div class="input-list">
         <div class="input-line" v-for="(item,index) in selectedRows" :key="index">
@@ -14,6 +16,7 @@
         </div>
       </div>
       <template slot="footer" >
+        <p style="text-align:center">投票需支付 0.1 ETM</p>
         <div class="foot">
           <a-button  type="primary" @click="handleOk">
             提交
@@ -44,17 +47,15 @@ export default {
       this.visible = val
     },
     visible (val) {
-      this.$emit('hidden1', val)
+      this.$emit('update:modal1Visible', val)
     }
   },
   methods: {
     handleOk () {
       this.$emit('handleOk')
     },
-    aaa () {
-      console.log(this.modal1Visible)
-      console.log(this.visible)
-      // this.$emit('hidden1')
+    handleCancel () {
+      this.visible = false
     }
   }
 }
@@ -65,6 +66,7 @@ export default {
   overflow: auto;
   .input-line {
     text-align: center;
+    margin-top: 4px;
     }
 }
 .foot{

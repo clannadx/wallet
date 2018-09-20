@@ -3,7 +3,7 @@
   title="请输入二级密码"
   centered
   destroyOnClose
-  v-model="modal2Visible"
+  v-model="visible"
   @cancel="handleCancel"
 >
     <a-form :autoFormCreate="(form)=>{this.form = form}">
@@ -37,17 +37,30 @@ export default {
   },
   data () {
     return {
-      secondSecret: ''
+      secondSecret: '',
+      visible: this.modal2Visible
+    }
+  },
+  watch: {
+    modal2Visible (val) {
+      this.visible = val
+    },
+    visible (val) {
+      this.$emit('update:modal2Visible', val)
     }
   },
   methods: {
     handleSecondOk () {
-      this.$emit('secondSubmit', this.secondSecret)
+      this.form.validateFields(
+        (err) => {
+          if (!err) {
+            this.$emit('secondSubmit', this.secondSecret)
+          }
+        }
+      )
     },
     handleCancel () {
-      console.log(2)
-      this.modal2Visible = false
-      this.$emit('update:modal2Visible', false)
+      this.visible = false
     }
   }
 }
