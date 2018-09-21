@@ -110,7 +110,6 @@ export default {
   },
   created () {
     this._getTransaction()
-    console.log(this.accounts)
   },
   methods: {
     async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {

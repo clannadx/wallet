@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     publicKey () {
-      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
       return this.$store.state.user.accountInfo.publicKey || data
     }
   },
@@ -62,7 +62,6 @@ export default {
       this.loading = true
       const params = {publicKey: this.publicKey}
       const result = await voteForMe(params)
-      console.log(result)
       if (result.data.success) {
         this.loading = false
         if (result.data.accounts.length === 0) {

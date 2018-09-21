@@ -41,7 +41,7 @@ export default {
       return this.$store.state.user.accountInfo || {}
     },
     publicKey () {
-      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
       return this.$store.state.user.accountInfo.publicKey || data
     }
   },

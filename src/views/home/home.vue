@@ -6,7 +6,7 @@
       v-model="collapsed"
     >
       <div ref="login" class="logo" />
-      <a-menu theme="dark" mode="inline" @click="handleClick" >
+      <a-menu theme="dark" mode="inline"  >
         <router-link class="ant-menu-item" role="menuitem" tag="li" exact to="/home">
             <a-icon type="home" />
             <span>首页</span>
@@ -80,10 +80,6 @@ export default {
     ...mapActions([
       'loginOut'
     ]),
-    handleClick (e) {
-      console.log('click ', e)
-      this.selectItem = e.keyPath
-    },
     async logout () {
       await this.loginOut()
       this.$message.success('退出成功')

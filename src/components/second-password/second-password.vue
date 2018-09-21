@@ -66,9 +66,6 @@ export default {
       return this.$store.state.user.accountInfo.balance || 0
     }
   },
-  mounted () {
-    console.log(this.$store.state.user.accountInfo.secret)
-  },
   methods: {
     check () {
       this.form.validateFields(
@@ -95,7 +92,6 @@ export default {
     },
     async setSecondSecret () {
       const result = await setSecondSecret(this.secret, this.secondSecret)
-      console.log(result)
       if (result.data.success) {
         this.$store.commit('SET_SECONDSECRET', true)
         this.$notification.info({

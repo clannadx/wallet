@@ -10,7 +10,7 @@
           <i class="icon" :class="toggelIcon" @click="showPassword=!showPassword"></i>
       </div>
       <div class="check_div">
-        <a-checkbox @change="onChange"  > 保持登录状态</a-checkbox>
+        <a-checkbox v-model="status"  > 保持登录状态</a-checkbox>
       </div>
       <div>
         <a-select size="small" defaultValue="zh_CN" @change='changeLocale'  style="width: 120px" >
@@ -66,7 +66,8 @@ export default {
       confirmPassword: '',
       checkitem01: false, // 条款
       checkitem02: false,
-      checkitem03: false
+      checkitem03: false,
+      status: false // 是否保存密码
     }
   },
   computed: {
@@ -86,7 +87,11 @@ export default {
         if (result.data.success) {
           result.data.account.secret = this.password
           const data = JSON.stringify(result.data)
-          sessionStorage.setItem('etmUse', data)
+          if (this.status) {
+            localStorage.setItem('etmUse', data)
+          } else {
+            sessionStorage.setItem('etmUse', data)
+          }
           this.$message.success('登录成功')
           this.$router.push('/')
         } else {
@@ -110,13 +115,9 @@ export default {
         this.loginStatus = true
       }
     },
-    onChange (e) {
-      console.log(e.target.checked)
-    },
     changeLocale (lang) { // 切换语言
       // window.localStorage.setItem('localeLanguage', lang)
       this.$i18n.locale = lang
-      // console.log(this.$i18n)
     }
   }
 }

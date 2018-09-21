@@ -109,6 +109,8 @@ import noData from '@/components/nodata/nodata'
 import { getDelegate, setDelegate, blocks } from '@/api/block'
 import { convertTime } from '@/utils/gen'
 import {mapState} from 'vuex'
+import {unit} from '@/utils/utils'
+
 const columns = [{
   title: '高度',
   width: 100,
@@ -158,7 +160,6 @@ export default {
   },
   created () {
     this._getDelegateDetail()
-    console.log(this.balance)
   },
   computed: {
     ...mapState({
@@ -167,7 +168,7 @@ export default {
       balance: state => state.user.accountInfo.balance
     }),
     publicKey () {
-      const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
+      const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
       return this.$store.state.user.accountInfo.publicKey || data
     }
   },
@@ -176,7 +177,7 @@ export default {
       this.form.validateFields(
         (err) => {
           if (!err) {
-            if (this.balance < 100) {
+            if (unit(this.balance) < 100) {
               this.$notification.info({
                 message: '提示',
                 description: '余额不足'
@@ -239,7 +240,6 @@ export default {
     async _getTableLists (params = {generatorPublicKey: this.publicKey, limit: 10, orderBy: 'height:desc'}) {
       this.loading = true
       const result = await blocks(params)
-      console.log(result, 'block')
       if (result.data.success) {
         if (result.data.count === 0) {
           this.nodata = true

@@ -28,8 +28,9 @@ import {getRecord, getVoteLists, submitVoter} from '@/api/account'
 import {mapState} from 'vuex'
 import PopPassword from '@/components/pop-password/pop-password'
 import PopVoted from '@/components/pop-voted/pop-voted'
-import {compareArrObj} from '@/utils/utils'
+import {compareArrObj, unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
+
 const columns = [{
   title: '排名',
   dataIndex: 'rate'
@@ -106,7 +107,7 @@ export default {
       }
     },
     handleOk () {
-      if (this.balance < 0.1) {
+      if (unit(this.balance) < 0.1) {
         this.$notification.info({
           message: '提示',
           description: '余额不足'
