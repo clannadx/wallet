@@ -1,9 +1,9 @@
 import { notification } from 'ant-design-vue'
 class MiddleWare {
   constructor () {
-    this.fnList = [this.a, this.b]
+    this.fnList = [this.product, this.vote]
   }
-  a (res) {
+  product (res) {
     const url = res.request.responseURL
     const reg = /\/api\/delegates\/get/
     if (reg.test(url)) {
@@ -12,8 +12,14 @@ class MiddleWare {
       return false
     }
   }
-  b () {
-    return false
+  vote (res) {
+    const url = res.request.responseURL
+    const reg = /\/api\/accounts\/delegates/
+    if (reg.test(url)) {
+      return true
+    } else {
+      return false
+    }
   }
   list (res) {
     let handled = false

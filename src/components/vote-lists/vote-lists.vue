@@ -157,6 +157,9 @@ export default {
           this.totalVoters = result.data.delegates.length
           this.haveVoted = result.data.delegates
           this._getVoteLists(0)
+        } else {
+          this.haveVoted = []
+          this._getVoteLists(0)
         }
       } catch (err) {
         console.log(err)

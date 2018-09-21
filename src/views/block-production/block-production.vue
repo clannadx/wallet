@@ -65,7 +65,7 @@
           label='注意'
           :labelCol="{ span: 5 }"
           >
-          注册需支付100Mole
+          注册需支付100 ETM
           </a-form-item>
         </a-form>
       </div>
@@ -158,11 +158,13 @@ export default {
   },
   created () {
     this._getDelegateDetail()
+    console.log(this.balance)
   },
   computed: {
     ...mapState({
       secondSignature: state => state.user.accountInfo.secondSignature,
-      secret: state => state.user.secret
+      secret: state => state.user.secret,
+      balance: state => state.user.accountInfo.balance
     }),
     publicKey () {
       const data = JSON.parse(sessionStorage.getItem('etmUse')).account.publicKey
@@ -174,9 +176,12 @@ export default {
       this.form.validateFields(
         (err) => {
           if (!err) {
-            console.log(this.secondSignature)
-            console.log(this.secret)
-            if (this.secondSignature) {
+            if (this.balance < 100) {
+              this.$notification.info({
+                message: '提示',
+                description: '余额不足'
+              })
+            } else if (this.secondSignature) {
               this.modal1Visible = false
               this.modal2Visible = true
             } else {
@@ -205,7 +210,6 @@ export default {
           params.secondSecret = this.secondSecret
         }
         const res = await setDelegate(params)
-        console.log(res)
         if (res.data.success) {
           this.modal2Visible = false
           this.$notification.info({
@@ -220,7 +224,6 @@ export default {
     async _getDelegateDetail (params = {publicKey: this.publicKey}) {
       try {
         const result = await getDelegate(params)
-        console.log(result)
         if (result.data.success) {
           this.onOff = '已开启'
           this.delegateInfo = result.data.delegate

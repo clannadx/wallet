@@ -159,6 +159,12 @@ export default {
           pagination.total = result.data.delegates.length
           pagination.current = p
           this.pagination = pagination
+        } else {
+          this.data = []
+          this.loading = false
+          if (this.totalVoters === 0) {
+            this.nodata = true
+          }
         }
       } catch (err) {
         console.log(err)

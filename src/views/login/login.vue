@@ -2,7 +2,7 @@
   <div class="w">
     <div class="login_main">
       <div class="head_img">
-        <img src="../../assets/images/logo-black.png" />
+        <img class="logo" src="../../assets/images/walletlogo.png" />
       </div>
     <form v-if="loginStatus" class="login_form">
       <div style="position:relative;">
@@ -10,7 +10,7 @@
           <i class="icon" :class="toggelIcon" @click="showPassword=!showPassword"></i>
       </div>
       <div class="check_div">
-        <a-checkbox  > 保持登录状态</a-checkbox>
+        <a-checkbox @change="onChange"  > 保持登录状态</a-checkbox>
       </div>
       <div>
         <a-select size="small" defaultValue="zh_CN" @change='changeLocale'  style="width: 120px" >
@@ -34,7 +34,7 @@
         </div>
         <div class="items">
             <div class="check_div">
-            <a-checkbox v-model="checkitem01"  @change="onChange" > 我了解如果我丢失了密码，我将永远丢失我的资产</a-checkbox>
+            <a-checkbox v-model="checkitem01"  > 我了解如果我丢失了密码，我将永远丢失我的资产</a-checkbox>
           </div>
             <div class="check_div">
             <a-checkbox v-model="checkitem02" > 我了解如果我丢失了密码，没有人能够将它恢复</a-checkbox>
@@ -111,8 +111,7 @@ export default {
       }
     },
     onChange (e) {
-      console.log(`checked = ${e.target.checked}`)
-      console.log(this.checkitem01)
+      console.log(e.target.checked)
     },
     changeLocale (lang) { // 切换语言
       // window.localStorage.setItem('localeLanguage', lang)
@@ -140,8 +139,11 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.login_main .logo{
+  width:390px;
+}
 .login_form {
-  margin-top: 73px;
+  margin-top: 50px;
   font-size: 14px;
 }
 

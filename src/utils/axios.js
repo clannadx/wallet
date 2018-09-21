@@ -20,21 +20,5 @@ http.interceptors.request.use(config => {
 // response 拦截器
 http.interceptors.response.use(
   middleWare.list.bind(middleWare)
-  // async (res) => {
-  //   console.log(res, '22222222666666622222')
-  //   // if(res.)
-  //   let code = res.data
-  //   if (code.success) {
-  //     console.log(code.success)
-  //     return res
-  //   } else {
-  //     console.log(code.success)
-  //     notification.error({
-  //       message: '提示',
-  //       description: code.error
-  //     })
-  //     return res
-  //   }
-  // }
 )
 export default http

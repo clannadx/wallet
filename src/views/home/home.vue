@@ -5,7 +5,7 @@
       collapsible
       v-model="collapsed"
     >
-      <div class="logo" />
+      <div ref="login" class="logo" />
       <a-menu theme="dark" mode="inline" @click="handleClick" >
         <router-link class="ant-menu-item" role="menuitem" tag="li" exact to="/home">
             <a-icon type="home" />
@@ -35,10 +35,10 @@
             <a-icon type="pay-circle-o" />
             <span>转账</span>
         </router-link>
-        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/miners-list">
+        <!-- <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/miners-list">
             <a-icon type="pie-chart" />
             <span>SCV矿工列表</span>
-        </router-link>
+        </router-link> -->
       </a-menu>
     </a-layout-sider>
     <a-layout>
@@ -46,7 +46,7 @@
         <a-icon
           class="trigger"
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
-          @click="()=> collapsed = !collapsed"
+          @click="() => collapsed =!collapsed"
         />
         <a-icon class="trigger logout" title="退出" @click="logout" type="logout"/>
       </a-layout-header>
@@ -108,7 +108,7 @@ export default {
 #components-layout-trigger .logo {
   height: 32px;
   background: url("../../assets/images/logo-white.png") no-repeat;
-  margin: 16px;
+  margin: 16px 0;
 }
 #components-layout-trigger .etm-side{
  -webkit-box-shadow: 2px 0 6px rgba(0,21,41,.35);
@@ -126,5 +126,10 @@ export default {
   font-size: 16px;
   color: #858585;
   margin-bottom: 14px;
+}
+#components-layout-trigger .ant-layout-sider-collapsed .logo{
+    background-image: url('../../assets/images/logoWithoutText.png');
+    margin-left: 16px
+
 }
 </style>
