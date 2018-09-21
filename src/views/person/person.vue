@@ -1,6 +1,6 @@
 <template>
   <div class="person">
-    <a-tabs defaultActiveKey="1" @change="callback">
+    <a-tabs defaultActiveKey="1" >
       <a-tab-pane tab="账户信息" key="1">
         <account></account>
       </a-tab-pane>
@@ -22,9 +22,7 @@ export default {
     return {}
   },
   methods: {
-    callback (key) {
-      console.log(key)
-    }
+
   },
   components: {
     Account,

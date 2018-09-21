@@ -9,31 +9,31 @@
       <a-menu theme="dark" mode="inline"  >
         <router-link class="ant-menu-item" role="menuitem" tag="li" exact to="/home">
             <a-icon type="home" />
-            <span>首页</span>
+            <span>{{$t("router.home")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/person">
             <a-icon type="user" />
-            <span>个人中心</span>
+            <span>{{$t("router.person")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/application">
             <a-icon type="appstore" />
-            <span>应用中心</span>
+            <span>{{$t("router.app")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-production">
             <a-icon type="line-chart" />
-            <span>区块生产</span>
+            <span>{{$t("router.block_production")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-scan">
             <a-icon type="user" />
-            <span>区块浏览</span>
+            <span>{{$t("router.block_scan")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/vote">
              <a-icon type="like-o" />
-            <span>投票</span>
+            <span>{{$t("router.vote")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/transfer">
             <a-icon type="pay-circle-o" />
-            <span>转账</span>
+            <span>{{$t("router.transfer")}}</span>
         </router-link>
         <!-- <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/miners-list">
             <a-icon type="pie-chart" />
@@ -48,7 +48,7 @@
           :type="collapsed ? 'menu-unfold' : 'menu-fold'"
           @click="() => collapsed =!collapsed"
         />
-        <a-icon class="trigger logout" title="退出" @click="logout" type="logout"/>
+        <a-icon class="trigger logout" :title="$t('router.loginOutTitle')" @click="logout" type="logout"/>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', paddingTop: '0', minHeight: '100vh' }">
         <div class="main-title">
@@ -82,7 +82,7 @@ export default {
     ]),
     async logout () {
       await this.loginOut()
-      this.$message.success('退出成功')
+      this.$message.success(this.$i18n.t('router.tip_success'))
       this.$router.push('/login')
     }
   }

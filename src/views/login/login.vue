@@ -6,46 +6,46 @@
       </div>
     <form v-if="loginStatus" class="login_form">
       <div style="position:relative;">
-          <a-input :type="showPassword ? 'text' : 'password'" class="pwd_ipt" v-model="password" placeholder="输入主密码"/>
+          <a-input :type="showPassword ? 'text' : 'password'" class="pwd_ipt" v-model="password" :placeholder="$t('login.placeholder')"/>
           <i class="icon" :class="toggelIcon" @click="showPassword=!showPassword"></i>
       </div>
       <div class="check_div">
-        <a-checkbox v-model="status"  > 保持登录状态</a-checkbox>
+        <a-checkbox v-model="status">{{$t('login.status')}}</a-checkbox>
       </div>
       <div>
         <a-select size="small" defaultValue="zh_CN" @change='changeLocale'  style="width: 120px" >
-          <a-select-option value="zh_CN">中文简体</a-select-option>
-          <a-select-option value="en_GB">英文</a-select-option>
+          <a-select-option value="zh_CN">{{$t('login.select.zh_CN')}}</a-select-option>
+          <a-select-option value="en_GB">{{$t('login.select.en_GB')}}</a-select-option>
         </a-select>
       </div>
       <div class="div_btn">
         <a-button @click="handleSubmit" type="primary">{{$t("login.loginBtn")}}</a-button>
-        <a-button @click="register" >新账户</a-button>
+        <a-button @click="register" >{{$t("login.registerBtn")}}</a-button>
       </div>
     </form>
     <form v-else class="register">
       <div>
-        <h2>密码由浏览器本地生成，请妥善备份保存</h2>
+        <h2>{{$t("register.title")}}</h2>
         <div class="register-in">
            <a-textarea v-model="newPassword"  :autosize="{ minRows: 2, maxRows: 6 }" />
         </div>
         <div class="register-in">
-           <a-textarea v-model="confirmPassword" placeholder="复制或输入上面的主密码" :autosize="{ minRows: 2, maxRows: 6 }" />
+           <a-textarea v-model="confirmPassword" :placeholder="$t('register.placeholder')" :autosize="{ minRows: 2, maxRows: 6 }" />
         </div>
         <div class="items">
             <div class="check_div">
-            <a-checkbox v-model="checkitem01"  > 我了解如果我丢失了密码，我将永远丢失我的资产</a-checkbox>
+            <a-checkbox v-model="checkitem01">{{$tc("register.checkitem",0)}}</a-checkbox>
           </div>
             <div class="check_div">
-            <a-checkbox v-model="checkitem02" > 我了解如果我丢失了密码，没有人能够将它恢复</a-checkbox>
+            <a-checkbox v-model="checkitem02">{{$tc("register.checkitem",1)}}</a-checkbox>
           </div>
             <div class="check_div ">
-            <a-checkbox v-model="checkitem03" > 我已经记住或者用其他方式保存了我的密码</a-checkbox>
+            <a-checkbox v-model="checkitem03">{{$tc("register.checkitem",2)}}</a-checkbox>
           </div>
         </div>
       <div class="div_btn">
-        <a-button @click="returnLogin" type="primary">返回登录</a-button>
-        <a-button @click="createWallet">创建钱包</a-button>
+        <a-button @click="returnLogin" type="primary">{{$t("register.returnBtn")}}</a-button>
+        <a-button @click="createWallet">{{$t("register.create")}}</a-button>
       </div>
       </div>
     </form>
@@ -81,7 +81,7 @@ export default {
     ]),
     async handleSubmit () {
       if (!bip39.validateMnemonic(this.password)) {
-        this.$message.error('密码格式不符合')
+        this.$message.error(this.$i18n.t('login.tip_err'))
       } else {
         let result = await this.login(this.password)
         if (result.data.success) {
@@ -92,10 +92,10 @@ export default {
           } else {
             sessionStorage.setItem('etmUse', data)
           }
-          this.$message.success('登录成功')
+          this.$message.success(this.$i18n.t('login.tip_success'))
           this.$router.push('/')
         } else {
-          this.$message.error('登录失败')
+          this.$message.error(this.$i18n.t('login.tip_fail'))
         }
       }
     },
@@ -108,9 +108,9 @@ export default {
     },
     createWallet () {
       if (!this.checkitem01 || !this.checkitem02 || !this.checkitem03) {
-        this.$message.error('请仔细阅读并勾选须知')
+        this.$message.error(this.$i18n.t('register.tip_err_limit'))
       } else if (this.confirmPassword !== this.newPassword) {
-        this.$message.error('输入的主密码不一致')
+        this.$message.error(this.$i18n.t('register.tip_err_same'))
       } else {
         this.loginStatus = true
       }

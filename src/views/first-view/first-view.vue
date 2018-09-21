@@ -3,21 +3,21 @@
     <div class="information" >
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
-            <p>我的余额</p>
+            <p>{{$tc("first-view.information",0)}}</p>
             <p>{{unit(accounts.balance).toFixed(2)}} ETM</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
-            <p>最后出块高度</p>
+            <p>{{$tc("first-view.information",1)}}</p>
             <p>{{accounts.height}}</p>
           </a-col>
           <a-col class="etm-info-li last" :span="8">
-            <p>版本信息</p>
+            <p>{{$tc("first-view.information",2)}}</p>
             <p>V{{accounts.version}}</p>
           </a-col>
       </a-row>
     </div>
     <div class="transaction">
-      <p>交易记录</p>
+      <p>{{$t("first-view.transaction")}}</p>
       <div class="lists" >
         <div>
           <a-table :columns="columns"
@@ -41,7 +41,7 @@
           </template>
           </a-table>
         </div>
-        <no-data v-show="nodata"  ></no-data>
+        <no-data v-show="nodata"></no-data>
       </div>
     </div>
   </div>
@@ -52,30 +52,29 @@ import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
 const columns = [{
-  title: 'ID',
+  title: window.i18n.tc('first-view.table_columns', 0),
   dataIndex: 'id',
   width: 520,
   fixed: 'left'
-
 }, {
-  title: '类型',
+  title: window.i18n.tc('first-view.table_columns', 1),
   scopedSlots: { customRender: 'typeIN' },
   dataIndex: 'type'
 }, {
-  title: '发送者',
+  title: window.i18n.tc('first-view.table_columns', 2),
   dataIndex: 'senderId'
 }, {
-  title: '接收者',
+  title: window.i18n.tc('first-view.table_columns', 3),
   dataIndex: 'recipientId'
 }, {
-  title: '日期',
+  title: window.i18n.tc('first-view.table_columns', 4),
   dataIndex: 'timestamp',
   scopedSlots: {customRender: 'time'}
 }, {
-  title: '备注',
+  title: window.i18n.tc('first-view.table_columns', 5),
   dataIndex: 'message'
 }, {
-  title: '金额（ETM）',
+  title: window.i18n.tc('first-view.table_columns', 6),
   dataIndex: 'amount',
   width: 150,
   fixed: 'right',

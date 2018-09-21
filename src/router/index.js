@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+// import i18n from '@/lang'
 import Home from '@/views/home/home'
 
 Vue.use(Router)
@@ -24,7 +24,7 @@ export default new Router({
           path: 'home',
           name: 'first-view',
           component: () => import('@/views/first-view/first-view'),
-          meta: {title: '首页'}
+          meta: {title: window.i18n.t('router.home')}
         }
       ]
     },
@@ -37,7 +37,7 @@ export default new Router({
           path: '',
           name: 'Person',
           component: () => import('@/views/person/person'),
-          meta: {title: '个人中心'}
+          meta: {title: window.i18n.t('router.person')}
         }
       ]
 
@@ -50,7 +50,7 @@ export default new Router({
           path: '',
           name: 'Application',
           component: () => import('@/views/application/application'),
-          meta: {title: '应用中心'}
+          meta: {title: window.i18n.t('router.app')}
         }
       ]
 
@@ -63,7 +63,7 @@ export default new Router({
           path: '',
           name: 'BlockProduction',
           component: () => import('@/views/block-production/block-production'),
-          meta: {title: '区块生产'}
+          meta: {title: window.i18n.t('router.block_production')}
         }
       ]
 
@@ -76,7 +76,7 @@ export default new Router({
           path: '',
           name: 'BlockScan',
           component: () => import('@/views/block-scan/block-scan'),
-          meta: {title: '区块浏览'}
+          meta: {title: window.i18n.t('router.block_scan')}
         }
       ]
 
@@ -89,7 +89,7 @@ export default new Router({
           path: '',
           name: 'Vote',
           component: () => import('@/views/vote/vote'),
-          meta: {title: '投票'}
+          meta: {title: window.i18n.t('router.vote')}
         }
       ]
 
@@ -102,7 +102,7 @@ export default new Router({
           path: '',
           name: 'Transfer',
           component: () => import('@/views/transfer/transfer'),
-          meta: {title: '转账'}
+          meta: {title: window.i18n.t('router.transfer')}
         }
       ]
 

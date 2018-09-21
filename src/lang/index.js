@@ -41,6 +41,6 @@ export const setup = lang => {
   Vue.config.lang = lang
   i18n.locale = lang
 }
-
+window.i18n = i18n
 setup()
 export default i18n
