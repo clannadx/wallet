@@ -1,10 +1,10 @@
 <template>
   <div class="vote-lists">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >共 {{filterDisabled.length}} 条</a-col>
+        <a-col class="count" >{{$tc("vote_lists.total",1) + filterDisabled.length + $tc("vote_lists.total",0)}} </a-col>
         <a-col >
-          <a-button class="refresh" type="primary" @click="refresh">刷新</a-button>
-          <a-button type="primary" @click="vote" >投票</a-button>
+          <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_lists.refresh")}}</a-button>
+          <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button>
         </a-col>
     </a-row>
     <div class="table">
@@ -32,22 +32,22 @@ import {compareArrObj, unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
 
 const columns = [{
-  title: '排名',
+  title: i18n.t('vote_lists.columns.th01'),
   dataIndex: 'rate'
 }, {
-  title: '受托人',
+  title: i18n.t('vote_lists.columns.th02'),
   dataIndex: 'username'
 }, {
-  title: '地址',
+  title: i18n.t('vote_lists.columns.th03'),
   dataIndex: 'address'
 }, {
-  title: '生产率',
+  title: i18n.t('vote_lists.columns.th04'),
   dataIndex: 'productivity'
 }, {
-  title: '生产块数',
+  title: i18n.t('vote_lists.columns.th05'),
   dataIndex: 'producedblocks'
 }, {
-  title: '得票率',
+  title: i18n.t('vote_lists.columns.th06'),
   dataIndex: 'approval'
 }]
 
@@ -72,7 +72,7 @@ export default {
     }
   },
   created () {
-    this._getRecord()
+    this._getRecord(0)
   },
   computed: {
     ...mapState({
@@ -94,13 +94,13 @@ export default {
       this.nodata = false
       this.selectedRowKeys = []
       this.selectedRows = []
-      this._getRecord()
+      this._getRecord(this.pagination.page)
     },
     vote () {
       if (this.selectedRows.length === 0) {
         this.$notification.info({
-          message: '提示',
-          description: '请选择受托人'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.choose_vote')
         })
       } else {
         this.modal1Visible = true
@@ -109,8 +109,8 @@ export default {
     handleOk () {
       if (unit(this.balance) < 0.1) {
         this.$notification.info({
-          message: '提示',
-          description: '余额不足'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.balance_enough')
         })
       } else if (this.secondSignature) {
         this.modal1Visible = false
@@ -127,6 +127,7 @@ export default {
       this.selectedRows = selectedRows
     },
     async _getVoteLists (p) {
+      this.loading = true
       try {
         const params = {orderby: 'approval:desc'}
         const result = await getVoteLists(params)
@@ -142,14 +143,14 @@ export default {
           this.loading = false
           const pagination = { ...this.pagination }
           pagination.total = this.filterDisabled.length
-          pagination.current = p
+          pagination.page = p
           this.pagination = pagination
         }
       } catch (err) {
         console.log(err)
       }
     },
-    async _getRecord () {
+    async _getRecord (p) {
       try {
         const params = {address: this.address}
         this.loading = true
@@ -157,10 +158,10 @@ export default {
         if (result.data.success) {
           this.totalVoters = result.data.delegates.length
           this.haveVoted = result.data.delegates
-          this._getVoteLists(0)
+          this._getVoteLists(p)
         } else {
           this.haveVoted = []
-          this._getVoteLists(0)
+          this._getVoteLists(p)
         }
       } catch (err) {
         console.log(err)
@@ -175,16 +176,23 @@ export default {
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({
-          message: '提示',
-          description: '投票成功'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.vote_success')
         })
         this.modal1Visible = false
         this.modal2Visible = false
         this.selectedRowKeys = []
         this.selectedRows = []
         setTimeout(() => {
-          this._getVoteLists(this.pagination.current)
+          this._getVoteLists(this.pagination.page)
         }, 4000)
+      } else {
+        this.modal1Visible = false
+        this.modal2Visible = false
+        this.$notification.info({
+          message: i18n.t('tip.title'),
+          description: result.data.error
+        })
       }
     }
   },
@@ -203,6 +211,7 @@ export default {
   .count{
     font-size: 18px;
     padding-left: 15px;
+    letter-spacing: 3px;
   }
   .table{
     margin-top: 20px;

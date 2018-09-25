@@ -2,7 +2,7 @@
   <div class="block-scan">
     <div class="search">
     <a-input-search
-      placeholder="搜素高度"
+      :placeholder="$t('block_scan.search')"
       style="width: 300px"
       @search="onSearch"
       enterButton
@@ -20,7 +20,7 @@
           {{convertTime(record.timestamp)}}
         </template>
         <template slot="action" slot-scope="text, record, index">
-          <a slot="action"  @click="showDetails(record.height)" href="javascript:;">查看详情</a>
+          <a slot="action"  @click="showDetails(record.height)" href="javascript:;">{{$t('block_scan.click_details')}}</a>
         </template>
         </a-table>
       </div>
@@ -28,14 +28,14 @@
     </div>
 <!-- 详情 -->
       <a-modal
-      title="区块详情"
+      :title="$t('block_scan.block_details')"
       width='800px'
       v-model="visible"
     >
       <template slot="footer">
         <div class="detail-foot">
-        <a-button  type="primary" style="margin-right:20px" @click="prevBlock" >上一块</a-button>
-        <a-button  type="primary" @click="nextBlock" >下一块</a-button>
+        <a-button  type="primary" style="margin-right:20px" @click="prevBlock" >{{$t('block_scan.pre_block')}}</a-button>
+        <a-button  type="primary" @click="nextBlock" >{{$t('block_scan.next_block')}}</a-button>
         </div>
       </template>
       <div class="popDetail">
@@ -44,43 +44,43 @@
           <span>{{blockDetail.id}}</span>
         </div>
         <div class="input">
-          <label>版本：</label>
+          <label>{{$t('block_scan.version')}}：</label>
           <span>V{{blockDetail.version}}</span>
         </div>
         <div class="input">
-          <label>时间：</label>
-          <span>{{blockDetail.timestamp}}</span>
+          <label>{{$t('block_scan.timestamp')}}：</label>
+          <span>{{convertTime(blockDetail.timestamp)}}</span>
         </div>
         <div class="input">
-          <label>高度：</label>
+          <label>{{$t('block_scan.height')}}：</label>
           <span>{{blockDetail.height}}</span>
         </div>
         <div class="input">
-          <label>上一块：</label>
+          <label>{{$t('block_scan.previousBlock')}}：</label>
           <span>{{blockDetail.previousBlock}}</span>
         </div>
         <div class="input">
-          <label>交易数：</label>
+          <label>{{$t('block_scan.numberOfTransactions')}}：</label>
           <span>{{blockDetail.numberOfTransactions}}</span>
         </div>
         <div class="input">
-          <label>交易总额：</label>
+          <label>{{$t('block_scan.totalAmount')}}：</label>
           <span>{{blockDetail.totalAmount}}</span>
         </div>
         <div class="input">
-          <label>奖励：</label>
+          <label>{{$t('block_scan.reward')}}：</label>
           <span>{{blockDetail.reward}}</span>
         </div>
         <div class="input">
-          <label>摘要：</label>
+          <label>{{$t('block_scan.reward')}}：</label>
           <span></span>
         </div>
         <div class="input">
-          <label>生产者：</label>
+          <label>{{$t('block_scan.generatorId')}}：</label>
           <span>{{blockDetail.generatorId}}</span>
         </div>
         <div class="input">
-          <label>生产者公钥：</label>
+          <label>{{$t('block_scan.generatorPublicKey')}}：</label>
           <span>{{blockDetail.generatorPublicKey}}</span>
         </div>
       </div>
@@ -94,35 +94,35 @@ import { convertTime } from '@/utils/gen'
 import noData from '@/components/nodata/nodata'
 
 const columns = [{
-  title: '高度',
+  title: i18n.t('block_scan.columns.th01'),
   width: 100,
   dataIndex: 'height',
   fixed: 'left'
 }, {
-  title: '日期',
+  title: i18n.t('block_scan.columns.th02'),
   dataIndex: 'timestamp',
   scopedSlots: {customRender: 'time'}
 
 }, {
-  title: 'ID',
+  title: i18n.t('block_scan.columns.th03'),
   dataIndex: 'id'
 }, {
-  title: '生产者',
+  title: i18n.t('block_scan.columns.th04'),
   dataIndex: 'generatorId'
 }, {
-  title: '交易',
+  title: i18n.t('block_scan.columns.th05'),
   dataIndex: 'numberOfTransactions'
 }, {
-  title: '金额',
+  title: i18n.t('block_scan.columns.th06'),
   dataIndex: 'totalAmount'
 }, {
-  title: '费用',
+  title: i18n.t('block_scan.columns.th07'),
   dataIndex: 'totalFee'
 }, {
-  title: '奖励',
+  title: i18n.t('block_scan.columns.th08'),
   dataIndex: 'reward'
 }, {
-  title: '操作',
+  title: i18n.t('block_scan.columns.th09'),
   key: 'operation',
   fixed: 'right',
   width: 100,
@@ -163,8 +163,8 @@ export default {
       if (result.data.success) {
         if (this.detailHeight === result.data.height) {
           this.$notification.info({
-            message: '提示',
-            description: '已达到最高高度'
+            message: i18n.t('tip.title'),
+            description: i18n.t('tip.hightest')
           })
         } else {
           this.detailHeight += 1
@@ -175,8 +175,8 @@ export default {
     async prevBlock () {
       if (this.detailHeight <= 1) {
         this.$notification.info({
-          message: '提示',
-          description: '已达到最小高度'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.lowest')
         })
       } else {
         this.detailHeight -= 1
@@ -186,8 +186,8 @@ export default {
     onSearch (value) {
       if (value === '') {
         this.$notification.error({
-          message: '提示',
-          description: '高度不能为空'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.empty_hight')
         })
       } else {
         this.height = {height: value}

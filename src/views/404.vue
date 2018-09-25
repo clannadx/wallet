@@ -6,8 +6,8 @@
       </div>
         <ul class="noFound-right">
           <li class="title">404</li>
-          <li class="des">抱歉你访问的页面不存在</li>
-          <router-link class="btn" tag="li" to="/">返回首页</router-link>
+          <li class="des">{{$t('no_data.p')}}</li>
+          <router-link class="btn" tag="li" to="/">{{$t('no_data.returnBtn')}}</router-link>
         </ul>
     </div>
   </div>

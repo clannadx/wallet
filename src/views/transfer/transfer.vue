@@ -4,82 +4,61 @@
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='发送者'>
-      <a-input v-model="address" disabled  placeholder="请输入发送者地址" />
+      :label="$t('transfer.sender')">
+      <a-input v-model="address" disabled  />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='接收者'
-      fieldDecoratorId="接收者"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入接收者地址' }]}">
-      <a-input type="text"  v-model="recipientId" placeholder='请输入接收者地址'  />
+      :label="$t('transfer.reciped.label')"
+      :fieldDecoratorId="$t('transfer.reciped.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message: $t('transfer.reciped.msg') }]}">
+      <a-input type="text"  v-model="recipientId" :placeholder="$t('transfer.reciped.msg')"  />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='金额'
-      fieldDecoratorId="金额"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入转账金额' }]}">
-      <a-input type="number" v-model="amount" placeholder='请输入转账金额' addonAfter="ETM" />
+      :label="$t('transfer.amount.label')"
+      :fieldDecoratorId="$t('transfer.amount.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message: $t('transfer.amount.msg') }]}">
+      <a-input type="number" v-model="amount" :placeholder="$t('transfer.amount.msg')" addonAfter="ETM" />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='费用'>
+      :label="$t('transfer.fee')"
+      >
       <a-input type="number" v-model="fee" disabled  addonAfter="ETM"/>
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='备注'>
-      <a-input placeholder='请输入备注' />
+      :label="$t('transfer.remark.label')"
+      >
+      <a-input :placeholder="$t('transfer.remark.msg')" />
       </a-form-item>
       <a-form-item
        :labelCol="labelCol"
-       label="注意"
+      :label="$t('transfer.note.label')"
       >
-      请确保您正在发送ETM给正确的地址，本操作无法撤消
+      {{$t('transfer.note.msg')}}
       </a-form-item>
       <a-form-item
       :wrapperCol="{ span: 12, offset: 2 }">
       <a-button @click="check" type='primary' htmlType='submit'>
-        发送
+        {{$t('transfer.submitBtn')}}
       </a-button>
 
     </a-form-item>
 
     </a-form>
-    <a-modal
-      title="请输入二级密码"
-      centered
-      destroyOnClose
-      v-model="modalVisible"
-    >
-        <a-form :autoFormCreate="(form)=>{this.form = form}">
-          <a-form-item
-           label='二级密码'
-          :labelCol="{ span: 5 }"
-          :wrapperCol="{ span: 16 }"
-          fieldDecoratorId="二级密码"
-          :fieldDecoratorOptions="{rules: [{ required: true, message: '二级密码不能为空' }]}"
-          >
-            <a-input type="password" v-model="secondSecret" placeholder="请输入二级密码" />
-          </a-form-item>
-        </a-form>
-      <template slot="footer" class="foot">
-        <div class="foot">
-          <a-button  type="primary" @click="handleSecondOk">
-            提交
-          </a-button>
-        </div>
-      </template>
-    </a-modal>
+    <pop-password :modal2Visible.sync="modal2Visible" @secondSubmit="handleSecondOk"></pop-password>
   </div>
 </template>
 <script>
 import {mapState} from 'vuex'
 import {transactions} from '@/api/block'
+import popPassword from '@/components/pop-password/pop-password'
 export default {
   data () {
     return {
@@ -96,11 +75,10 @@ export default {
         lg: {span: 6}
 
       },
-      secondSecret: '',
       recipientId: '',
       amount: '',
       fee: '0.1',
-      modalVisible: false
+      modal2Visible: false
     }
   },
   computed: {
@@ -121,11 +99,11 @@ export default {
           if (!err) {
             if (this.balance < 0.1) {
               this.$notification.info({
-                message: '提示',
-                description: '余额不足'
+                message: i18n.t('tip.title'),
+                description: i18n.t('tip.balance_enough')
               })
             } else if (this.secondSignature) {
-              this.modalVisible = true
+              this.modal2Visible = true
             } else {
               this._transactions()
             }
@@ -133,30 +111,26 @@ export default {
         }
       )
     },
-    handleSecondOk () {
-      this.form.validateFields(
-        (err) => {
-          if (!err) {
-            this._transactions({secret: this.secret, recipientId: this.recipientId, amount: this.computedAmount, secondSecret: this.secondSecret})
-          }
-        }
-      )
+    handleSecondOk (secondSecret) {
+      this._transactions({secret: this.secret, recipientId: this.recipientId, amount: this.computedAmount, secondSecret: secondSecret})
     },
     async _transactions (params = {secret: this.secret, recipientId: this.recipientId, amount: this.computedAmount}) {
       try {
         const result = await transactions(params)
         if (result.data.success) {
-          this.modalVisible = false
-          this.secondSecret = ''
+          this.modal2Visible = false
           this.$notification.info({
-            message: '提示',
-            description: '交易成功'
+            message: i18n.t('tip.title'),
+            description: i18n.t('tip.transfer_success')
           })
         }
       } catch (err) {
         console.log(err)
       }
     }
+  },
+  components: {
+    'pop-password': popPassword
   }
 }
 </script>

@@ -1,19 +1,19 @@
 <template>
   <div class="account">
-    <p class="title">账号信息</p>
+    <p class="title">{{$t('account.title')}}</p>
     <div class="list">
         <ul>
-            <li><span>总余额：</span><span>{{unit(accounts.balance).toFixed(2)}} ETM</span></li>
-            <li><span>地址：</span><span>{{accounts.address}}</span></li>
-            <li><span>二级密码：</span><span>{{accounts.secondSignature ? '已设置' : '未设置'}}</span></li>
-            <li><span>锁仓状态：</span><span>未锁仓</span></li>
-            <li><span>公钥：</span><span>{{publicKey}}</span></li>
-            <li><span>主秘钥二维码：</span><span><a href="javascript:;" @click="keyQrcode">点击获取</a></span></li>
-            <li><span>地址二维码：</span><span><a href="javascript:;" @click="addressQrcode">点击获取</a></span></li>
+            <li><span>{{$t('account.info.balance')}}：</span><span>{{unit(accounts.balance).toFixed(2)}} ETM</span></li>
+            <li><span>{{$t('account.info.address')}}：</span><span>{{accounts.address}}</span></li>
+            <li><span>{{$t('account.info.secondSecret')}}：</span><span>{{accounts.secondSignature ? $t('account.secretStatus.hasSet') : $t('account.secretStatus.notSet')}}</span></li>
+            <li><span>{{$t('account.info.status')}}：</span><span>{{$t("account.lockedStatus.notSet")}}</span></li>
+            <li><span>{{$t('account.info.publicKey')}}：</span><span>{{publicKey}}</span></li>
+            <li><span>{{$t('account.info.keyCode')}}：</span><span><a href="javascript:;" @click="keyQrcode">{{$t('account.click')}}</a></span></li>
+            <li><span>{{$t('account.info.addressCode')}}：</span><span><a href="javascript:;" @click="addressQrcode">{{$t('account.click')}}</a></span></li>
         </ul>
     </div>
     <a-modal
-      title="二维码"
+      :title="$t('account.QRcode')"
       width='328px'
       v-model="visible"
       :footer="null"
@@ -63,7 +63,6 @@ export default {
     line-height: 64px;
     color: #424242;
     font-size: 16px;
-    // border-bottom:solid 1px  #e8e8e8;
     padding: 0 28px;
 }
 .list{

@@ -2,32 +2,32 @@
   <div class="block-appear">
     <!-- info -->
     <a-row class="name" type="flex" justify="start" align="middle" >
-      <a-col :xs="24" :sm="8" :md="8" :lg="5" :xl="3">受托人基本信息</a-col>
+      <a-col :xs="24" :sm="8" :md="8" :lg="5" :xl="3">{{$t("block_production.info")}}</a-col>
       <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" type="primary">{{onOff}}</a-button></a-col>
-      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" @click="() => modal1Visible = true" type="primary">注册受托人</a-button></a-col>
+      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button></a-col>
     </a-row>
     <div class="info">
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="6">
-            <p>总收益</p>
+            <p>{{$t("block_production.rewards")}}</p>
             <p>{{delegateInfo.rewards}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="6">
-            <p>排名</p>
+            <p>{{$t("block_production.rate")}}</p>
             <p>{{delegateInfo.rate}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="6">
-            <p>生产率</p>
+            <p>{{$t("block_production.productivity")}}</p>
             <p>{{delegateInfo.productivity}}</p>
           </a-col>
           <a-col class="etm-info-li last" :span="6">
-            <p>得票率</p>
+            <p>{{$t("block_production.approval")}}</p>
             <p>{{delegateInfo.approval}}</p>
           </a-col>
     </a-row>
     </div>
     <div class="production">
-      <p>生产的区块</p>
+      <p>{{$t("block_production.block_list")}}</p>
       <div class="table">
         <div>
           <a-table :columns="columns"
@@ -45,101 +45,79 @@
         </div>
     </div>
     <a-modal
-      title="注册为受托人"
+      :title="$t('block_production.pop_title')"
       centered
       v-model="modal1Visible"
     >
       <div>
         <a-form :autoFormCreate="(form)=>{this.form = form}">
           <a-form-item
-           label='受托人名称'
+           :label="$t('block_production.name.label')"
           :labelCol="{ span: 5 }"
           :wrapperCol="{ span: 16 }"
-          fieldDecoratorId="受托人名称"
+          :fieldDecoratorId="$t('block_production.name.label')"
           destroyOnClose
-          :fieldDecoratorOptions="{rules: [{ required: true, message: '用户名不能为空' }]}"
+          :fieldDecoratorOptions="{rules: [{ required: true, message: $t('block_production.name.msg') }]}"
           >
-            <a-input type="text" v-model="delegateName" placeholder="用户名只能包含除了@$&_的字母、数字、字符" />
+            <a-input type="text" v-model="delegateName" :placeholder="$t('block_production.name.required')" />
           </a-form-item>
           <a-form-item
-          label='注意'
+           :label="$t('block_production.note.label')"
           :labelCol="{ span: 5 }"
           >
-          注册需支付100 ETM
+         {{$t('block_production.note.msg')}}
           </a-form-item>
         </a-form>
       </div>
       <template slot="footer" class="foot">
         <div class="foot">
           <a-button  type="primary" @click="handleOk">
-            提交
+         {{$t('block_production.submitBtn')}}
           </a-button>
         </div>
       </template>
     </a-modal>
-    <a-modal
-      title="请输入二级密码"
-      centered
-      destroyOnClose
-      v-model="modal2Visible"
-    >
-        <a-form :autoFormCreate="(form)=>{this.form = form}">
-          <a-form-item
-           label='二级密码'
-          :labelCol="{ span: 5 }"
-          :wrapperCol="{ span: 16 }"
-          fieldDecoratorId="二级密码"
-          :fieldDecoratorOptions="{rules: [{ required: true, message: '二级密码不能为空' }]}"
-          >
-            <a-input type="password" v-model="secondSecret" placeholder="请输入二级密码" />
-          </a-form-item>
-        </a-form>
-      <template slot="footer" class="foot">
-        <div class="foot">
-          <a-button  type="primary" @click="handleSecondOk">
-            提交
-          </a-button>
-        </div>
-      </template>
-    </a-modal>
+    <pop-password :modal2Visible.sync="modal2Visible"  @secondSubmit="handleSecondOk"></pop-password>
   </div>
 </template>
 <script>
 import noData from '@/components/nodata/nodata'
+import popPassword from '@/components/pop-password/pop-password'
 import { getDelegate, setDelegate, blocks } from '@/api/block'
 import { convertTime } from '@/utils/gen'
 import {mapState} from 'vuex'
 import {unit} from '@/utils/utils'
 
 const columns = [{
-  title: '高度',
+  title: i18n.t('block_production.columns.th01'),
   width: 100,
   dataIndex: 'height',
   fixed: 'left'
 }, {
-  title: '日期',
+  title: i18n.t('block_production.columns.th02'),
+
   dataIndex: 'timestamp',
   scopedSlots: {customRender: 'time'}
 }, {
-  title: 'ID',
+  title: i18n.t('block_production.columns.th03'),
   dataIndex: 'id'
 }, {
-  title: '交易',
+  title: i18n.t('block_production.columns.th04'),
   dataIndex: 'numberOfTransactions'
 }, {
-  title: '金额',
+  title: i18n.t('block_production.columns.th05'),
   dataIndex: 'totalAmount'
 }, {
-  title: '费用',
+  title: i18n.t('block_production.columns.th06'),
   dataIndex: 'totalFee'
 }, {
-  title: '奖励',
+  title: i18n.t('block_production.columns.th07'),
   dataIndex: 'reward'
 }]
 export default {
   data () {
     return {
-      onOff: '未开启',
+      onOff: i18n.t('block_production.status.not_register'),
       delegateInfo: {},
       data: [],
       columns,
@@ -179,8 +157,8 @@ export default {
           if (!err) {
             if (unit(this.balance) < 100) {
               this.$notification.info({
-                message: '提示',
-                description: '余额不足'
+                message: i18n.t('tip.title'),
+                description: i18n.t('tip.balance_enough')
               })
             } else if (this.secondSignature) {
               this.modal1Visible = false
@@ -192,14 +170,9 @@ export default {
         }
       )
     },
-    handleSecondOk () { // 二级密码
-      this.form.validateFields(
-        (err) => {
-          if (!err) {
-            this._setDelegate()
-          }
-        }
-      )
+    handleSecondOk (secondSecret) { // 二级密码
+      this.secondSecret = secondSecret
+      this._setDelegate()
     },
     async _setDelegate () {
       try {
@@ -212,10 +185,11 @@ export default {
         }
         const res = await setDelegate(params)
         if (res.data.success) {
+          this.modal1Visible = false
           this.modal2Visible = false
           this.$notification.info({
-            message: '提示',
-            description: '注册成功'
+            message: i18n.t('tip.title'),
+            description: i18n.t('tip.register_success')
           })
         }
       } catch (err) {
@@ -223,14 +197,15 @@ export default {
       }
     },
     async _getDelegateDetail (params = {publicKey: this.publicKey}) {
+      this.loading = true
       try {
         const result = await getDelegate(params)
         if (result.data.success) {
-          this.onOff = '已开启'
+          this.onOff = i18n.t('block_production.status.has_register')
           this.delegateInfo = result.data.delegate
           this._getTableLists()
         } else {
-          this.onOff = '未开启'
+          this.onOff = i18n.t('block_production.status.not_register')
           this.nodata = true
         }
       } catch (err) {
@@ -238,7 +213,6 @@ export default {
       }
     },
     async _getTableLists (params = {generatorPublicKey: this.publicKey, limit: 10, orderBy: 'height:desc'}) {
-      this.loading = true
       const result = await blocks(params)
       if (result.data.success) {
         if (result.data.count === 0) {
@@ -264,7 +238,8 @@ export default {
     }
   },
   components: {
-    'no-data': noData
+    'no-data': noData,
+    'pop-password': popPassword
   }
 }
 </script>

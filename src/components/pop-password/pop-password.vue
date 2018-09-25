@@ -1,6 +1,6 @@
 <template>
   <a-modal
-  title="请输入二级密码"
+  :title="$t('pop_password.title')"
   centered
   destroyOnClose
   v-model="visible"
@@ -8,19 +8,19 @@
 >
     <a-form :autoFormCreate="(form)=>{this.form = form}">
       <a-form-item
-        label='二级密码'
+      :label="$t('pop_password.secondSecret.label')"
       :labelCol="{ span: 5 }"
       :wrapperCol="{ span: 16 }"
-      fieldDecoratorId="二级密码"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '二级密码不能为空' }]}"
+      :fieldDecoratorId="$t('pop_password.secondSecret.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message: $t('pop_password.secondSecret.msg') }]}"
       >
-        <a-input type="password" v-model="secondSecret" placeholder="请输入二级密码" />
+        <a-input type="password" v-model="secondSecret" :placeholder="$t('pop_password.secondSecret.placeholder')" />
       </a-form-item>
     </a-form>
   <template slot="footer">
     <div class="foot">
       <a-button  type="primary" @click="handleSecondOk">
-        提交
+            {{$t('pop_password.submitBtn')}}
       </a-button>
     </div>
   </template>

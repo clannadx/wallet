@@ -4,29 +4,29 @@
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='密码'
-      fieldDecoratorId="密码"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入字母和数字组合,最短为1，最长为100',whitespace: true }]}">
-      <a-input type="password" v-model="secondSecret" placeholder="请输入字母和数字组合,最短为1，最长为100" />
+      :label="$t('second_password.password.label')"
+      :fieldDecoratorId="$t('second_password.password.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message: $t('second_password.password.msg'),whitespace: true }]}">
+      <a-input type="password" v-model="secondSecret" :placeholder="$t('second_password.password.msg')" />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='确认密码'
-      fieldDecoratorId="确认密码"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '请再次输入',whitespace: true }]}">
-      <a-input type="password" v-model="confirmSecondSecret" placeholder="请再次输入" />
+      :label="$t('second_password.confirm_password.label')"
+      :fieldDecoratorId="$t('second_password.confirm_password.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message :$t('second_password.confirm_password.msg'),whitespace: true }]}">
+      <a-input type="password" v-model="confirmSecondSecret" :placeholder="$t('second_password.confirm_password.msg')" />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
-      label='注意'
+      :label="$t('second_password.note')"
       >
-      请确认您已经安全保存了二级密码，一旦丢失，您在 ETM 系统中的财产将无法找回，设置二级密码需要 5ETM 手续费
+      {{$t('second_password.p')}}
       </a-form-item>
       <a-form-item
       :wrapperCol="{ span: 12, offset: 2 }">
       <a-button @click="check" type='primary' htmlType='submit'>
-        提交
+        {{$t("second_password.submitBtn")}}
       </a-button>
     </a-form-item>
     </a-form>
@@ -73,15 +73,15 @@ export default {
           if (!err) {
             if (this.secondSecret !== this.confirmSecondSecret) {
               this.$notification.info({
-                message: '提示',
-                description: '两次密码不一致'
+                message: i18n.t('tip.title'),
+                description: i18n.t('tip.not_same')
               })
               return false
             }
             if (unit(this.balance) < 5) {
               this.$notification.info({
-                message: '提示',
-                description: '余额不足'
+                message: i18n.t('tip.title'),
+                description: i18n.t('tip.balance_enough')
               })
               return false
             }
@@ -95,8 +95,8 @@ export default {
       if (result.data.success) {
         this.$store.commit('SET_SECONDSECRET', true)
         this.$notification.info({
-          message: '提示',
-          description: '设置成功'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.set_success')
         })
       }
     }

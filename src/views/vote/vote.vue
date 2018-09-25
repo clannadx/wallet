@@ -1,13 +1,13 @@
 <template>
   <div class="vote">
     <a-tabs defaultActiveKey="1" >
-      <a-tab-pane tab="受托人列表" key="1">
+      <a-tab-pane :tab="$tc('vote.tab',0)" key="1">
         <vote-lists></vote-lists>
       </a-tab-pane>
-      <a-tab-pane tab="投票记录" key="2" forceRender>
+      <a-tab-pane :tab="$tc('vote.tab',1)" key="2" forceRender>
         <vote-record></vote-record>
       </a-tab-pane>
-      <a-tab-pane tab="谁投了我" key="3" forceRender>
+      <a-tab-pane :tab="$tc('vote.tab',2)" key="3" forceRender>
         <vote-for-me></vote-for-me>
       </a-tab-pane>
     </a-tabs>

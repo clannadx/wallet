@@ -1,10 +1,10 @@
 <template>
   <div class="record">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >共 {{totalVoters}} 条</a-col>
+        <a-col class="count" >{{$tc("vote_record.total",1) + totalVoters + $tc("vote_record.total",0)}}</a-col>
         <a-col >
-          <a-button class="refresh" type="primary" @click="refresh">刷新</a-button>
-          <a-button type="primary" @click="deleteRecord" >删除</a-button>
+          <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_record.refresh")}}</a-button>
+          <a-button type="primary" @click="deleteRecord" >{{$t("vote_record.delete")}}</a-button>
           </a-col>
     </a-row>
     <div class="table">
@@ -31,22 +31,22 @@ import PopVoted from '@/components/pop-voted/pop-voted'
 import noData from '@/components/nodata/nodata'
 import {unit} from '@/utils/utils'
 const columns = [{
-  title: '排名',
+  title: i18n.t('vote_record.columns.th01'),
   dataIndex: 'rate'
 }, {
-  title: '受托人',
+  title: i18n.t('vote_record.columns.th02'),
   dataIndex: 'username'
 }, {
-  title: '地址',
+  title: i18n.t('vote_record.columns.th03'),
   dataIndex: 'address'
 }, {
-  title: '生产率',
+  title: i18n.t('vote_record.columns.th04'),
   dataIndex: 'productivity'
 }, {
-  title: '生产块数',
+  title: i18n.t('vote_record.columns.th05'),
   dataIndex: 'producedblocks'
 }, {
-  title: '得票率',
+  title: i18n.t('vote_record.columns.th06'),
   dataIndex: 'approval'
 }]
 
@@ -91,13 +91,13 @@ export default {
       this.nodata = false
       this.selectedRowKeys = []
       this.selectedRows = []
-      this._getRecord(this.pagination.current)
+      this._getRecord(this.pagination.page)
     },
     deleteRecord () {
       if (this.selectedRows.length === 0) {
         this.$notification.info({
-          message: '提示',
-          description: '请选择删除记录'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.delete_vote')
         })
       } else {
         this.modal1Visible = true
@@ -106,8 +106,8 @@ export default {
     handleOk () {
       if (unit(this.balance) < 0.1) {
         this.$notification.info({
-          message: '提示',
-          description: '余额不足'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.balance_enough')
         })
       } else if (this.secondSignature) {
         this.modal1Visible = false
@@ -127,8 +127,8 @@ export default {
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({
-          message: '提示',
-          description: '删除成功'
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.delete_success')
         })
         this.modal1Visible = false
         this.modal2Visible = false
@@ -137,6 +137,13 @@ export default {
         setTimeout(() => {
           this._getRecord(this.pagination.current)
         }, 4000)
+      } else {
+        this.modal1Visible = false
+        this.modal2Visible = false
+        this.$notification.info({
+          message: i18n.t('tip.title'),
+          description: result.data.error
+        })
       }
     },
     async _getRecord (p) {
@@ -157,7 +164,7 @@ export default {
           )
           const pagination = { ...this.pagination }
           pagination.total = result.data.delegates.length
-          pagination.current = p
+          pagination.page = p
           this.pagination = pagination
         } else {
           this.data = []
@@ -192,6 +199,7 @@ export default {
   .count{
     font-size: 18px;
     padding-left: 15px;
+    letter-spacing: 3px;
   }
   .table{
     margin-top: 20px;

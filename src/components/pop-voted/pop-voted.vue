@@ -1,6 +1,6 @@
 <template>
       <a-modal
-      title="取消投票"
+      :title="$t('pop_voted.cancel_vote')"
       width="450px"
       v-model="visible"
       destroyOnClose
@@ -16,10 +16,10 @@
         </div>
       </div>
       <template slot="footer" >
-        <p style="text-align:center">投票需支付 0.1 ETM</p>
+        <p style="text-align:center">{{$t('pop_voted.note')}}</p>
         <div class="foot">
           <a-button  type="primary" @click="handleOk">
-            提交
+            {{$t('pop_voted.submitBtn')}}
           </a-button>
         </div>
       </template>

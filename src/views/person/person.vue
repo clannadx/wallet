@@ -1,13 +1,13 @@
 <template>
   <div class="person">
     <a-tabs defaultActiveKey="1" >
-      <a-tab-pane tab="账户信息" key="1">
+      <a-tab-pane :tab="$tc('person.tab',0)" key="1">
         <account></account>
       </a-tab-pane>
-      <a-tab-pane tab="二级密码" key="2" forceRender>
+      <a-tab-pane :tab="$tc('person.tab',1)" key="2" forceRender>
         <second-password></second-password>
       </a-tab-pane>
-      <a-tab-pane tab="锁仓" key="3">
+      <a-tab-pane :tab="$tc('person.tab',2)" key="3">
         <lock-up></lock-up>
       </a-tab-pane>
     </a-tabs>

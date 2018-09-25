@@ -4,21 +4,21 @@
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='请输入锁仓高度值'
-      fieldDecoratorId="请输入锁仓高度值"
-      :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入锁仓高度值' }]}">
-      <a-input placeholder="请输入锁仓高度值" />
+      :label="$t('lock_up.lockedHeight.label')"
+      :fieldDecoratorId="$t('lock_up.lockedHeight.label')"
+      :fieldDecoratorOptions="{rules: [{ required: true, message: $t('lock_up.lockedHeight.msg') }]}">
+      <a-input :placeholder="$t('lock_up.lockedHeight.msg')" />
       </a-form-item>
       <a-form-item
       :labelCol="labelCol"
       :wrapperCol="wrapperCol"
-      label='注意'>
-      在到达此高度后才能解锁
+      :label="$t('lock_up.note')">
+      {{$t("lock_up.p")}}
       </a-form-item>
       <a-form-item
       :wrapperCol="{ span: 12, offset: 4 }">
       <a-button @click="check" type='primary' htmlType='submit'>
-        发送
+        {{$t("lock_up.submitBtn")}}
       </a-button>
     </a-form-item>
     </a-form>

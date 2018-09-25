@@ -17,7 +17,7 @@
       </a-row>
     </div>
     <div class="transaction">
-      <p>{{$t("first-view.transaction")}}</p>
+      <p class="title">{{$t("first-view.transaction")}}</p>
       <div class="lists" >
         <div>
           <a-table :columns="columns"
@@ -37,7 +37,7 @@
               {{unit(record.amount)}}
             </template>
           <template slot="footer" slot-scope="currentPageData">
-            总计:      {{totalAmount().toFixed(2)}} ETM
+            {{$t("first-view.all")}}:      {{totalAmount().toFixed(2)}} ETM
           </template>
           </a-table>
         </div>
@@ -52,29 +52,29 @@ import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
 const columns = [{
-  title: window.i18n.tc('first-view.table_columns', 0),
+  title: i18n.t('first-view.table_columns.th01'),
   dataIndex: 'id',
   width: 520,
   fixed: 'left'
 }, {
-  title: window.i18n.tc('first-view.table_columns', 1),
+  title: i18n.t('first-view.table_columns.th02'),
   scopedSlots: { customRender: 'typeIN' },
   dataIndex: 'type'
 }, {
-  title: window.i18n.tc('first-view.table_columns', 2),
+  title: i18n.t('first-view.table_columns.th03'),
   dataIndex: 'senderId'
 }, {
-  title: window.i18n.tc('first-view.table_columns', 3),
+  title: i18n.t('first-view.table_columns.th04'),
   dataIndex: 'recipientId'
 }, {
-  title: window.i18n.tc('first-view.table_columns', 4),
+  title: i18n.t('first-view.table_columns.th05'),
   dataIndex: 'timestamp',
   scopedSlots: {customRender: 'time'}
 }, {
-  title: window.i18n.tc('first-view.table_columns', 5),
+  title: i18n.t('first-view.table_columns.th06'),
   dataIndex: 'message'
 }, {
-  title: window.i18n.tc('first-view.table_columns', 6),
+  title: i18n.t('first-view.table_columns.th07'),
   dataIndex: 'amount',
   width: 150,
   fixed: 'right',
@@ -201,7 +201,7 @@ export default {
 }
 .transaction {
   margin: 20px 0 ;
-  p {
+  .title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;

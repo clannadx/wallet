@@ -1,9 +1,9 @@
 <template>
   <div class="vote-for-me">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >共{{data.length}}人</a-col>
+        <a-col class="count" >{{$tc("vote_for_me.total",1) + data.length + $tc("vote_for_me.total",0)}}</a-col>
         <a-col>
-          <a-button class="refresh" type="primary" @click="refresh">刷新</a-button>
+          <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_for_me.refresh")}}</a-button>
         </a-col>
     </a-row>
     <div class="table">
@@ -23,13 +23,13 @@
 import {voteForMe} from '@/api/account'
 import noData from '@/components/nodata/nodata'
 const columns = [{
-  title: '用户名',
+  title: i18n.t('vote_for_me.columns.th01'),
   dataIndex: 'name'
 }, {
-  title: '地址',
+  title: i18n.t('vote_for_me.columns.th02'),
   dataIndex: 'address'
 }, {
-  title: '权重',
+  title: i18n.t('vote_for_me.columns.th03'),
   dataIndex: 'weight'
 }]
 export default {
@@ -92,6 +92,7 @@ export default {
   .count{
     font-size: 18px;
     padding-left: 15px;
+    letter-spacing: 3px;
   }
   .table{
     margin-top: 20px;

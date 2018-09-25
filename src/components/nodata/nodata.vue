@@ -2,8 +2,7 @@
   <div class="wrapper">
     <div class="no-data">
         <img src="../../assets/images/no-data.png"/>
-        <!-- <p>抱歉，暂无相关数据</p> -->
-        <p>{{pleaseSelect}}</p>
+        <p>{{$t('no_found.p')}}</p>
     </div>
   </div>
 </template>

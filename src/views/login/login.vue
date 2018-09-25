@@ -81,7 +81,7 @@ export default {
     ]),
     async handleSubmit () {
       if (!bip39.validateMnemonic(this.password)) {
-        this.$message.error(this.$i18n.t('login.tip_err'))
+        this.$message.error(i18n.t('login.tip_err'))
       } else {
         let result = await this.login(this.password)
         if (result.data.success) {
@@ -92,10 +92,10 @@ export default {
           } else {
             sessionStorage.setItem('etmUse', data)
           }
-          this.$message.success(this.$i18n.t('login.tip_success'))
+          this.$message.success(i18n.t('login.tip_success'))
           this.$router.push('/')
         } else {
-          this.$message.error(this.$i18n.t('login.tip_fail'))
+          this.$message.error(i18n.t('login.tip_fail'))
         }
       }
     },
@@ -108,9 +108,9 @@ export default {
     },
     createWallet () {
       if (!this.checkitem01 || !this.checkitem02 || !this.checkitem03) {
-        this.$message.error(this.$i18n.t('register.tip_err_limit'))
+        this.$message.error(i18n.t('register.tip_err_limit'))
       } else if (this.confirmPassword !== this.newPassword) {
-        this.$message.error(this.$i18n.t('register.tip_err_same'))
+        this.$message.error(i18n.t('register.tip_err_same'))
       } else {
         this.loginStatus = true
       }
