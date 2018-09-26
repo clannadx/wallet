@@ -13,7 +13,7 @@
         <a-checkbox v-model="status">{{$t('login.status')}}</a-checkbox>
       </div>
       <div>
-        <a-select size="small" defaultValue="zh_CN" @change='changeLocale'  style="width: 120px" >
+        <a-select size="small" :defaultValue="lang" @change='changeLocale'  style="width: 120px" >
           <a-select-option value="zh_CN">{{$t('login.select.zh_CN')}}</a-select-option>
           <a-select-option value="en_GB">{{$t('login.select.en_GB')}}</a-select-option>
         </a-select>
@@ -56,6 +56,7 @@
 <script>
 import bip39 from 'bip39'
 import {mapActions} from 'vuex'
+import {setup} from '@/lang'
 export default {
   data () {
     return {
@@ -73,6 +74,9 @@ export default {
   computed: {
     toggelIcon () {
       return this.showPassword ? 'icon-hide' : 'icon-show'
+    },
+    lang () {
+      return sessionStorage.getItem('localeLanguage') || 'zh_CN'
     }
   },
   methods: {
@@ -116,8 +120,7 @@ export default {
       }
     },
     changeLocale (lang) { // 切换语言
-      // window.localStorage.setItem('localeLanguage', lang)
-      this.$i18n.locale = lang
+      setup(lang)
     }
   }
 }

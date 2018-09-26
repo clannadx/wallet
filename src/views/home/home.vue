@@ -49,27 +49,40 @@
           @click="() => collapsed =!collapsed"
         />
         <a-icon class="trigger logout" :title="$t('router.loginOutTitle')" @click="logout" type="logout"/>
+        <a-button size="small" @click="changeLang"  class="lang">{{ lang_text }}</a-button>
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', paddingTop: '0', minHeight: '100vh' }">
         <div class="main-title">
           {{title}}
         </div>
-        <router-view/>
+        <transition name="page-toggle">
+           <router-view/>
+        </transition>
       </a-layout-content>
     </a-layout>
   </a-layout>
 </template>
 <script>
 import {mapActions} from 'vuex'
+import {setup} from '@/lang'
 export default {
   data () {
     return {
       collapsed: false,
-      title: ''
+      title: '',
+      language: '',
+      lang: ''
     }
   },
   created () {
     this.title = this.$route.meta.title
+    this.language = sessionStorage.getItem('localeLanguage')
+    this.lang = this.language !== 'en_GB'
+  },
+  computed: {
+    lang_text () {
+      return this.language === 'en_GB' ? '中文' : 'English'
+    }
   },
   watch: {
     '$route' (to, from) {
@@ -82,8 +95,14 @@ export default {
     ]),
     async logout () {
       await this.loginOut()
-      this.$message.success(this.$i18n.t('router.tip_success'))
+      this.$message.success(i18n.t('router.tip_success'))
       this.$router.push('/login')
+      setup()
+    },
+    changeLang () {
+      this.lang = !this.lang
+      this.language = this.lang ? 'zh_CN' : 'en_GB'
+      setup(this.language)
     }
   }
 }
@@ -116,6 +135,10 @@ export default {
 #components-layout-trigger .logout{
   float: right;
 }
+#components-layout-trigger .lang{
+  float: right;
+  margin-top: 20px;
+}
 .main-title{
   height: 30px;
   line-height: 30px;
@@ -126,6 +149,10 @@ export default {
 #components-layout-trigger .ant-layout-sider-collapsed .logo{
     background-image: url('../../assets/images/logoWithoutText.png');
     margin-left: 16px
+
+}
+
+@media(max-width: 600px){
 
 }
 </style>

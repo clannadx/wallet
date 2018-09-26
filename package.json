@@ -15,6 +15,7 @@
     "ant-design-vue": "^1.0.3",
     "axios": "^0.18.0",
     "babel-plugin-import": "^1.8.0",
+    "babel-polyfill": "^6.26.0",
     "bip39": "^2.5.0",
     "less": "^3.8.1",
     "less-loader": "^4.1.0",

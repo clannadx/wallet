@@ -1,251 +1,254 @@
 export default {
   'tip': {
-    'title': '提示',
-    'not_same': '两次密码不一致',
-    'balance_enough': '余额不足',
-    'set_success': '设置成功',
-    'transfer_success': '交易成功',
-    'vote_success': '投票成功',
-    'delete_success': '删除成功',
-    'register_success': '注册成功',
-    'choose_vote': '请选择受托人',
-    'delete_vote': '请选择删除记录',
-    'hightest': '已达到最高高度',
-    'lowest': '已达到最小高度',
-    'empty_hight': '高度不能为空'
+    'title': 'Tips',
+    'not_same': 'Two secrets are inconsistent.',
+    'balance_enough': 'Insufficient Balance',
+    'set_success': 'Set Success',
+    'transfer_success': 'Transfer Success',
+    'vote_success': 'Vote Success',
+    'delete_success': 'Delete Success',
+    'register_success': 'Register Success',
+    'choose_vote': 'Select a delegate',
+    'delete_vote': 'Select a delete to record',
+    'hightest': 'Maximum height reached',
+    'lowest': 'Minimum height reached',
+    'empty_hight': 'Height cannot be empty'
   },
   'login': {
-    'placeholder': '输入主密码',
-    'status': '保持登录状态',
+    'placeholder': 'Type the master secret',
+    'status': 'Keep me logged in',
     'select': {
-      'zh_CN': '中文简体',
-      'en_GB': '英文'
+      'zh_CN': 'Chinese',
+      'en_GB': 'English'
     },
-    'loginBtn': 'login',
-    'registerBtn': '新账户',
-    'tip_err': '密码格式不符合',
-    'tip_success': '登录成功',
-    'tip_fail': '登录失败'
+    'loginBtn': 'Login',
+    'registerBtn': 'New Account',
+    'tip_err': 'Secret format does not match',
+    'tip_success': 'Login Success',
+    'tip_fail': 'Login Fail'
   },
   'register': {
-    'title': '密码由浏览器本地生成，请妥善备份保存',
-    'placeholder': '复制或输入上面的主密码',
-    'checkitem': '我了解如果我丢失了密码，我将永远丢失我的资产 | 我了解如果我丢失了密码，没有人能够将它恢复 | 我已经记住或者用其他方式保存了我的密码',
-    'returnBtn': '返回登录',
-    'create': '创建钱包',
-    'tip_err_limit': '请仔细阅读并勾选须知',
-    'tip_err_same': '输入的主密码不一致'
+    'title': 'The master secret is generated locally by the browser. Please back it up and save it.',
+    'placeholder': 'Copy or enter the master secret above.',
+    'checkitem': 'I understand that if I lose my master secret, I will never be able to access my assets. | I understand that if I forget or lose my master secret, no one can help me recover it. | I have written down or saved my master secret in other ways.',
+    'returnBtn': 'Back',
+    'create': 'Create Master Secret',
+    'tip_err_limit': 'Please read carefully and tick the instructions.',
+    'tip_err_same': 'The entered master secret is inconsistent.'
   },
   'router': {
-    'home': '首页',
-    'person': '个人中心',
-    'app': '应用中心',
-    'block_production': '区块生产',
-    'block_scan': '区块浏览',
-    'vote': '投票',
-    'transfer': '转账',
-    'tip_success': '退出成功',
-    'loginOutTitle': '退出'
+    'home': 'Home',
+    'person': 'My Account',
+    'app': 'App Store',
+    'block_production': 'Block Production',
+    'block_scan': 'Block Listing',
+    'vote': 'Vote',
+    'transfer': 'Transfer',
+    'tip_success': 'Exit Success',
+    'loginOutTitle': 'Exit'
 
   },
   'first-view': {
-    'information': '我的余额 | 最后出块高度 | 版本信息 ',
-    'transaction': '交易记录',
+    'information': 'Balance | Latest Block Height | Version ',
+    'transaction': 'Transfer Record',
     'table_columns': {
       'th01': 'ID',
-      'th02': '类型',
-      'th03': '发送者',
-      'th04': '接收者',
-      'th05': '日期',
-      'th06': '备注',
-      'th07': '金额（ETM）'
+      'th02': 'Type',
+      'th03': 'Sender',
+      'th04': 'Receiver',
+      'th05': 'Date',
+      'th06': 'Remark',
+      'th07': 'Amount(ETM)'
     },
-    'all': '总计'
+    'all': 'Total'
   },
   'person': {
-    'tab': '账户信息 | 二级密码 | 锁仓'
+    'tab': 'Account Detail | Second Secret | Lock Setting'
   },
   'account': {
-    'title': '账号信息',
-    'QRcode': '二维码',
+    'title': 'Account Detail',
+    'QRcode': 'QRcode',
     'secretStatus': {
-      'hasSet': '已设置',
-      'notSet': '未设置'
+      'hasSet': 'Setted',
+      'notSet': 'Unset'
     },
     'lockedStatus': {
-      'hasSet': '已锁仓',
-      'notSet': '未锁仓'
+      'hasSet': 'Locked',
+      'notSet': 'Unlock'
     },
     'info': {
-      'balance': '总余额',
-      'address': '地址',
-      'secondSecret': '二级密码',
-      'status': '锁仓状态',
-      'publicKey': '公钥',
-      'keyCode': '主秘钥二维码',
-      'addressCode': '地址二维码'
+      'balance': 'Balance',
+      'address': 'Address',
+      'secondSecret': 'Second Secret',
+      'status': 'Lock Status',
+      'publicKey': 'PublicKey',
+      'keyCode': 'QRcode of PublicKey',
+      'addressCode': 'QRcode of Address'
     },
-    'click': '点击获取'
+    'click': 'Get QRcode'
   },
   'second_password': {
     'password': {
-      'label': '密码',
-      'msg': '请输入字母和数字组合,最短为1，最长为100'
+      'label': 'Secret',
+      'msg': 'Please enter a combination of letters and numbers, with a minimum of 1 and a maximum of 100'
     },
     'confirm_password': {
-      'label': '确认密码',
-      'msg': '请再次输入'
+      'label': 'Confirm Secret',
+      'msg': 'Please enter again'
     },
-    'note': '注意',
-    'p': '请确认您已经安全保存了二级密码，一旦丢失，您在 ETM 系统中的财产将无法找回，设置二级密码需要 5ETM 手续费',
-    'submitBtn': '提交'
+    'note': 'Notice',
+    'p': 'Please confirm that you have safely saved the second secret. Once lost, your property in the ETM system will not be retrieved. Setting the second secret requires 5 ETM fee.',
+    'submitBtn': 'Submit'
   },
   'lock_up': {
     'lockedHeight': {
-      'label': '请输入锁仓高度值',
-      'msg': '请输入锁仓高度值'
+      'label': 'Please enter the lock height value',
+      'msg': 'Please enter the lock height value'
     },
-    'note': '注意',
-    'p': '在到达此高度后才能解锁',
-    'submitBtn': '发送'
+    'note': 'Notice',
+    'p': 'Unlock after reaching this height',
+    'submitBtn': 'Submit'
   },
   'block_production': {
     'status': {
-      'has_register': '已开启',
-      'not_register': '未开启'
+      'has_register': 'Registered',
+      'not_register': 'Unregistered'
     },
-    'info': '受托人基本信息',
-    'registerBtn': '注册受托人',
-    'rewards': '总收益',
-    'rate': '排名',
-    'productivity': '生产率',
-    'approval': '得票率',
-    'block_list': '生产的区块',
+    'info': 'Delegate Information',
+    'registerBtn': 'Register as Delegate',
+    'rewards': 'Rewards',
+    'rate': 'Ranking',
+    'productivity': 'Productivity',
+    'approval': 'Approval Rate',
+    'block_list': 'Produced Blocks',
     'columns': {
-      'th01': '高度',
-      'th02': '日期',
+      'th01': 'Height',
+      'th02': 'Date',
       'th03': 'ID',
-      'th04': '生产者',
-      'th05': '交易',
-      'th06': '金额',
-      'th07': '费用',
-      'th08': '奖励'
+      'th04': 'Producer',
+      'th05': 'Transaction',
+      'th06': 'Amount',
+      'th07': 'Fee',
+      'th08': 'Rewards'
     },
-    'pop_title': '注册为受托人',
+    'pop_title': 'Register as Delegate',
     'name': {
-      'label': '受托人名称',
-      'msg': '用户名不能为空',
-      'required': '用户名只能包含除了@$&_的字母、数字、字符'
+      'label': 'Delegate Name',
+      'msg': 'Username can not be empty',
+      'required': 'Username can only contain letters, numbers, characters other than @$&_'
     },
     'note': {
-      'label': '注意',
-      'msg': '注册需支付100 ETM'
+      'label': 'Notice',
+      'msg': 'Registration requires 100 ETM fee'
     },
-    'submitBtn': '提交'
+    'submitBtn': 'Submit'
   },
   'block_scan': {
-    'search': '搜素高度',
-    'click_details': '查看详情',
-    'block_details': '区块详情',
-    'next_block': '下一块',
-    'pre_block': '上一块',
-    'version': '版本',
-    'timestamp': '时间',
-    'height': '高度',
-    'previousBlock': '上一块',
-    'numberOfTransactions': '交易数',
-    'totalAmount': '交易总额',
-    'reward': '奖励',
-    'summary': '摘要',
-    'generatorId': '生产者',
-    'generatorPublicKey': '生产者公钥',
+    'search': 'Height of Search',
+    'click_details': 'Detail',
+    'block_details': 'Block Detail',
+    'next_block': 'Next Block',
+    'pre_block': 'Previous Block',
+    'version': 'Version',
+    'timestamp': 'Generated Time',
+    'height': 'Height',
+    'previousBlock': 'Previous Block',
+    'numberOfTransactions': 'Transaction Count',
+    'totalAmount': 'Transaction Amount',
+    'reward': 'Rewards',
+    'summary': 'Summary',
+    'generatorId': 'Producer',
+    'generatorPublicKey': 'PublicKey of Producer',
     'columns': {
-      'th01': '高度',
-      'th02': '日期',
+      'th01': 'Height',
+      'th02': 'Date',
       'th03': 'ID',
-      'th04': '生产者',
-      'th05': '交易',
-      'th06': '金额',
-      'th07': '费用',
-      'th08': '奖励',
-      'th09': '操作'
+      'th04': 'Producer',
+      'th05': 'Transaction',
+      'th06': 'Amount',
+      'th07': 'Fee',
+      'th08': 'Rewards',
+      'th09': 'Operate'
     }
   },
   'vote': {
-    'tab': '受托人列表 | 投票记录 | 谁投了我'
+    'tab': 'Delegate List | Vote Record | My Voters'
   },
   'vote_lists': {
-    'total': '共 | 条',
-    'refresh': '刷新',
-    'vote': '投票',
+    'total': 'A total of | records',
+    'refresh': 'Refresh',
+    'vote': 'Vote',
     'columns': {
-      'th01': '排名',
-      'th02': '受托人',
-      'th03': '地址',
-      'th04': '生产率',
-      'th05': '生产块数',
-      'th06': '得票率'
+      'th01': 'Ranking',
+      'th02': 'Delegate',
+      'th03': 'Address',
+      'th04': 'Productivity',
+      'th05': 'Produced Blocks',
+      'th06': 'Approval Rate'
     }
   },
   'vote_record': {
-    'total': '共 | 条',
-    'refresh': '刷新',
-    'delete': '删除',
+    'total': 'A total of | records',
+    'refresh': 'Refresh',
+    'delete': 'Delete',
     'columns': {
-      'th01': '排名',
-      'th02': '受托人',
-      'th03': '地址',
-      'th04': '生产率',
-      'th05': '生产块数',
-      'th06': '得票率'
+      'th01': 'Ranking',
+      'th02': 'Delegate',
+      'th03': 'Address',
+      'th04': 'Productivity',
+      'th05': 'Produced Blocks',
+      'th06': 'Approval Rate'
     }
   },
   'vote_for_me': {
-    'total': '共 | 人',
-    'refresh': '刷新',
+    'total': 'A total of | voters',
+    'refresh': 'Refresh',
     'columns': {
-      'th01': '用户名',
-      'th02': '地址',
-      'th03': '权重'
+      'th01': 'Username',
+      'th02': 'Address',
+      'th03': 'Weights'
     }
   },
   'transfer': {
-    'sender': '发送者',
+    'sender': 'Sender',
     'reciped': {
-      'label': '接收者',
-      'msg': '请输入接收者地址'
+      'label': 'Receiver',
+      'msg': 'Please enter the receiver address'
     },
     'amount': {
-      'label': '金额',
-      'msg': '请输入转账金额'
+      'label': 'Amount',
+      'msg': 'Please enter the transfer amount'
     },
-    'fee': '费用',
+    'fee': 'Fee',
     'remark': {
-      'label': '备注',
-      'msg': '请输入备注'
+      'label': 'Remark',
+      'msg': 'Please enter the remark'
     },
     'note': {
-      'label': '注意',
-      'msg': '请确保您正在发送ETM给正确的地址，本操作无法撤消'
+      'label': 'Notice',
+      'msg': 'Please make sure that you are sending ETM to the correct address. This operation cannot be undone.'
     },
-    'submitBtn': '发送'
+    'submitBtn': 'Submit'
   },
   'pop_voted': {
-    'cancel_vote': '取消投票',
-    'note': '投票需支付 0.1 ETM',
-    'submitBtn': '提交'
+    'cancel_vote': 'Cancel Vote',
+    'note': 'Voting requires 0.1 ETM fee',
+    'submitBtn': 'Submit'
   },
   'pop_password': {
-    'title': '请输入二级密码',
+    'title': 'Please enter second secret',
     'secondSecret': {
-      'label': '二级密码',
-      'msg': '二级密码不能为空',
-      'placeholder': '请输入二级密码'
+      'label': 'Second Secret',
+      'msg': 'Second secret cannot be empty',
+      'placeholder': 'Please enter second secret'
     },
-    'submitBtn': '提交'
+    'submitBtn': 'Submit'
   },
   'no_data': {
-    'p': '抱歉你访问的页面不存在',
-    'returnBtn': '返回首页'
+    'p': 'Sorry, the page you visited does not exist.',
+    'returnBtn': 'Return Home'
+  },
+  'no_found': {
+    'p': 'Sorry, no relevant data yet.'
   }
 }

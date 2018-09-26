@@ -15,14 +15,10 @@ const locales = {
     ...en
   }
 }
-
-console.log(window.localStorage.getItem(LOCALE_KEY))
-console.log(DEFAULT_LANG)
 const i18n = new VueI18n({
-  locale: window.sessionStorage.getItem(LOCALE_KEY) || DEFAULT_LANG,
+  locale: DEFAULT_LANG,
   messages: locales
 })
-// console.log(i18n.messages)
 export const setup = lang => {
   if (lang === undefined) {
     lang = window.sessionStorage.getItem(LOCALE_KEY)
@@ -31,7 +27,6 @@ export const setup = lang => {
     }
   }
   window.sessionStorage.setItem(LOCALE_KEY, lang)
-
   Object.keys(locales).forEach(lang => {
     document.body.classList.remove(`lang-${lang}`)
   })
