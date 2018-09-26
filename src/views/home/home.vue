@@ -24,7 +24,7 @@
             <span>{{$t("router.block_production")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-scan">
-            <a-icon type="user" />
+            <a-icon type="scan" />
             <span>{{$t("router.block_scan")}}</span>
         </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/vote">
@@ -97,12 +97,18 @@ export default {
       await this.loginOut()
       this.$message.success(i18n.t('router.tip_success'))
       this.$router.push('/login')
+      // location.reload()
+      // setTimeout(() => {
+      //   this.$message.success(i18n.t('router.tip_success'))
+      // }, 2000)
+
       setup()
     },
     changeLang () {
       this.lang = !this.lang
       this.language = this.lang ? 'zh_CN' : 'en_GB'
       setup(this.language)
+      location.reload()
     }
   }
 }

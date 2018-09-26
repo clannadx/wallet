@@ -61,18 +61,18 @@
         </div>
         <div class="input">
           <label>{{$t('block_scan.numberOfTransactions')}}：</label>
-          <span>{{blockDetail.numberOfTransactions}}</span>
+          <span>{{blockDetail.numberOfTransactions}} ETM</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.totalAmount')}}：</label>
-          <span>{{blockDetail.totalAmount}}</span>
+          <span>{{blockDetail.totalAmount}} ETM</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.reward')}}：</label>
-          <span>{{blockDetail.reward}}</span>
+          <span>{{blockDetail.reward}} ETM</span>
         </div>
         <div class="input">
-          <label>{{$t('block_scan.reward')}}：</label>
+          <label>{{$t('block_scan.summary')}}：</label>
           <span></span>
         </div>
         <div class="input">

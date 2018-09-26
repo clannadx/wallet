@@ -199,7 +199,7 @@ export default {
   .count{
     font-size: 18px;
     padding-left: 15px;
-    letter-spacing: 3px;
+    // letter-spacing: 3px;
   }
   .table{
     margin-top: 20px;

@@ -2,8 +2,8 @@
   <div class="block-appear">
     <!-- info -->
     <a-row class="name" type="flex" justify="start" align="middle" >
-      <a-col :xs="24" :sm="8" :md="8" :lg="5" :xl="3">{{$t("block_production.info")}}</a-col>
-      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" type="primary">{{onOff}}</a-button></a-col>
+      <a-col :xs="24" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
+      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
       <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button></a-col>
     </a-row>
     <div class="info">
