@@ -1,7 +1,7 @@
 <template>
   <div class="record">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >{{$tc("vote_record.total",1) + totalVoters + $tc("vote_record.total",0)}}</a-col>
+        <a-col class="count" >{{$tc("vote_record.total",1)}}   {{totalVoters}}   {{$tc("vote_record.total",0)}}</a-col>
         <a-col >
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_record.refresh")}}</a-button>
           <a-button type="primary" @click="deleteRecord" >{{$t("vote_record.delete")}}</a-button>

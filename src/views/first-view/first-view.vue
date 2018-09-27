@@ -26,7 +26,7 @@
           :loading="loading"
             :scroll="{ x: 1300 }"
           @change="handleTableChange"
-            bordered>
+            >
             <template slot="typeIN" slot-scope="text, record">
               {{mapType(record.type)}}
             </template>
@@ -52,11 +52,6 @@ import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
 const columns = [{
-  title: i18n.t('first-view.table_columns.th01'),
-  dataIndex: 'id',
-  width: 520,
-  fixed: 'left'
-}, {
   title: i18n.t('first-view.table_columns.th02'),
   scopedSlots: { customRender: 'typeIN' },
   dataIndex: 'type'
@@ -148,15 +143,15 @@ export default {
     mapType (type) {
       switch (type) {
         case 0:
-          return '普通转账'
+          return i18n.t('first-view.transfer')
         case 1:
-          return '设置二级密码'
+          return i18n.t('first-view.set')
         case 2:
-          return '注册受托人'
+          return i18n.t('first-view.register_voter')
         case 3:
-          return '投票'
+          return i18n.t('first-view.vote')
         case 4:
-          return '多重签名'
+          return i18n.t('first-view.multi_signature')
         case 5:
           return 'DAPP'
         case 6:

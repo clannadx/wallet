@@ -68,15 +68,16 @@ export default {
       checkitem01: false, // 条款
       checkitem02: false,
       checkitem03: false,
-      status: false // 是否保存密码
+      status: false, // 是否保存密码
+      lang: '' // 语言
     }
+  },
+  created () {
+    this.lang = sessionStorage.getItem('localeLanguage') || 'zh_CN'
   },
   computed: {
     toggelIcon () {
       return this.showPassword ? 'icon-hide' : 'icon-show'
-    },
-    lang () {
-      return sessionStorage.getItem('localeLanguage') || 'zh_CN'
     }
   },
   methods: {
@@ -121,6 +122,7 @@ export default {
     },
     changeLocale (lang) { // 切换语言
       setup(lang)
+      this.lang = lang
     }
   }
 }
@@ -198,6 +200,7 @@ export default {
   height: 42px;
   display: flex;
   justify-content: space-between;
+  margin: 0 auto;
   margin-top: 10px;
 }
 .div_btn > button {

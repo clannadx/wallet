@@ -15,10 +15,6 @@
             <a-icon type="user" />
             <span>{{$t("router.person")}}</span>
         </router-link>
-        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/application">
-            <a-icon type="appstore" />
-            <span>{{$t("router.app")}}</span>
-        </router-link>
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/block-production">
             <a-icon type="line-chart" />
             <span>{{$t("router.block_production")}}</span>
@@ -34,6 +30,10 @@
         <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/transfer">
             <a-icon type="pay-circle-o" />
             <span>{{$t("router.transfer")}}</span>
+        </router-link>
+        <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/application">
+            <a-icon type="appstore" />
+            <span>{{$t("router.app")}}</span>
         </router-link>
         <!-- <router-link  class="ant-menu-item" role="menuitem" tag="li"  to="/miners-list">
             <a-icon type="pie-chart" />
@@ -96,13 +96,9 @@ export default {
     async logout () {
       await this.loginOut()
       this.$message.success(i18n.t('router.tip_success'))
-      this.$router.push('/login')
-      // location.reload()
-      // setTimeout(() => {
-      //   this.$message.success(i18n.t('router.tip_success'))
-      // }, 2000)
-
-      setup()
+      setTimeout(() => {
+        location.reload()
+      }, 500)
     },
     changeLang () {
       this.lang = !this.lang

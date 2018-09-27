@@ -1,7 +1,7 @@
 <template>
   <div class="vote-for-me">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >{{$tc("vote_for_me.total",1) + data.length + $tc("vote_for_me.total",0)}}</a-col>
+        <a-col class="count" >{{$tc("vote_for_me.total",1)}}   {{data.length }}   {{$tc("vote_for_me.total",0)}}</a-col>
         <a-col>
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_for_me.refresh")}}</a-button>
         </a-col>

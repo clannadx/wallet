@@ -39,7 +39,7 @@ export default {
   'router': {
     'home': '首页',
     'person': '个人中心',
-    'app': '应用中心',
+    'app': 'DApp Store',
     'block_production': '区块生产',
     'block_scan': '区块浏览',
     'vote': '投票',
@@ -60,6 +60,11 @@ export default {
       'th06': '备注',
       'th07': '金额（ETM）'
     },
+    'transfer': '普通转账',
+    'set': '设置二级密码',
+    'register_voter': '注册受托人',
+    'vote': '投票',
+    'multi_signature': '多重签名',
     'all': '总计'
   },
   'person': {
@@ -102,12 +107,15 @@ export default {
   },
   'lock_up': {
     'lockedHeight': {
-      'label': '请输入锁仓高度值',
+      'label': '高度值',
       'msg': '请输入锁仓高度值'
     },
     'note': '注意',
     'p': '在到达此高度后才能解锁',
     'submitBtn': '发送'
+  },
+  'application': {
+    'app_list': '应用列表 | 已安装'
   },
   'block_production': {
     'status': {
@@ -125,11 +133,10 @@ export default {
       'th01': '高度',
       'th02': '日期',
       'th03': 'ID',
-      'th04': '生产者',
       'th05': '交易',
-      'th06': '金额',
-      'th07': '费用',
-      'th08': '奖励'
+      'th06': '金额 (ETM)',
+      'th07': '费用 (ETM)',
+      'th08': '奖励 (ETM)'
     },
     'pop_title': '注册为受托人',
     'name': {
@@ -145,7 +152,7 @@ export default {
   },
   'block_scan': {
     'search': '搜素高度',
-    'click_details': '查看详情',
+    'click_details': '详情',
     'block_details': '区块详情',
     'next_block': '下一块',
     'pre_block': '上一块',
@@ -165,9 +172,9 @@ export default {
       'th03': 'ID',
       'th04': '生产者',
       'th05': '交易',
-      'th06': '金额',
-      'th07': '费用',
-      'th08': '奖励',
+      'th06': '金额 (ETM)',
+      'th07': '费用 (ETM)',
+      'th08': '奖励 (ETM)',
       'th09': '操作'
     }
   },

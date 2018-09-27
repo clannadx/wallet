@@ -6,6 +6,7 @@
       style="width: 300px"
       @search="onSearch"
       enterButton
+      type="number"
     />
     </div>
     <div class="table">
@@ -15,9 +16,18 @@
         :loading="loading"
         @change="handleTableChange"
         :scroll="{ x: 1300 }"
-        :dataSource="data" bordered>
+        :dataSource="data" >
         <template slot="time" slot-scope="text, record">
           {{convertTime(record.timestamp)}}
+        </template>
+        <template slot="totalAmount" slot-scope="text, record">
+          {{unit(record.totalAmount)}}
+        </template>
+        <template slot="totalFee" slot-scope="text, record">
+          {{unit(record.totalFee)}}
+        </template>
+        <template slot="reward" slot-scope="text, record">
+          {{unit(record.reward)}}
         </template>
         <template slot="action" slot-scope="text, record, index">
           <a slot="action"  @click="showDetails(record.height)" href="javascript:;">{{$t('block_scan.click_details')}}</a>
@@ -61,15 +71,15 @@
         </div>
         <div class="input">
           <label>{{$t('block_scan.numberOfTransactions')}}：</label>
-          <span>{{blockDetail.numberOfTransactions}} ETM</span>
+          <span>{{unit(blockDetail.numberOfTransactions)}} ETM</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.totalAmount')}}：</label>
-          <span>{{blockDetail.totalAmount}} ETM</span>
+          <span>{{unit(blockDetail.totalAmount)}} ETM</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.reward')}}：</label>
-          <span>{{blockDetail.reward}} ETM</span>
+          <span>{{unit(blockDetail.reward)}} ETM</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.summary')}}：</label>
@@ -91,6 +101,7 @@
 <script>
 import {getHighest, blocks, searchBlock} from '@/api/block'
 import { convertTime } from '@/utils/gen'
+import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
 
 const columns = [{
@@ -102,10 +113,6 @@ const columns = [{
   title: i18n.t('block_scan.columns.th02'),
   dataIndex: 'timestamp',
   scopedSlots: {customRender: 'time'}
-
-}, {
-  title: i18n.t('block_scan.columns.th03'),
-  dataIndex: 'id'
 }, {
   title: i18n.t('block_scan.columns.th04'),
   dataIndex: 'generatorId'
@@ -114,13 +121,16 @@ const columns = [{
   dataIndex: 'numberOfTransactions'
 }, {
   title: i18n.t('block_scan.columns.th06'),
-  dataIndex: 'totalAmount'
+  dataIndex: 'totalAmount',
+  scopedSlots: {customRender: 'totalAmount'}
 }, {
   title: i18n.t('block_scan.columns.th07'),
-  dataIndex: 'totalFee'
+  dataIndex: 'totalFee',
+  scopedSlots: {customRender: 'totalFee'}
 }, {
   title: i18n.t('block_scan.columns.th08'),
-  dataIndex: 'reward'
+  dataIndex: 'reward',
+  scopedSlots: {customRender: 'reward'}
 }, {
   title: i18n.t('block_scan.columns.th09'),
   key: 'operation',
@@ -142,7 +152,8 @@ export default {
       detailHeight: '',
       blockDetail: {},
       visible: false, // 弹出框
-      convertTime: convertTime // 方法
+      convertTime: convertTime, // 方法
+      unit: unit
     }
   },
   created () {

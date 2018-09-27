@@ -39,7 +39,7 @@ export default {
   'router': {
     'home': 'Home',
     'person': 'My Account',
-    'app': 'App Store',
+    'app': 'DApp Store',
     'block_production': 'Block Production',
     'block_scan': 'Block Listing',
     'vote': 'Vote',
@@ -60,6 +60,11 @@ export default {
       'th06': 'Remark',
       'th07': 'Amount(ETM)'
     },
+    'transfer': 'Ordinary transfer',
+    'set': 'Set secondary password',
+    'register_voter': 'Registered trustee',
+    'vote': 'vote',
+    'multi_signature': 'Multi signature',
     'all': 'Total'
   },
   'person': {
@@ -80,7 +85,7 @@ export default {
       'balance': 'Balance',
       'address': 'Address',
       'secondSecret': 'Second Secret',
-      'status': 'Lock Status',
+      'status': 'Lock',
       'publicKey': 'PublicKey',
       'keyCode': 'QRcode of PublicKey',
       'addressCode': 'QRcode of Address'
@@ -102,12 +107,15 @@ export default {
   },
   'lock_up': {
     'lockedHeight': {
-      'label': 'Please enter the lock height value',
+      'label': 'Height',
       'msg': 'Please enter the lock height value'
     },
     'note': 'Notice',
     'p': 'Unlock after reaching this height',
     'submitBtn': 'Submit'
+  },
+  'application': {
+    'app_list': 'DApp List | Installed'
   },
   'block_production': {
     'status': {
@@ -125,11 +133,10 @@ export default {
       'th01': 'Height',
       'th02': 'Date',
       'th03': 'ID',
-      'th04': 'Producer',
       'th05': 'Transaction',
-      'th06': 'Amount',
-      'th07': 'Fee',
-      'th08': 'Rewards'
+      'th06': 'Amount (ETM)',
+      'th07': 'Fee (ETM)',
+      'th08': 'Rewards (ETM)'
     },
     'pop_title': 'Register as Delegate',
     'name': {
@@ -158,16 +165,16 @@ export default {
     'reward': 'Rewards',
     'summary': 'Summary',
     'generatorId': 'Producer',
-    'generatorPublicKey': 'PublicKey of Producer',
+    'generatorPublicKey': 'PublicKey',
     'columns': {
       'th01': 'Height',
       'th02': 'Date',
       'th03': 'ID',
       'th04': 'Producer',
       'th05': 'Transaction',
-      'th06': 'Amount',
-      'th07': 'Fee',
-      'th08': 'Rewards',
+      'th06': 'Amount (ETM)',
+      'th07': 'Fee (ETM)',
+      'th08': 'Rewards (ETM)',
       'th09': 'Operate'
     }
   },

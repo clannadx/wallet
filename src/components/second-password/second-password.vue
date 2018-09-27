@@ -47,7 +47,7 @@ export default {
         xs: { span: 24 },
         sm: { span: 6 },
         md: {span: 3},
-        lg: {span: 2}
+        lg: {span: 3}
       },
       wrapperCol: {
         xs: { span: 24 },

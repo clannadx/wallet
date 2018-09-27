@@ -1,7 +1,7 @@
 <template>
   <div class="vote-lists">
     <a-row type="flex" justify="space-between" align="middle">
-        <a-col class="count" >{{$tc("vote_lists.total",1) + filterDisabled.length + $tc("vote_lists.total",0)}} </a-col>
+        <a-col class="count" >{{$tc("vote_lists.total",1)}}  {{filterDisabled.length}}   {{$tc("vote_lists.total",0)}} </a-col>
         <a-col >
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_lists.refresh")}}</a-button>
           <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button>
@@ -15,7 +15,14 @@
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
-          ></a-table>
+          >
+          <template slot="productivity" slot-scope="text,record">
+            {{record.productivity}}%
+          </template>
+          <template slot="approval" slot-scope="text,record">
+            {{record.approval}}%
+          </template>
+          </a-table>
       </div>
         <no-data v-show="nodata"  ></no-data>
     </div>
@@ -42,13 +49,15 @@ const columns = [{
   dataIndex: 'address'
 }, {
   title: i18n.t('vote_lists.columns.th04'),
-  dataIndex: 'productivity'
+  dataIndex: 'productivity',
+  scopedSlots: {customRender: 'productivity'}
 }, {
   title: i18n.t('vote_lists.columns.th05'),
   dataIndex: 'producedblocks'
 }, {
   title: i18n.t('vote_lists.columns.th06'),
-  dataIndex: 'approval'
+  dataIndex: 'approval',
+  scopedSlots: {customRender: 'approval'}
 }]
 
 export default {

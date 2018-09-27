@@ -1,6 +1,6 @@
 <template>
   <div class="account">
-    <p class="title">{{$t('account.title')}}</p>
+    <!-- <p class="title">{{$t('account.title')}}</p> -->
     <div class="list">
         <ul>
             <li><span>{{$t('account.info.balance')}}：</span><span>{{unit(accounts.balance).toFixed(2)}} ETM</span></li>
@@ -80,6 +80,7 @@ export default {
     color: #343434;
     width: 100px;
 }
+
 .list>ul>li>span:last-child{
     color:#707070;
     flex: 1;
@@ -87,5 +88,8 @@ export default {
 .list>ul>li>span>a{
     color: #5093fc;
 }
+}
+.lang-en_GB .account .list>ul>li>span:first-child{
+  width: 162px;
 }
 </style>

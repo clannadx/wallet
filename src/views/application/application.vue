@@ -1,12 +1,12 @@
 <template>
   <div class="application">
     <a-tabs defaultActiveKey="1" >
-      <a-tab-pane tab="应用列表" key="1">
+      <a-tab-pane :tab="$tc('application.app_list',1)" key="1">
         <div class="tab">
           <no-data v-show="!tableData.length"></no-data>
         </div>
       </a-tab-pane>
-      <a-tab-pane tab="已安装" key="2" forceRender>
+      <a-tab-pane :tab="$tc('application.app_list',0)" key="2" forceRender>
         <div class="tab">
           <no-data v-show="!tableData.length"></no-data>
         </div>

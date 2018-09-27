@@ -18,11 +18,11 @@
           </a-col>
           <a-col class="etm-info-li" :span="6">
             <p>{{$t("block_production.productivity")}}</p>
-            <p>{{delegateInfo.productivity}}</p>
+            <p>{{delegateInfo.productivity ? delegateInfo.productivity+ '%' : delegateInfo.productivity}} </p>
           </a-col>
           <a-col class="etm-info-li last" :span="6">
             <p>{{$t("block_production.approval")}}</p>
-            <p>{{delegateInfo.approval}}</p>
+            <p>{{delegateInfo.approval ? delegateInfo.approval+ '%' : delegateInfo.approval}}</p>
           </a-col>
     </a-row>
     </div>
@@ -35,9 +35,15 @@
           :loading="loading"
           @change="handleTableChange"
           :scroll="{ x: 1300 }"
-          :dataSource="data" bordered>
+          :dataSource="data" >
           <template slot="time" slot-scope="text, record">
             {{convertTime(record.timestamp)}}
+          </template>
+          <template slot="totalFee" slot-scope="text,record">
+              {{unit(record.totalFee)}}
+          </template>
+          <template slot="reward" slot-scope="text,record">
+              {{unit(record.reward)}}
           </template>
           </a-table>
         </div>
@@ -102,17 +108,20 @@ const columns = [{
   title: i18n.t('block_production.columns.th03'),
   dataIndex: 'id'
 }, {
-  title: i18n.t('block_production.columns.th04'),
+  title: i18n.t('block_production.columns.th05'),
   dataIndex: 'numberOfTransactions'
 }, {
-  title: i18n.t('block_production.columns.th05'),
-  dataIndex: 'totalAmount'
-}, {
   title: i18n.t('block_production.columns.th06'),
-  dataIndex: 'totalFee'
+  dataIndex: 'totalAmount',
+  scopedSlots: {customRender: 'totalAmount'}
 }, {
   title: i18n.t('block_production.columns.th07'),
-  dataIndex: 'reward'
+  dataIndex: 'totalFee',
+  scopedSlots: {customRender: 'totalFee'}
+}, {
+  title: i18n.t('block_production.columns.th08'),
+  dataIndex: 'reward',
+  scopedSlots: {customRender: 'reward'}
 }]
 export default {
   data () {
@@ -133,7 +142,8 @@ export default {
       modal1Visible: false,
       modal2Visible: false,
       delegateName: '',
-      secondSecret: '' // 二级密码
+      secondSecret: '', // 二级密码
+      unit: unit
     }
   },
   created () {
@@ -213,6 +223,7 @@ export default {
       }
     },
     async _getTableLists (params = {generatorPublicKey: this.publicKey, limit: 10, orderBy: 'height:desc'}) {
+      this.loading = true
       const result = await blocks(params)
       if (result.data.success) {
         if (result.data.count === 0) {

@@ -9,7 +9,7 @@
     <a-form :autoFormCreate="(form)=>{this.form = form}">
       <a-form-item
       :label="$t('pop_password.secondSecret.label')"
-      :labelCol="{ span: 5 }"
+      :labelCol="{ span: 6 }"
       :wrapperCol="{ span: 16 }"
       :fieldDecoratorId="$t('pop_password.secondSecret.label')"
       :fieldDecoratorOptions="{rules: [{ required: true, message: $t('pop_password.secondSecret.msg') }]}"
