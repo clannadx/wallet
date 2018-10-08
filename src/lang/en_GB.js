@@ -123,7 +123,7 @@ export default {
       'not_register': 'Unregistered'
     },
     'info': 'Delegate Information',
-    'registerBtn': 'Register as Delegate',
+    'registerBtn': 'Register',
     'rewards': 'Rewards',
     'rate': 'Ranking',
     'productivity': 'Productivity',

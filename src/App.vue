@@ -7,8 +7,16 @@
 </template>
 
 <script>
+import enquireScreen from './utils/device'
+
 export default {
-  name: 'App'
+  name: 'App',
+  created () {
+    let _this = this
+    enquireScreen(isMobile => {
+      _this.$store.commit('SET_DEVICE', isMobile)
+    })
+  }
 }
 </script>
 

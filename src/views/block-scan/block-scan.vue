@@ -49,9 +49,9 @@
         </div>
       </template>
       <div class="popDetail">
-        <div class="input">
+        <div class="input phone-input">
           <label>ID：</label>
-          <span>{{blockDetail.id}}</span>
+          <span class="long">{{blockDetail.id}}</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.version')}}：</label>
@@ -65,9 +65,9 @@
           <label>{{$t('block_scan.height')}}：</label>
           <span>{{blockDetail.height}}</span>
         </div>
-        <div class="input">
+        <div class="input phone-input previousBlock">
           <label>{{$t('block_scan.previousBlock')}}：</label>
-          <span>{{blockDetail.previousBlock}}</span>
+          <span class="long">{{blockDetail.previousBlock}}</span>
         </div>
         <div class="input">
           <label>{{$t('block_scan.numberOfTransactions')}}：</label>
@@ -89,9 +89,9 @@
           <label>{{$t('block_scan.generatorId')}}：</label>
           <span>{{blockDetail.generatorId}}</span>
         </div>
-        <div class="input">
+        <div class="input phone-input">
           <label>{{$t('block_scan.generatorPublicKey')}}：</label>
-          <span>{{blockDetail.generatorPublicKey}}</span>
+          <span class="long">{{blockDetail.generatorPublicKey}}</span>
         </div>
       </div>
     </a-modal>
@@ -106,9 +106,7 @@ import noData from '@/components/nodata/nodata'
 
 const columns = [{
   title: i18n.t('block_scan.columns.th01'),
-  width: 100,
-  dataIndex: 'height',
-  fixed: 'left'
+  dataIndex: 'height'
 }, {
   title: i18n.t('block_scan.columns.th02'),
   dataIndex: 'timestamp',
@@ -282,4 +280,28 @@ export default {
       color: #343434;
     }
   }
+@media (max-width:800px){
+  .popDetail{
+    .phone-input{
+      height: 100px;
+      margin-bottom: 5px;
+    }
+    .previousBlock  label{
+      width: 150px!important;
+    }
+    .input{
+      display: block;
+        label {
+          text-align: left;
+          width: 100px;
+        }
+        .long{
+          width: 340px;
+        }
+        span{
+          display: inline-block;
+        }
+    }
+  }
+}
 </style>

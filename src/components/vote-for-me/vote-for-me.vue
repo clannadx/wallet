@@ -12,6 +12,7 @@
                 :dataSource="data"
                 :pagination="pagination"
                 :loading="loading"
+                :scroll="{ x: 1300 }"
                 @change="handleTableChange"
         ></a-table>
       </div>

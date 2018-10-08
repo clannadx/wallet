@@ -24,7 +24,7 @@ export default new Router({
           path: 'home',
           name: 'first-view',
           component: () => import('@/views/first-view/first-view'),
-          meta: {title: i18n.t('router.home')}
+          meta: {title: 'home'}
         }
       ]
     },
@@ -37,7 +37,7 @@ export default new Router({
           path: '',
           name: 'Person',
           component: () => import('@/views/person/person'),
-          meta: {title: i18n.t('router.person')}
+          meta: {title: 'person'}
         }
       ]
 
@@ -50,7 +50,7 @@ export default new Router({
           path: '',
           name: 'Application',
           component: () => import('@/views/application/application'),
-          meta: {title: i18n.t('router.app')}
+          meta: {title: 'app'}
         }
       ]
 
@@ -63,7 +63,7 @@ export default new Router({
           path: '',
           name: 'BlockProduction',
           component: () => import('@/views/block-production/block-production'),
-          meta: {title: i18n.t('router.block_production')}
+          meta: {title: 'block_production'}
         }
       ]
 
@@ -76,7 +76,7 @@ export default new Router({
           path: '',
           name: 'BlockScan',
           component: () => import('@/views/block-scan/block-scan'),
-          meta: {title: i18n.t('router.block_scan')}
+          meta: {title: 'block_scan'}
         }
       ]
 
@@ -89,7 +89,7 @@ export default new Router({
           path: '',
           name: 'Vote',
           component: () => import('@/views/vote/vote'),
-          meta: {title: i18n.t('router.vote')}
+          meta: {title: 'vote'}
         }
       ]
 
@@ -102,7 +102,7 @@ export default new Router({
           path: '',
           name: 'Transfer',
           component: () => import('@/views/transfer/transfer'),
-          meta: {title: i18n.t('router.transfer')}
+          meta: {title: 'transfer'}
         }
       ]
 

@@ -23,13 +23,6 @@ export const getHighest = () => {
   })
 }
 
-// export const transactions = () => {
-//   return http({
-//     url: '/api/transactions',
-//     method: 'put'
-//   })
-// }
-
 export const getDelegate = (params) => {
   return http({
     url: '/api/delegates/get',

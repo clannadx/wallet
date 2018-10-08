@@ -14,6 +14,7 @@
           :dataSource="data"
           :pagination="pagination"
           :loading="loading"
+           :scroll="{ x: 1300 }"
           @change="handleTableChange"
           ></a-table>
       </div>
@@ -47,7 +48,9 @@ const columns = [{
   dataIndex: 'producedblocks'
 }, {
   title: i18n.t('vote_record.columns.th06'),
-  dataIndex: 'approval'
+  dataIndex: 'approval',
+  width: 80,
+  fixed: 'right'
 }]
 
 export default {

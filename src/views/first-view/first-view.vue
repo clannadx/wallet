@@ -3,8 +3,8 @@
     <div class="information" >
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
-            <p>{{$tc("first-view.information",0)}}</p>
-            <p>{{unit(accounts.balance).toFixed(2)}} ETM</p>
+            <p>{{$tc("first-view.information",0)}} (ETM)</p>
+            <p>{{unit(accounts.balance).toFixed(2)}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>{{$tc("first-view.information",1)}}</p>
@@ -71,7 +71,7 @@ const columns = [{
 }, {
   title: i18n.t('first-view.table_columns.th07'),
   dataIndex: 'amount',
-  width: 150,
+  width: 120,
   fixed: 'right',
   scopedSlots: {customRender: 'amount'}
 
@@ -206,6 +206,11 @@ export default {
   background: #fff;
   border-radius: 2px;
     padding:10px;
+  }
+}
+@media (max-width: 768px){
+  .information .etm-info .etm-info-li p:last-child{
+    font-size: 20px;
   }
 }
 </style>

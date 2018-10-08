@@ -5,7 +5,8 @@ const user = {
   state: {
     accountInfo: {}, // 用户信息
     secret: '',
-    lang: ''
+    lang: '',
+    isMobile: false
   },
   mutations: {
     SET_INFO: (state, info) => {
@@ -22,6 +23,9 @@ const user = {
     },
     LOGIN_OUT: (state) => {
       state.accountInfo = {}
+    },
+    SET_DEVICE: (state, isMobile) => {
+      state.isMobile = isMobile
     }
   },
   actions: {

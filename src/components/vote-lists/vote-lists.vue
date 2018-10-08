@@ -14,6 +14,7 @@
           :dataSource="data"
           :pagination="pagination"
           :loading="loading"
+           :scroll="{ x: 1300 }"
           @change="handleTableChange"
           >
           <template slot="productivity" slot-scope="text,record">
@@ -57,7 +58,9 @@ const columns = [{
 }, {
   title: i18n.t('vote_lists.columns.th06'),
   dataIndex: 'approval',
-  scopedSlots: {customRender: 'approval'}
+  scopedSlots: {customRender: 'approval'},
+  width: 80,
+  fixed: 'right'
 }]
 
 export default {

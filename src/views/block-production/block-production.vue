@@ -2,15 +2,15 @@
   <div class="block-appear">
     <!-- info -->
     <a-row class="name" type="flex" justify="start" align="middle" >
-      <a-col :xs="24" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
-      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
-      <a-col :xs="24" :sm="6" :md="6" :lg="3" :xl="2"> <a-button size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button></a-col>
+      <a-col :xs="10" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
+      <a-col :xs="6" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
+      <a-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2"> <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button></a-col>
     </a-row>
     <div class="info">
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="6">
-            <p>{{$t("block_production.rewards")}}</p>
-            <p>{{delegateInfo.rewards}}</p>
+            <p>{{$t("block_production.rewards")}} (ETM)</p>
+            <p>{{unit(delegateInfo.rewards) || ''}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="6">
             <p>{{$t("block_production.rate")}}</p>
@@ -96,7 +96,7 @@ import {unit} from '@/utils/utils'
 
 const columns = [{
   title: i18n.t('block_production.columns.th01'),
-  width: 100,
+  width: 80,
   dataIndex: 'height',
   fixed: 'left'
 }, {
@@ -256,7 +256,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .block-appear{
-  padding:20px;
   .name {
     font-size: 20px;
     font-weight: bold;
@@ -305,5 +304,13 @@ export default {
 .foot {
     text-align: center!important;
 }
+}
+@media (max-width: 769px){
+  .block-appear .info .etm-info .etm-info-li p:last-child{
+    font-size: 20px;
+  }
+  .lang-en_GB .name ,.lang-en_GB .name .btn{
+    font-size: 12px;
+  }
 }
 </style>
