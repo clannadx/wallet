@@ -128,7 +128,7 @@ export default {
     'rate': '排名',
     'productivity': '生产率',
     'approval': '得票率',
-    'block_list': '生产的区块',
+    'block_list': '我生产的区块',
     'columns': {
       'th01': '高度',
       'th02': '日期',

@@ -128,7 +128,7 @@ export default {
     'rate': 'Ranking',
     'productivity': 'Productivity',
     'approval': 'Approval Rate',
-    'block_list': 'Produced Blocks',
+    'block_list': 'My Produced Blocks',
     'columns': {
       'th01': 'Height',
       'th02': 'Date',

@@ -4,7 +4,7 @@
         <a-col class="count" >{{$tc("vote_lists.total",1)}}  {{filterDisabled.length}}   {{$tc("vote_lists.total",0)}} </a-col>
         <a-col >
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_lists.refresh")}}</a-button>
-          <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button>
+          <!-- <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button> -->
         </a-col>
     </a-row>
     <div class="table">

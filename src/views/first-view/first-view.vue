@@ -103,6 +103,7 @@ export default {
     'no-data': noData
   },
   created () {
+    this.$store.dispatch('GetInfo')
     this._getTransaction()
   },
   methods: {

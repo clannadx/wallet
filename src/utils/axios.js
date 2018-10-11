@@ -14,11 +14,14 @@ http.interceptors.request.use(config => {
   }
   return config
 }, error => {
-  console.log(error)
-  Promise.reject(error)
+  return Promise.resolve(error)
 })
 // response 拦截器
 http.interceptors.response.use(
-  middleWare.list.bind(middleWare)
+  middleWare.list.bind(middleWare),
+  error => {
+    console.log(error)
+    return Promise.resolve(error)
+  }
 )
 export default http
