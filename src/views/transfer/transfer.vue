@@ -119,6 +119,7 @@ export default {
         const result = await transactions(params)
         if (result.data.success) {
           this.modal2Visible = false
+          this.$store.dispatch('GetInfo')
           this.$notification.info({
             message: i18n.t('tip.title'),
             description: i18n.t('tip.transfer_success')

@@ -139,6 +139,7 @@ export default {
         this.selectedRows = []
         setTimeout(() => {
           this._getRecord(this.pagination.current)
+          this.$store.dispatch('GetInfo')
         }, 4000)
       } else {
         this.modal1Visible = false

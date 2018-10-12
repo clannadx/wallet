@@ -4,7 +4,9 @@
     <a-row class="name" type="flex" justify="start" align="middle" >
       <a-col :xs="10" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
       <a-col :xs="6" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
-      <a-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2"> <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button></a-col>
+      <a-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2">
+         <!-- <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button> -->
+      </a-col>
     </a-row>
     <div class="info">
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
@@ -197,6 +199,7 @@ export default {
         if (res.data.success) {
           this.modal1Visible = false
           this.modal2Visible = false
+          this.$store.dispatch('GetInfo')
           this.$notification.info({
             message: i18n.t('tip.title'),
             description: i18n.t('tip.register_success')

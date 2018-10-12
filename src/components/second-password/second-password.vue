@@ -98,6 +98,10 @@ export default {
           message: i18n.t('tip.title'),
           description: i18n.t('tip.set_success')
         })
+        setTimeout(() => {
+          this.$store.dispatch('GetInfo')
+          this.$store.commit('SET_SECONDSECRET', true)
+        }, 4000)
       }
     }
 

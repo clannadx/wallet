@@ -196,6 +196,7 @@ export default {
         this.selectedRowKeys = []
         this.selectedRows = []
         setTimeout(() => {
+          this.$store.dispatch('GetInfo')
           this._getVoteLists(this.pagination.page)
         }, 4000)
       } else {
