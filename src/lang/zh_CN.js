@@ -115,7 +115,15 @@ export default {
     'submitBtn': '发送'
   },
   'application': {
-    'app_list': '应用列表 | 已安装'
+    'app_list': '应用列表 | 已安装',
+    'create_new': '创建新的 DApp',
+    'app': {
+      'title': 'epony 加密马',
+      'content': 'epony 加密马是一款是基于区块链 En-Tan-Mo 制作的可以开箱，繁殖，买卖，租赁，分红，赛马等拥有独特基因组的机械马游戏。',
+      'btn01': '官网',
+      'btn02': '充值',
+      'btn03': '提现'
+    }
   },
   'block_production': {
     'status': {

@@ -5,6 +5,7 @@ import i18n from '@/lang'
 import Antd from 'ant-design-vue'
 import App from './App'
 import router from './router'
+import Viser from 'viser-vue'
 import './assets/css/reset.css'
 
 import 'ant-design-vue/dist/antd.css'
@@ -14,6 +15,7 @@ import store from '@/store'
 import './permission'
 Vue.component(VueQrcode.name, VueQrcode)
 Vue.use(Antd)
+Vue.use(Viser)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

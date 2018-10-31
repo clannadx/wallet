@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 信息 -->
     <div class="information" >
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
@@ -16,6 +17,58 @@
           </a-col>
       </a-row>
     </div>
+    <!-- 图表 -->
+    <!-- <div class="charts">
+      <a-row>
+      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px 0;">
+        <chart-card title="昨日收益" total="19,34 ETM">
+          <a-tooltip title="指标说明" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <div>
+            <trend style="margin-right: 16px" term="同周比" :percent="12" :is-increase="true" :scale="0" />
+          </div>
+          <div slot="footer">累计获得收益<span> 8888 ETM</span></div>
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px;">
+        <chart-card title="昨日出块数量" total="100">
+          <a-tooltip title="指标说明" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <div>
+            <mini-area />
+          </div>
+          <div slot="footer">日出块数量<span> 100</span></div>
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px;">
+        <chart-card title="我的得票率" total="80%">
+          <a-tooltip title="指标说明" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <div>
+            <mini-bar />
+          </div>
+          <div slot="footer">平均得票率 <span>60 %</span></div>
+        </chart-card>
+      </a-col>
+      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 0 15px 12px;">
+        <chart-card title="我的排名" total="第21名">
+          <a-tooltip title="指标说明" slot="action">
+            <a-icon type="info-circle-o" />
+          </a-tooltip>
+          <div>
+            <mini-progress target="78" percent="78" color="#13C2C2" height="8px"/>
+          </div>
+          <div slot="footer">
+            <trend style="margin-right: 16px" term="同周比" :percent="78" :is-increase="true" :scale="0" />
+          </div>
+        </chart-card>
+      </a-col>
+      </a-row>
+    </div> -->
+    <!-- 表格 -->
     <div class="transaction">
       <p class="title">{{$t("first-view.transaction")}}</p>
       <div class="lists" >
@@ -51,6 +104,11 @@ import { getTransaction } from '@/api/account'
 import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
+import ChartCard from '@/components/card/card'
+import MiniArea from '@/components/chart/miniArea'
+import MiniBar from '@/components/chart/miniBar'
+import MiniProgress from '@/components/chart/miniProgress'
+import Trend from '@/components/chart/trend'
 const columns = [{
   title: i18n.t('first-view.table_columns.th02'),
   scopedSlots: { customRender: 'typeIN' },
@@ -100,7 +158,12 @@ export default {
     }
   },
   components: {
-    'no-data': noData
+    'no-data': noData,
+    'chart-card': ChartCard,
+    'mini-area': MiniArea,
+    'mini-bar': MiniBar,
+    'mini-progress': MiniProgress,
+    Trend
   },
   created () {
     this.$store.dispatch('GetInfo')
@@ -195,12 +258,15 @@ export default {
     }
   }
 }
+.charts{
+  margin-top: 20px;
+}
 .transaction {
-  margin: 20px 0 ;
+  margin: 20px 0 0 0;
   .title {
     font-size: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
   .lists{
   position: relative;

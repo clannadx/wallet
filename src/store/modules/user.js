@@ -46,9 +46,11 @@ const user = {
       const informations = sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')
       const address = JSON.parse(informations).account.address
       const secret = JSON.parse(informations).account.secret
+      const publicKey = genPublicKey(secret)
       const result = await getAccount(address)
       if (result.data.success) {
-        const info = {...result.data.account, ...result.data.latestBlock, ...result.data.version}
+        let info = {...result.data.account, ...result.data.latestBlock, ...result.data.version}
+        info.publicKey = publicKey
         commit('SET_INFO', info)
         commit('SET_SECRET', secret)
       }
