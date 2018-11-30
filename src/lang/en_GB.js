@@ -12,7 +12,10 @@ export default {
     'delete_vote': 'Select a delete to record',
     'hightest': 'Maximum height reached',
     'lowest': 'Minimum height reached',
-    'empty_hight': 'Height cannot be empty'
+    'empty_hight': 'Height cannot be empty',
+    'lock_success': '锁仓成功',
+    'unlock_success': '解锁成功',
+    'unlock_error': '请选择锁仓项'
   },
   'login': {
     'placeholder': 'Type the master secret',
@@ -65,7 +68,9 @@ export default {
     'register_voter': 'Registered trustee',
     'vote': 'vote',
     'multi_signature': 'Multi signature',
-    'all': 'Total'
+    'all': 'Total',
+    'lock': 'lock',
+    'unlock': 'unlock'
   },
   'person': {
     'tab': 'Account Detail | Second Secret | Lock Setting'
@@ -106,13 +111,27 @@ export default {
     'submitBtn': 'Submit'
   },
   'lock_up': {
-    'lockedHeight': {
-      'label': 'Height',
-      'msg': 'Please enter the lock height value'
+    'lockedModel': {
+      'label': 'Lock Amount',
+      'msg': 'Please enter the amount of the lock',
+      'title': 'New Lock',
+      'note': 'The right to vote is obtained by locking the position. The amount of the locked position determines the final voting equity (number of votes). After the time coefficient gain, the convex function is evenly processed, which increases the long-term holdings of the small voter and reduces the weight of the oligarchy. Details'
     },
-    'note': 'Notice',
-    'p': 'Unlock after reaching this height',
-    'submitBtn': 'Submit'
+    'btn_add': 'New Lock',
+    'bulk_unlock': 'Bulk Unlock',
+    'choose': 'Chosen',
+    'item': '',
+    'note': 'Note',
+    'total': 'Total lock amount',
+    'clear': 'Clear',
+    'unlock': 'Unlock',
+    'colums': {
+      'th01': 'Lock Time',
+      'th02': 'Lock Amount (ETM)',
+      'th03': 'Time Gain Factor',
+      'th04': 'operate'
+    }
+
   },
   'application': {
     'app_list': 'DApp List | Installed',

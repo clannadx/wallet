@@ -4,12 +4,12 @@
         <a-col class="count" >{{$tc("vote_lists.total",1)}}  {{filterDisabled.length}}   {{$tc("vote_lists.total",0)}} </a-col>
         <a-col >
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_lists.refresh")}}</a-button>
-          <!-- <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button> -->
+          <a-button type="primary" @click="vote" >{{$t("vote_lists.vote")}}</a-button>
         </a-col>
     </a-row>
     <div class="table">
       <div>
-        <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+        <a-table :rowSelection="{type:'radio',selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
           :columns="columns"
           :dataSource="data"
           :pagination="pagination"
@@ -67,7 +67,7 @@ export default {
   data () {
     return {
       data: [],
-      haveVoted: [],
+      haveVoted: [], // 以投票数组
       filterDisabled: [],
       columns,
       selectedRowKeys: [],
@@ -93,8 +93,12 @@ export default {
       secondSignature: state => state.user.accountInfo.secondSignature,
       balance: state => state.user.accountInfo.balance
     }),
+    // 选中数组
     voted () {
       const votedList = []
+      if (this.haveVoted && this.haveVoted.length > 0) {
+        votedList.push('-' + this.haveVoted[0].publicKey)
+      }
       this.selectedRows.forEach((item) => {
         votedList.push('+' + item.publicKey)
       })
@@ -102,12 +106,14 @@ export default {
     }
   },
   methods: {
+    // 刷新
     refresh () {
       this.nodata = false
       this.selectedRowKeys = []
       this.selectedRows = []
       this._getRecord(this.pagination.page)
     },
+    // 投票
     vote () {
       if (this.selectedRows.length === 0) {
         this.$notification.info({
@@ -118,6 +124,7 @@ export default {
         this.modal1Visible = true
       }
     },
+    // 弹框确认
     handleOk () {
       if (unit(this.balance) < 0.1) {
         this.$notification.info({
@@ -131,13 +138,17 @@ export default {
         this._submitVoter()
       }
     },
+    // 二次密码确认
     secondSubmit (secondSecret) {
       this._submitVoter({secret: this.secret, delegates: this.voted, secondSecret: secondSecret})
     },
+    // 选中事件
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
+      console.log(this.selectedRows, '1111111111111')
     },
+    // 获取列表
     async _getVoteLists (p) {
       this.loading = true
       try {
@@ -145,6 +156,7 @@ export default {
         const result = await getVoteLists(params)
         if (result.data.success) {
           this.filterDisabled = compareArrObj(this.haveVoted, result.data.delegates).result
+          console.log(this.filterDisabled)
           this.data = this.filterDisabled.slice(
             this.pagination.defaultPageSize * p,
             this.pagination.defaultPageSize * p + 10
@@ -162,6 +174,7 @@ export default {
         console.log(err)
       }
     },
+    // 获取记录列表
     async _getRecord (p) {
       try {
         const params = {address: this.address}
@@ -170,6 +183,7 @@ export default {
         if (result.data.success) {
           this.totalVoters = result.data.delegates.length
           this.haveVoted = result.data.delegates
+          console.log(this.haveVoted, 'haveVoted')
           this._getVoteLists(p)
         } else {
           this.haveVoted = []
@@ -179,12 +193,15 @@ export default {
         console.log(err)
       }
     },
+    // 分页
     handleTableChange (pagination) {
       this._getVoteLists(pagination.current - 1)
       this.selectedRowKeys = []
       this.selectedRows = []
     },
+    // 提交投票接口
     async _submitVoter (params = {secret: this.secret, delegates: this.voted}) {
+      console.log(this.voted, '44444444444444444444')
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({

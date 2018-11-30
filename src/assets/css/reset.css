@@ -48,3 +48,8 @@ html,body,.page-container{
   opacity: 0;
   padding: 0px;
 }
+
+.ant-layout.ant-layout-has-sider > .ant-layout,
+.ant-layout.ant-layout-has-sider > .ant-layout-content {
+  overflow: hidden;
+}

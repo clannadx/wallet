@@ -4,7 +4,7 @@
         <a-col class="count" >{{$tc("vote_record.total",1)}}   {{totalVoters}}   {{$tc("vote_record.total",0)}}</a-col>
         <a-col >
           <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_record.refresh")}}</a-button>
-          <!-- <a-button type="primary" @click="deleteRecord" >{{$t("vote_record.delete")}}</a-button> -->
+          <a-button type="primary" @click="deleteRecord" >{{$t("vote_record.delete")}}</a-button>
           </a-col>
     </a-row>
     <div class="table">
@@ -90,12 +90,14 @@ export default {
     }
   },
   methods: {
+    // 刷新
     refresh () {
       this.nodata = false
       this.selectedRowKeys = []
       this.selectedRows = []
       this._getRecord(this.pagination.page)
     },
+    // 删除事件
     deleteRecord () {
       if (this.selectedRows.length === 0) {
         this.$notification.info({
@@ -106,6 +108,7 @@ export default {
         this.modal1Visible = true
       }
     },
+    // 确认提交
     handleOk () {
       if (unit(this.balance) < 0.1) {
         this.$notification.info({
@@ -119,14 +122,18 @@ export default {
         this._submitVoter()
       }
     },
+    // 二级密码提交
     secondSubmit (secondSecret) {
       this._submitVoter({secret: this.secret, delegates: this.cancelVote, secondSecret: secondSecret})
     },
+    // 选中事件
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
     },
+    // 提交接口
     async _submitVoter (params = {secret: this.secret, delegates: this.cancelVote}) {
+      console.log(this.cancelVote, '2222222222222222')
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({
@@ -150,6 +157,7 @@ export default {
         })
       }
     },
+    // 获取列表
     async _getRecord (p) {
       try {
         const params = {address: this.address}
@@ -181,6 +189,7 @@ export default {
         console.log(err)
       }
     },
+    // 分页
     handleTableChange (pagination) {
       this._getRecord(pagination.current - 1)
       this.selectedRowKeys = []

@@ -63,3 +63,35 @@ export const setSecondSecret = (secret, secondSecret) => {
     data: data
   })
 }
+
+/**
+ * 锁仓
+ */
+export const lockVote = (params) => {
+  return http({
+    url: '/api/lockvote',
+    method: 'put',
+    data: params
+  })
+}
+
+/**
+ * 解锁
+ */
+export const lockRemove = (params) => {
+  return http({
+    url: '/api/lockvote/remove',
+    method: 'put',
+    data: params
+  })
+}
+/**
+ * 获取所有锁仓交易信息
+ */
+export const allLock = (params) => {
+  return http({
+    url: '/api/lockvote/all',
+    method: 'get',
+    params
+  })
+}

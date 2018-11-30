@@ -5,11 +5,11 @@
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>{{$tc("first-view.information",0)}} (ETM)</p>
-            <p>{{unit(accounts.balance).toFixed(2)}}</p>
+              <p><animated-integer :value='balance'></animated-integer></p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>{{$tc("first-view.information",1)}}</p>
-            <p>{{accounts.height}}</p>
+            <p><animated-integer  :value='accounts.height'></animated-integer></p>
           </a-col>
           <a-col class="etm-info-li last" :span="8">
             <p>{{$tc("first-view.information",2)}}</p>
@@ -18,10 +18,10 @@
       </a-row>
     </div>
     <!-- 图表 -->
-    <!-- <div class="charts">
+    <div class="charts">
       <a-row>
-      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px 0;">
-        <chart-card title="昨日收益" total="19,34 ETM">
+      <a-col :sm="24" :md="12" :xl="6" class="part" style="padding: 12px 12px 15px 0;">
+        <chart-card title="昨日收益 (ETM)" total="19,34">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
@@ -31,7 +31,7 @@
           <div slot="footer">累计获得收益<span> 8888 ETM</span></div>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px;">
+      <a-col :sm="24" :md="12" :xl="6" class="part" style="padding: 12px 12px 15px;">
         <chart-card title="昨日出块数量" total="100">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
@@ -42,8 +42,8 @@
           <div slot="footer">日出块数量<span> 100</span></div>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 12px 15px;">
-        <chart-card title="我的得票率" total="80%">
+      <a-col :sm="24" :md="12" :xl="6" class="part" style="padding: 12px 12px 15px;">
+        <chart-card title="我的得票率 (%)" total="80">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
@@ -53,8 +53,8 @@
           <div slot="footer">平均得票率 <span>60 %</span></div>
         </chart-card>
       </a-col>
-      <a-col :sm="24" :md="12" :xl="6" style="padding: 12px 0 15px 12px;">
-        <chart-card title="我的排名" total="第21名">
+      <a-col :sm="24" :md="12" :xl="6" class="part" style="padding: 12px 0 15px 12px;">
+        <chart-card title="我的排名" total="21">
           <a-tooltip title="指标说明" slot="action">
             <a-icon type="info-circle-o" />
           </a-tooltip>
@@ -67,7 +67,42 @@
         </chart-card>
       </a-col>
       </a-row>
-    </div> -->
+    </div>
+    <!-- 排名 -->
+    <div class="rank ">
+      <a-row>
+        <a-col :sm="24" :md="12" :xl="12" class="part-left">
+          <a-tabs default-active-key="1" class="part-content" size="large" :tab-bar-style="{marginBottom: '15px', paddingLeft: '16px'}">
+          <div class="extra-wrap" slot="tabBarExtraContent">
+            <div class="extra-item">
+              <a>今日</a>
+              <a>本周</a>
+              <a>本月</a>
+              <a>本年</a>
+            </div>
+          </div>
+          <a-tab-pane loading="true" tab="收益排名" key="1">
+          <ranking-list title="" :list="rankList"/>
+          </a-tab-pane>
+          </a-tabs>
+        </a-col>
+        <a-col :sm="24" :md="12" :xl="12" class="part-right">
+          <a-tabs default-active-key="1" class="part-content" size="large" :tab-bar-style="{marginBottom: '15px', paddingLeft: '16px'}">
+          <div class="extra-wrap" slot="tabBarExtraContent">
+            <div class="extra-item">
+              <a>今日</a>
+              <a>本周</a>
+              <a>本月</a>
+              <a>本年</a>
+            </div>
+          </div>
+          <a-tab-pane loading="true" tab="得票率排名" key="1">
+          <ranking-list title="" :list="rankList"/>
+          </a-tab-pane>
+          </a-tabs>
+        </a-col>
+      </a-row>
+    </div>
     <!-- 表格 -->
     <div class="transaction">
       <p class="title">{{$t("first-view.transaction")}}</p>
@@ -109,6 +144,9 @@ import MiniArea from '@/components/chart/miniArea'
 import MiniBar from '@/components/chart/miniBar'
 import MiniProgress from '@/components/chart/miniProgress'
 import Trend from '@/components/chart/trend'
+import AnimatedInteger from '@/components/animated-integer/animated-integer'
+import RankingList from '@/components/chart/rankingList'
+// 表头
 const columns = [{
   title: i18n.t('first-view.table_columns.th02'),
   scopedSlots: { customRender: 'typeIN' },
@@ -129,12 +167,20 @@ const columns = [{
 }, {
   title: i18n.t('first-view.table_columns.th07'),
   dataIndex: 'amount',
-  width: 120,
+  width: 130,
   fixed: 'right',
   scopedSlots: {customRender: 'amount'}
 
 }]
+// 排名
+const rankList = []
 
+for (let i = 0; i < 10; i++) {
+  rankList.push({
+    name: '桃源村' + i + '号店',
+    total: 1234 - i * 100
+  })
+}
 export default {
   data () {
     return {
@@ -146,7 +192,8 @@ export default {
       loading: false,
       nodata: false,
       unit: unit,
-      convertTime: convertTime // 方法
+      convertTime: convertTime, // 方法
+      rankList // 排名
     }
   },
   computed: {
@@ -155,6 +202,9 @@ export default {
     },
     address () {
       return this.$store.state.user.accountInfo.address
+    },
+    balance () {
+      return unit(this.accounts.balance).toFixed(2) * 1
     }
   },
   components: {
@@ -163,6 +213,8 @@ export default {
     'mini-area': MiniArea,
     'mini-bar': MiniBar,
     'mini-progress': MiniProgress,
+    'animated-integer': AnimatedInteger,
+    'ranking-list': RankingList,
     Trend
   },
   created () {
@@ -222,6 +274,10 @@ export default {
           return 'IN_TRANSFER'
         case 7:
           return 'OUT_TRANSFER'
+        case 101:
+          return i18n.t('first-view.lock')
+        case 201:
+          return i18n.t('first-view.unlock')
       }
     }
   }
@@ -261,6 +317,25 @@ export default {
 .charts{
   margin-top: 20px;
 }
+.rank{
+  padding-top: 30px;
+  .part-left{
+    padding:0 12px 0 0
+  }
+  .part-right{
+    padding:0 0 0 12px
+  }
+  .part-content{
+    background-color: #fff;
+
+  }
+  .extra-item{
+    margin-top:10px;
+    a{
+      margin-right: 24px;
+    }
+  }
+}
 .transaction {
   margin: 20px 0 0 0;
   .title {
@@ -272,12 +347,24 @@ export default {
   position: relative;
   background: #fff;
   border-radius: 2px;
-    padding:10px;
+  padding:10px;
+  min-height: 500px;
   }
 }
 @media (max-width: 768px){
   .information .etm-info .etm-info-li p:last-child{
     font-size: 20px;
+  }
+  .charts{
+    .part{
+      padding: 0!important;
+      padding-bottom: 15px!important;
+    }
+  }
+  .rank{
+    .part-right,.part-left{
+      padding: 0 0 15px 0;
+    }
   }
 }
 </style>

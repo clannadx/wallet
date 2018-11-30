@@ -12,7 +12,10 @@ export default {
     'delete_vote': '请选择删除记录',
     'hightest': '已达到最高高度',
     'lowest': '已达到最小高度',
-    'empty_hight': '高度不能为空'
+    'empty_hight': '高度不能为空',
+    'lock_success': '锁仓成功',
+    'unlock_success': '解锁成功',
+    'unlock_error': '请选择锁仓项'
   },
   'login': {
     'placeholder': '输入主密码',
@@ -65,7 +68,9 @@ export default {
     'register_voter': '注册受托人',
     'vote': '投票',
     'multi_signature': '多重签名',
-    'all': '总计'
+    'all': '总计',
+    'lock': '锁仓',
+    'unlock': '解锁仓'
   },
   'person': {
     'tab': '账户信息 | 二级密码 | 锁仓'
@@ -106,13 +111,27 @@ export default {
     'submitBtn': '提交'
   },
   'lock_up': {
-    'lockedHeight': {
-      'label': '高度值',
-      'msg': '请输入锁仓高度值'
+    'lockedModel': {
+      'label': '锁仓金额',
+      'msg': '请输入锁仓金额',
+      'title': '新建锁仓',
+      'note': '通过锁仓获得投票资格,锁仓的金额决定了最终的投票权益(票数),经过时间系数增益,上凸函数均匀处理,增大了小额投票人长期持有的收益,降低了寡头权重，详情'
     },
+    'btn_add': '新增锁仓',
+    'bulk_unlock': '批量解锁',
+    'choose': '已选择',
+    'item': '项',
     'note': '注意',
-    'p': '在到达此高度后才能解锁',
-    'submitBtn': '发送'
+    'total': '锁仓金额总计',
+    'clear': '清空',
+    'unlock': '解锁',
+    'colums': {
+      'th01': '锁仓时间',
+      'th02': '锁仓金额 (ETM)',
+      'th03': '时间增益系数',
+      'th04': '操作'
+    }
+
   },
   'application': {
     'app_list': '应用列表 | 已安装',

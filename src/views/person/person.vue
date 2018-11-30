@@ -7,9 +7,9 @@
       <a-tab-pane :tab="$tc('person.tab',1)" key="2" forceRender>
         <second-password></second-password>
       </a-tab-pane>
-      <!-- <a-tab-pane :tab="$tc('person.tab',2)" key="3">
+      <a-tab-pane :tab="$tc('person.tab',2)" key="3">
         <lock-up></lock-up>
-      </a-tab-pane> -->
+      </a-tab-pane>
     </a-tabs>
   </div>
 </template>

@@ -7,7 +7,7 @@
         <slot name="action"></slot>
       </span>
       </div>
-      <div class="total"><span>{{total}}</span></div>
+      <div class="total"><animated-integer :value='total'></animated-integer></div>
     </div>
     <div class="chart-card-content">
       <div class="content-fix">
@@ -21,9 +21,14 @@
 </template>
 
 <script>
+import AnimatedInteger from '@/components/animated-integer/animated-integer'
+
 export default {
   name: 'ChartCard',
-  props: ['title', 'total']
+  props: ['title', 'total'],
+  components: {
+    'animated-integer': AnimatedInteger
+  }
 }
 </script>
 

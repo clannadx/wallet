@@ -24,7 +24,7 @@ setTimeout(() => {
       y: fakeY[i]
     })
   }
-})
+}, 1000)
 
 const tooltip = [
   'x*y',
