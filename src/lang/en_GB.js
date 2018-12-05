@@ -13,9 +13,9 @@ export default {
     'hightest': 'Maximum height reached',
     'lowest': 'Minimum height reached',
     'empty_hight': 'Height cannot be empty',
-    'lock_success': '锁仓成功',
-    'unlock_success': '解锁成功',
-    'unlock_error': '请选择锁仓项'
+    'lock_success': 'Locked Successfully',
+    'unlock_success': 'Unlocked Successfully',
+    'unlock_error': 'Please select the lock item'
   },
   'login': {
     'placeholder': 'Type the master secret',
@@ -130,6 +130,12 @@ export default {
       'th02': 'Lock Amount (ETM)',
       'th03': 'Time Gain Factor',
       'th04': 'operate'
+    },
+    'tip': {
+      'title': 'Do you need to unlock?',
+      'content': 'Need to charge 0.1ETM fee',
+      'btn_ok': 'ok',
+      'btn_cancel': 'cancel'
     }
 
   },

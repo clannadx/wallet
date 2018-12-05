@@ -95,3 +95,14 @@ export const allLock = (params) => {
     params
   })
 }
+
+/**
+ *是否为有效账户
+*/
+export const effectAccount = (params) => {
+  return http({
+    url: '/api/accounts/effectivity',
+    method: 'get',
+    params
+  })
+}

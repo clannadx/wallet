@@ -130,6 +130,12 @@ export default {
       'th02': '锁仓金额 (ETM)',
       'th03': '时间增益系数',
       'th04': '操作'
+    },
+    'tip': {
+      'title': '您需要解锁吗?',
+      'content': '需要收取0.1ETM手续费',
+      'btn_ok': '确认',
+      'btn_cancel': '取消'
     }
 
   },

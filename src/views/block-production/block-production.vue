@@ -5,7 +5,7 @@
       <a-col :xs="10" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
       <a-col :xs="6" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
       <a-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2">
-         <!-- <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button> -->
+         <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button>
       </a-col>
     </a-row>
     <div class="info">
@@ -54,7 +54,6 @@
     </div>
     <a-modal
       :title="$t('block_production.pop_title')"
-      centered
       v-model="modal1Visible"
     >
       <div>
@@ -213,6 +212,7 @@ export default {
       this.loading = true
       try {
         const result = await getDelegate(params)
+        console.log(result)
         if (result.data.success) {
           this.onOff = i18n.t('block_production.status.has_register')
           this.delegateInfo = result.data.delegate

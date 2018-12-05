@@ -1,8 +1,11 @@
 <template>
   <div class="lock-up">
     <div class="info">
-      <a-button class="add" icon="plus" type="primary" @click="showModal">{{$t('lock_up.btn_add')}}</a-button>
-      <a-button @click="showConfirmAll">{{$t('lock_up.bulk_unlock')}}</a-button>
+      <a-col>
+        <a-button class="add" icon="plus" type="primary" @click="showModal">{{$t('lock_up.btn_add')}}</a-button>
+        <a-button @click="showConfirmAll">{{$t('lock_up.bulk_unlock')}}</a-button>
+        <a-button class="refresh" type="primary" @click="refresh">{{$t("vote_lists.refresh")}}</a-button>
+      </a-col>
       <a-alert class="info-content" type="info" :show-icon="true" >
         <div slot="message">
           {{$t('lock_up.choose')}}&nbsp;<a style="font-weight: 600">{{selectedRowKeys.length}}</a>&nbsp;{{$t('lock_up.item')}}&nbsp;&nbsp;
@@ -17,23 +20,28 @@
       </a-alert>
     </div>
     <!-- 表格 -->
-    <a-table :dataSource="data"
-             :columns="columns"
-             :pagination="pagination"
-             :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
-             :loading="loading"
-             :scroll="{x:1300}"
-             @change="handleTableChange">
-          <template slot="time" slot-scope="text, record">
-            {{convertTime(record.timestamp)}}
-          </template>
-          <template slot="amount" slot-scope="text, record">
-            {{unit(record.asset.lockAmount)}}
-          </template>
-          <template slot="action" slot-scope="text, record, index">
-          <a slot="action"  @click="showConfirm(record.id)"  href="javascript:;">{{$t('lock_up.unlock')}}</a>
-        </template>
-    </a-table>
+    <div class="lock_table">
+      <div>
+        <a-table :dataSource="data"
+                :columns="columns"
+                :pagination="pagination"
+                :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+                :loading="loading"
+                :scroll="{x:1300}"
+                @change="handleTableChange">
+              <template slot="time" slot-scope="text, record">
+                {{convertTime(record.timestamp)}}
+              </template>
+              <template slot="amount" slot-scope="text, record">
+                {{unit(record.asset.lockAmount)}}
+              </template>
+              <template slot="action" slot-scope="text, record, index">
+              <a slot="action"  @click="showConfirm(record.id)"  href="javascript:;">{{$t('lock_up.unlock')}}</a>
+            </template>
+        </a-table>
+      </div>
+        <no-data v-show="nodata"></no-data>
+    </div>
     <!-- 弹框 -->
     <a-modal
       :title="$t('lock_up.lockedModel.title')"
@@ -53,7 +61,7 @@
       :fieldDecoratorOptions="{rules: [{ required: true, message: $t('lock_up.lockedModel.msg') }]}">
       <a-input type="number" v-model="amount" :placeholder="$t('lock_up.lockedModel.msg')" addonAfter="ETM" />
       </a-form-item>
-      <a-form-item
+      <a-form-item style="text-align: justify;"
        :labelCol="{ span: 6 }"
       :label="$t('transfer.note.label')">
       {{$t('lock_up.lockedModel.note')}}
@@ -67,7 +75,8 @@
 import {mapState} from 'vuex'
 import { convertTime } from '@/utils/gen'
 import { unit } from '@/utils/utils'
-import {allLock, lockVote, lockRemove} from '@/api/account'
+import noData from '@/components/nodata/nodata'
+import {allLock, lockVote, lockRemove, effectAccount} from '@/api/account'
 import popPassword from '@/components/pop-password/pop-password'
 const columns = [{
   title: i18n.t('lock_up.colums.th01'),
@@ -96,6 +105,7 @@ export default {
       columns,
       data: [],
       loading: false,
+      nodata: false,
       pagination: {
         current: 1,
         defaultPageSize: 10, // 每页个数
@@ -117,7 +127,8 @@ export default {
     ...mapState({
       secret: state => state.user.secret,
       address: state => state.user.accountInfo.address,
-      secondSignature: state => state.user.accountInfo.secondSignature
+      secondSignature: state => state.user.accountInfo.secondSignature,
+      balance: state => state.user.accountInfo.balance || 0
     }),
     lockValue () {
       let arrValue = []
@@ -125,13 +136,8 @@ export default {
       return arrValue
     }
   },
-  watch: {
-    // 'selectedRows': function (selectedRows) {
-    //   console.log(1)
-    // }
-  },
   created () {
-    this._allLock()
+    this._effectAccount()
   },
   methods: {
     empty () {
@@ -139,32 +145,40 @@ export default {
       this.selectedRows = []
       this.total = ''
     },
+    refresh () {
+      this._effectAccount()
+    },
     showConfirm (lockId) {
-      let self = this
       this.$confirm({
-        title: '您需要解锁吗?',
-        content: '需要收取0.1ETM手续费',
-        okText: '确认',
-        cancelText: '取消',
-        onOk () {
-          self.removeLockEvent(lockId)
+        title: i18n.t('lock_up.tip.title'),
+        content: i18n.t('lock_up.tip.content'),
+        okText: i18n.t('lock_up.tip.btn_ok'),
+        cancelText: i18n.t('lock_up.tip.btn_cancel'),
+        onOk: () => {
+          this.removeLockEvent(lockId)
         }
       })
     },
     showConfirmAll () {
-      let self = this
       this.$confirm({
-        title: '您需要解锁吗?',
-        content: '需要收取0.1ETM手续费',
-        okText: '确认',
-        cancelText: '取消',
-        onOk () {
-          self.bulkUnlock()
+        title: i18n.t('lock_up.tip.title'),
+        content: i18n.t('lock_up.tip.content'),
+        okText: i18n.t('lock_up.tip.btn_ok'),
+        cancelText: i18n.t('lock_up.tip.btn_cancel'),
+        onOk: () => {
+          this.bulkUnlock()
         }
       })
     },
     showModal () {
-      this.visible = true
+      if (this.balance < 0.1) {
+        this.$notification.info({
+          message: i18n.t('tip.title'),
+          description: i18n.t('tip.balance_enough')
+        })
+      } else {
+        this.visible = true
+      }
     },
     cancelModal () {
       this.amount = null
@@ -261,10 +275,34 @@ export default {
       try {
         const result = await allLock(params)
         if (result && result.data.success) {
+          if (result.data.count === 0) {
+            this.nodata = true
+          } else {
+            this.nodata = false
+          }
           this.loading = false
           this.data = result.data.trs
-          console.log(this.data)
           this.pagination.total = result.data.count
+        } else {
+          this.data = []
+          this.loading = false
+          this.nodata = true
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async _effectAccount (params = {address: this.address}) {
+      try {
+        const result = await effectAccount(params)
+        if (result && result.data.success) {
+          if (result.data.effectivity) {
+            this._allLock()
+          } else {
+            this.nodata = true
+          }
+        } else {
+          this.nodata = true
         }
       } catch (error) {
         console.log(error)
@@ -295,14 +333,19 @@ export default {
     }
   },
   components: {
-    popPassword
+    popPassword,
+    noData
   }
 }
 </script>
 <style lang="less" scoped>
   .lock-up{
+    min-height: 600px;
     margin-top: 20px;
     .info{
+      .refresh{
+        float:right;
+      }
       .add{
         margin-right: 15px;
       }
@@ -310,6 +353,9 @@ export default {
       .info-content{
         margin-top: 20px;
       }
+    }
+    .lock_table{
+      position: relative;
     }
   }
 </style>

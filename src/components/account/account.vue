@@ -17,6 +17,7 @@
       width='328px'
       v-model="visible"
       :footer="null"
+      :bodyStyle="{textAlign:'center'}"
     >
       <qrcode :value="qrvalue" :options="{ size: 280 }"></qrcode>
     </a-modal>
@@ -42,8 +43,12 @@ export default {
       return this.$store.state.user.accountInfo || {}
     },
     publicKey () {
-      const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
-      return this.$store.state.user.accountInfo.publicKey || data
+      if (sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')) {
+        const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
+        return this.$store.state.user.accountInfo.publicKey || data
+      } else {
+        return ''
+      }
     }
   },
   methods: {

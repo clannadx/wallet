@@ -16,7 +16,14 @@
           :loading="loading"
            :scroll="{ x: 1300 }"
           @change="handleTableChange"
-          ></a-table>
+          >
+          <template slot="productivity" slot-scope="text,record">
+            {{record.productivity}}%
+          </template>
+          <template slot="approval" slot-scope="text,record">
+            {{record.approval*100}}%
+          </template>
+          </a-table>
       </div>
         <no-data v-show="nodata"  ></no-data>
     </div>
@@ -42,13 +49,16 @@ const columns = [{
   dataIndex: 'address'
 }, {
   title: i18n.t('vote_record.columns.th04'),
-  dataIndex: 'productivity'
+  dataIndex: 'productivity',
+  scopedSlots: {customRender: 'productivity'}
+
 }, {
   title: i18n.t('vote_record.columns.th05'),
   dataIndex: 'producedblocks'
 }, {
   title: i18n.t('vote_record.columns.th06'),
   dataIndex: 'approval',
+  scopedSlots: {customRender: 'approval'},
   width: 80,
   fixed: 'right'
 }]
@@ -133,7 +143,6 @@ export default {
     },
     // 提交接口
     async _submitVoter (params = {secret: this.secret, delegates: this.cancelVote}) {
-      console.log(this.cancelVote, '2222222222222222')
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({

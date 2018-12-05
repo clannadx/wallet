@@ -21,7 +21,7 @@
             {{record.productivity}}%
           </template>
           <template slot="approval" slot-scope="text,record">
-            {{record.approval}}%
+            {{record.approval*100}}%
           </template>
           </a-table>
       </div>
@@ -67,6 +67,7 @@ export default {
   data () {
     return {
       data: [],
+      resultData: [],
       haveVoted: [], // 以投票数组
       filterDisabled: [],
       columns,
@@ -146,7 +147,6 @@ export default {
     onSelectChange (selectedRowKeys, selectedRows) {
       this.selectedRowKeys = selectedRowKeys
       this.selectedRows = selectedRows
-      console.log(this.selectedRows, '1111111111111')
     },
     // 获取列表
     async _getVoteLists (p) {
@@ -155,12 +155,20 @@ export default {
         const params = {orderby: 'approval:desc'}
         const result = await getVoteLists(params)
         if (result.data.success) {
-          this.filterDisabled = compareArrObj(this.haveVoted, result.data.delegates).result
-          console.log(this.filterDisabled)
+          this.resultData = result.data.delegates
+          if (result.data.totalCount > 101) {
+            const resultMore = await getVoteLists({orderby: 'approval:desc', offset: 101})
+            if (resultMore.data.success) {
+              this.resultData = [...this.resultData, ...resultMore.data.delegates]
+              console.log(this.resultData, '111111111111111111111111')
+            }
+          }
+          this.filterDisabled = compareArrObj(this.haveVoted, this.resultData).result
           this.data = this.filterDisabled.slice(
             this.pagination.defaultPageSize * p,
             this.pagination.defaultPageSize * p + 10
           )
+          console.log(this.data, '444444444444444444444')
           if (result.data.delegates.length === 0) {
             this.nodata = true
           }
@@ -183,7 +191,6 @@ export default {
         if (result.data.success) {
           this.totalVoters = result.data.delegates.length
           this.haveVoted = result.data.delegates
-          console.log(this.haveVoted, 'haveVoted')
           this._getVoteLists(p)
         } else {
           this.haveVoted = []
@@ -201,7 +208,6 @@ export default {
     },
     // 提交投票接口
     async _submitVoter (params = {secret: this.secret, delegates: this.voted}) {
-      console.log(this.voted, '44444444444444444444')
       const result = await submitVoter(params)
       if (result.data.success) {
         this.$notification.info({
