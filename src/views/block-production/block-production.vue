@@ -5,26 +5,26 @@
       <a-col :xs="10" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
       <a-col :xs="6" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
       <a-col :xs="8" :sm="6" :md="6" :lg="3" :xl="2">
-         <a-button class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button>
+         <a-button v-if="delegates" class="btn" size="large" @click="() => modal1Visible = true" type="primary">{{$t("block_production.registerBtn")}}</a-button>
       </a-col>
     </a-row>
     <div class="info">
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="6">
             <p>{{$t("block_production.rewards")}} (ETM)</p>
-            <p>{{unit(delegateInfo.rewards) || ''}}</p>
+            <p>{{unit(delegateInfo.rewards) || 0}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="6">
             <p>{{$t("block_production.rate")}}</p>
-            <p>{{delegateInfo.rate}}</p>
+            <p>{{delegateInfo.rate || 0}}</p>
           </a-col>
           <a-col class="etm-info-li" :span="6">
             <p>{{$t("block_production.productivity")}}</p>
-            <p>{{delegateInfo.productivity ? delegateInfo.productivity+ '%' : delegateInfo.productivity}} </p>
+            <p>{{delegateInfo.productivity ? delegateInfo.productivity+ '%' : 0}} </p>
           </a-col>
           <a-col class="etm-info-li last" :span="6">
             <p>{{$t("block_production.approval")}}</p>
-            <p>{{delegateInfo.approval ? delegateInfo.approval+ '%' : delegateInfo.approval}}</p>
+            <p>{{delegateInfo.approval ? delegateInfo.approval+ '%' : 0}}</p>
           </a-col>
     </a-row>
     </div>
@@ -144,7 +144,8 @@ export default {
       modal2Visible: false,
       delegateName: '',
       secondSecret: '', // 二级密码
-      unit: unit
+      unit: unit,
+      delegates: true // 注册按钮显示
     }
   },
   created () {
@@ -159,6 +160,11 @@ export default {
     publicKey () {
       const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
       return this.$store.state.user.accountInfo.publicKey || data
+    }
+  },
+  watch: {
+    'delegateInfo.rewards': function (newValue, oldValue) {
+      console.log(1)
     }
   },
   methods: {
@@ -212,12 +218,14 @@ export default {
       this.loading = true
       try {
         const result = await getDelegate(params)
-        console.log(result)
+        // console.log(result)
         if (result.data.success) {
           this.onOff = i18n.t('block_production.status.has_register')
           this.delegateInfo = result.data.delegate
+          this.delegates = false
           this._getTableLists()
         } else {
+          this.delegates = true
           this.onOff = i18n.t('block_production.status.not_register')
           this.nodata = true
         }

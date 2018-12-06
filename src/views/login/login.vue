@@ -85,23 +85,27 @@ export default {
       'login'
     ]),
     async handleSubmit () {
-      if (!bip39.validateMnemonic(this.password)) {
-        this.$message.error(i18n.t('login.tip_err'))
-      } else {
-        let result = await this.login(this.password)
-        if (result.data.success) {
-          result.data.account.secret = this.password
-          const data = JSON.stringify(result.data)
-          if (this.status) {
-            localStorage.setItem('etmUse', data)
-          } else {
-            sessionStorage.setItem('etmUse', data)
-          }
-          this.$message.success(i18n.t('login.tip_success'))
-          this.$router.push('/')
+      try {
+        if (!bip39.validateMnemonic(this.password)) {
+          this.$message.error(i18n.t('login.tip_err'))
         } else {
-          this.$message.error(i18n.t('login.tip_fail'))
+          let result = await this.login(this.password)
+          if (result.data.success) {
+            result.data.account.secret = this.password
+            const data = JSON.stringify(result.data)
+            if (this.status) {
+              localStorage.setItem('etmUse', data)
+            } else {
+              sessionStorage.setItem('etmUse', data)
+            }
+            this.$message.success(i18n.t('login.tip_success'))
+            this.$router.push('/')
+          } else {
+            this.$message.error(i18n.t('login.tip_fail'))
+          }
         }
+      } catch (error) {
+        console.log(error)
       }
     },
     register () {

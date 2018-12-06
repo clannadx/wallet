@@ -9,6 +9,10 @@ export default{
       // type: Number,
       required: true
     },
+    point: {
+      type: Number,
+      default: 0
+    },
     speed: {
       type: Number,
       default: 1500
@@ -38,7 +42,7 @@ export default{
       new TWEEN.Tween({tweeningValue: startValue})
         .to({tweeningValue: endValue}, this.speed)
         .onUpdate(function (object) {
-          vm.tweeningValue = object.tweeningValue.toFixed(0)
+          vm.tweeningValue = object.tweeningValue.toFixed(vm.point)
         })
         .start()
       animate()

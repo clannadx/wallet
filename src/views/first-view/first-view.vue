@@ -1,11 +1,15 @@
 <template>
   <div>
     <!-- 信息 -->
+    <button @click="add">按钮</button>
+    <div style="position:absolute;top:-100px;left:0;width:100%;height:1000px;overflow:hidden">
+        <animated-coin @aaa="aaa"  :key="index" v-for="(item,index) in coins"></animated-coin>
+    </div>
     <div class="information" >
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
             <p>{{$tc("first-view.information",0)}} (ETM)</p>
-              <p><animated-integer :value='balance'></animated-integer></p>
+              <p><animated-integer :point='2' :value='balance'></animated-integer></p>
           </a-col>
           <a-col class="etm-info-li" :span="8">
             <p>{{$tc("first-view.information",1)}}</p>
@@ -145,6 +149,7 @@ import MiniBar from '@/components/chart/miniBar'
 import MiniProgress from '@/components/chart/miniProgress'
 import Trend from '@/components/chart/trend'
 import AnimatedInteger from '@/components/animated-integer/animated-integer'
+import AnimatedCoin from '@/components/animated-coin/animated-coin'
 import RankingList from '@/components/chart/rankingList'
 // 表头
 const columns = [{
@@ -186,6 +191,7 @@ export default {
     return {
       data: [],
       columns,
+      amount: 40,
       pagination: {
         defaultPageSize: 10 // 每页个数
       },
@@ -194,6 +200,7 @@ export default {
       unit: unit,
       convertTime: convertTime, // 方法
       rankList // 排名
+
     }
   },
   computed: {
@@ -205,6 +212,9 @@ export default {
     },
     balance () {
       return unit(this.accounts.balance).toFixed(2) * 1
+    },
+    coins () {
+      return Array(this.amount).fill(1)
     }
   },
   components: {
@@ -214,6 +224,7 @@ export default {
     'mini-bar': MiniBar,
     'mini-progress': MiniProgress,
     'animated-integer': AnimatedInteger,
+    'animated-coin': AnimatedCoin,
     'ranking-list': RankingList,
     Trend
   },
@@ -222,6 +233,12 @@ export default {
     this._getTransaction()
   },
   methods: {
+    add () {
+      this.aaa()
+    },
+    aaa () {
+
+    },
     async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {
       this.loading = true
       const result = await getTransaction(params)

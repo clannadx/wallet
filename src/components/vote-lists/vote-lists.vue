@@ -160,7 +160,6 @@ export default {
             const resultMore = await getVoteLists({orderby: 'approval:desc', offset: 101})
             if (resultMore.data.success) {
               this.resultData = [...this.resultData, ...resultMore.data.delegates]
-              console.log(this.resultData, '111111111111111111111111')
             }
           }
           this.filterDisabled = compareArrObj(this.haveVoted, this.resultData).result
@@ -168,7 +167,6 @@ export default {
             this.pagination.defaultPageSize * p,
             this.pagination.defaultPageSize * p + 10
           )
-          console.log(this.data, '444444444444444444444')
           if (result.data.delegates.length === 0) {
             this.nodata = true
           }

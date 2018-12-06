@@ -215,7 +215,7 @@ export default {
     'tab': '受托人列表 | 投票记录 | 谁投了我'
   },
   'vote_lists': {
-    'total': '共 | 条',
+    'total': '共 | 人',
     'refresh': '刷新',
     'vote': '投票',
     'columns': {
