@@ -6,9 +6,9 @@ var TWEEN = require('@tweenjs/tween.js')
 
 export default{
   props: {
-    index: {
-      type: Number,
-      default: 1
+    show: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -49,10 +49,6 @@ export default{
     // }
   },
   methods: {
-    aaa () {
-      this.tween()
-      this.$emit('aaa')
-    },
     dataToNumber (obj, rect) {
       const toNumber = (v, full) => {
         if (typeof v === 'number') {
@@ -81,7 +77,7 @@ export default{
           requestAnimationFrame(animate)
         }
       }
-      new TWEEN.Tween({ x: 500, y: -200 })
+      new TWEEN.Tween({ x: 500, y: -50 })
         .to({
           x: Math.random() * (this.startArea.width) + this.startArea.x,
           y: Math.random() * (this.startArea.height) + this.startArea.y
@@ -89,8 +85,17 @@ export default{
         .onUpdate((object) => {
           this.$refs.coin.style.transform = `translate(${object.x}px, ${object.y}px)`
         })
+        .onComplete(() => {
+          // this.back()
+
+          // console.log(this.show)
+        })
         .start()
       animate()
+    },
+    back () {
+      this.show = false
+      this.$emit('back', this.show)
     }
   }
 }
@@ -117,7 +122,7 @@ export default{
 }
 
 @keyframes rotateMoney {
-    .addMoneyFrame(8, 15);
+  .addMoneyFrame(8, 15);
 }
 
 </style>

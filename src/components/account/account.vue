@@ -6,7 +6,7 @@
             <li><span>{{$t('account.info.balance')}}：</span><span>{{unit(accounts.balance).toFixed(2)}} ETM</span></li>
             <li class="phone"><span>{{$t('account.info.address')}}：</span><span class="key">{{accounts.address}}</span></li>
             <li><span>{{$t('account.info.secondSecret')}}：</span><span>{{accounts.secondSignature ? $t('account.secretStatus.hasSet') : $t('account.secretStatus.notSet')}}</span></li>
-            <li><span>{{$t('account.info.status')}}：</span><span>{{$t("account.lockedStatus.notSet")}}</span></li>
+            <!-- <li><span>{{$t('account.info.status')}}：</span><span>{{$t("account.lockedStatus.notSet")}}</span></li> -->
             <li class="phone"><span>{{$t('account.info.publicKey')}}：</span><span class="key">{{publicKey}}</span></li>
             <li><span>{{$t('account.info.keyCode')}}：</span><span><a href="javascript:;" @click="keyQrcode">{{$t('account.click')}}</a></span></li>
             <li><span>{{$t('account.info.addressCode')}}：</span><span><a href="javascript:;" @click="addressQrcode">{{$t('account.click')}}</a></span></li>

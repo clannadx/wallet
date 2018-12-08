@@ -115,6 +115,7 @@ export default {
       'label': 'Lock Amount',
       'msg': 'Please enter the amount of the lock',
       'title': 'New Lock',
+      'fee': 'Locking the warehouse is subject to payment 0.1 ETM',
       'note': 'The right to vote is obtained by locking the position. The amount of the locked position determines the final voting equity (number of votes). After the time coefficient gain, the convex function is evenly processed, which increases the long-term holdings of the small voter and reduces the weight of the oligarchy. Details'
     },
     'btn_add': 'New Lock',
@@ -215,16 +216,16 @@ export default {
     'tab': 'Delegate List | Vote Record | My Voters'
   },
   'vote_lists': {
-    'total': 'A total of | records',
+    'total': 'A total of | delegate',
     'refresh': 'Refresh',
     'vote': 'Vote',
     'columns': {
       'th01': 'Ranking',
       'th02': 'Delegate',
       'th03': 'Address',
-      'th04': 'Productivity',
+      'th04': 'Approval',
       'th05': 'Produced Blocks',
-      'th06': 'Approval Rate'
+      'th06': 'Productivity'
     }
   },
   'vote_record': {
@@ -235,9 +236,9 @@ export default {
       'th01': 'Ranking',
       'th02': 'Delegate',
       'th03': 'Address',
-      'th04': 'Productivity',
+      'th04': 'Approval',
       'th05': 'Produced Blocks',
-      'th06': 'Approval Rate'
+      'th06': 'Productivity'
     }
   },
   'vote_for_me': {

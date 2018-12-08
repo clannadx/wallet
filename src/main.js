@@ -2,19 +2,28 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import i18n from '@/lang'
-import Antd from 'ant-design-vue'
 import App from './App'
+import VueSocketIO from 'vue-socket.io'
 import router from './router'
 import Viser from 'viser-vue'
 import './assets/css/reset.css'
 
+import './components.js'
 import 'ant-design-vue/dist/antd.css'
 // qrcode
 import VueQrcode from '@xkeshi/vue-qrcode'
 import store from '@/store'
 import './permission'
+Vue.use(new VueSocketIO({
+  debug: false,
+  connection: 'http://192.168.2.58:4098',
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  }
+}))
 Vue.component(VueQrcode.name, VueQrcode)
-Vue.use(Antd)
 Vue.use(Viser)
 Vue.config.productionTip = false
 

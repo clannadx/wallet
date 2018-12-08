@@ -12,6 +12,7 @@
     <div class="table">
       <div>
         <a-table :columns="columns"
+        :rowKey="record => record.id"
         :pagination="pagination"
         :loading="loading"
         @change="handleTableChange"

@@ -10,6 +10,7 @@
     <div class="table">
       <div>
         <a-table :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
+          :rowKey="record => record.publicKey"
           :columns="columns"
           :dataSource="data"
           :pagination="pagination"
@@ -19,9 +20,6 @@
           >
           <template slot="productivity" slot-scope="text,record">
             {{record.productivity}}%
-          </template>
-          <template slot="approval" slot-scope="text,record">
-            {{record.approval*100}}%
           </template>
           </a-table>
       </div>
@@ -49,17 +47,16 @@ const columns = [{
   dataIndex: 'address'
 }, {
   title: i18n.t('vote_record.columns.th04'),
-  dataIndex: 'productivity',
-  scopedSlots: {customRender: 'productivity'}
+  dataIndex: 'vote'
 
 }, {
   title: i18n.t('vote_record.columns.th05'),
   dataIndex: 'producedblocks'
 }, {
   title: i18n.t('vote_record.columns.th06'),
-  dataIndex: 'approval',
-  scopedSlots: {customRender: 'approval'},
-  width: 80,
+  dataIndex: 'productivity',
+  scopedSlots: {customRender: 'productivity'},
+  width: 110,
   fixed: 'right'
 }]
 

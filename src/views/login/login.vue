@@ -14,8 +14,8 @@
       </div>
       <div>
         <a-select size="small" :defaultValue="lang" @change='changeLocale'  style="width: 120px" >
-          <a-select-option value="zh_CN">{{$t('login.select.zh_CN')}}</a-select-option>
-          <a-select-option value="en_GB">{{$t('login.select.en_GB')}}</a-select-option>
+            <a-select-option value="zh_CN">{{$t('login.select.zh_CN')}}</a-select-option>
+            <a-select-option value="en_GB">{{$t('login.select.en_GB')}}</a-select-option>
         </a-select>
       </div>
       <div class="div_btn">
@@ -54,6 +54,7 @@
 </template>
 
 <script>
+
 import bip39 from 'bip39'
 import {mapActions} from 'vuex'
 import {setup} from '@/lang'

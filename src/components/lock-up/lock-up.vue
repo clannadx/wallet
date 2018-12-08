@@ -24,6 +24,7 @@
       <div>
         <a-table :dataSource="data"
                 :columns="columns"
+                :rowKey="record => record.id"
                 :pagination="pagination"
                 :rowSelection="{selectedRowKeys: selectedRowKeys, onChange: onSelectChange}"
                 :loading="loading"
@@ -61,9 +62,14 @@
       :fieldDecoratorOptions="{rules: [{ required: true, message: $t('lock_up.lockedModel.msg') }]}">
       <a-input type="number" v-model="amount" :placeholder="$t('lock_up.lockedModel.msg')" addonAfter="ETM" />
       </a-form-item>
-      <a-form-item style="text-align: justify;"
+      <a-form-item style="text-align: justify; margin-bottom:0;"
        :labelCol="{ span: 6 }"
       :label="$t('transfer.note.label')">
+      {{$t('lock_up.lockedModel.fee')}}
+      </a-form-item>
+      <a-form-item style="text-align: justify;"
+       :labelCol="{ span: 0 }"
+      >
       {{$t('lock_up.lockedModel.note')}}
       </a-form-item>
     </a-form>

@@ -9,12 +9,17 @@
     <div class="table">
       <div>
         <a-table :columns="columns"
+                 :rowKey="record => record.address"
                 :dataSource="data"
                 :pagination="pagination"
                 :loading="loading"
                 :scroll="{ x: 1300 }"
                 @change="handleTableChange"
-        ></a-table>
+        >
+        <template slot="weight" slot-scope="text,record">
+          {{record.weight.toFixed(2) === '0.00' ? 0 : record.weight.toFixed(2)}}
+        </template>
+        </a-table>
       </div>
         <no-data v-show="nodata"  ></no-data>
     </div>
@@ -31,7 +36,9 @@ const columns = [{
   dataIndex: 'address'
 }, {
   title: i18n.t('vote_for_me.columns.th03'),
-  dataIndex: 'weight'
+  dataIndex: 'weight',
+  scopedSlots: {customRender: 'weight'}
+
 }]
 export default {
   data () {

@@ -1,10 +1,6 @@
 <template>
   <div>
     <!-- 信息 -->
-    <button @click="add">按钮</button>
-    <div style="position:absolute;top:-100px;left:0;width:100%;height:1000px;overflow:hidden">
-        <animated-coin @aaa="aaa"  :key="index" v-for="(item,index) in coins"></animated-coin>
-    </div>
     <div class="information" >
       <a-row class="etm-info" type="flex" justify="space-around" align="middle">
           <a-col class="etm-info-li" :span="8">
@@ -113,6 +109,7 @@
       <div class="lists" >
         <div>
           <a-table :columns="columns"
+          :rowKey="record => record.id"
           :dataSource="data"
           :pagination="pagination"
           :loading="loading"
@@ -149,7 +146,6 @@ import MiniBar from '@/components/chart/miniBar'
 import MiniProgress from '@/components/chart/miniProgress'
 import Trend from '@/components/chart/trend'
 import AnimatedInteger from '@/components/animated-integer/animated-integer'
-import AnimatedCoin from '@/components/animated-coin/animated-coin'
 import RankingList from '@/components/chart/rankingList'
 // 表头
 const columns = [{
@@ -172,8 +168,6 @@ const columns = [{
 }, {
   title: i18n.t('first-view.table_columns.th07'),
   dataIndex: 'amount',
-  width: 130,
-  fixed: 'right',
   scopedSlots: {customRender: 'amount'}
 
 }]
@@ -191,7 +185,6 @@ export default {
     return {
       data: [],
       columns,
-      amount: 40,
       pagination: {
         defaultPageSize: 10 // 每页个数
       },
@@ -212,9 +205,6 @@ export default {
     },
     balance () {
       return unit(this.accounts.balance).toFixed(2) * 1
-    },
-    coins () {
-      return Array(this.amount).fill(1)
     }
   },
   components: {
@@ -224,7 +214,6 @@ export default {
     'mini-bar': MiniBar,
     'mini-progress': MiniProgress,
     'animated-integer': AnimatedInteger,
-    'animated-coin': AnimatedCoin,
     'ranking-list': RankingList,
     Trend
   },
@@ -233,12 +222,6 @@ export default {
     this._getTransaction()
   },
   methods: {
-    add () {
-      this.aaa()
-    },
-    aaa () {
-
-    },
     async _getTransaction (params = {senderId: this.address, orderBy: 't_timestamp:desc', limit: 10}) {
       this.loading = true
       const result = await getTransaction(params)

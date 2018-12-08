@@ -1,6 +1,10 @@
 <template>
   <div class="block-appear">
     <!-- info -->
+    <!-- <a-button type="primary" @click="add">按钮</a-button> -->
+    <div v-show="show"  style="position:absolute;top:-100px;left:0;width:100%;height:1000px;overflow:hidden">
+        <animated-coin  :ref="'coin'+index" class="item-box" :key="index" v-for="(item,index) in coins"></animated-coin>
+    </div>
     <a-row class="name" type="flex" justify="start" align="middle" >
       <a-col :xs="10" :sm="8" :md="8" :lg="5" :xl="4">{{$t("block_production.info")}}</a-col>
       <a-col :xs="6" :sm="6" :md="6" :lg="3" :xl="3"> <div>{{onOff}}</div></a-col>
@@ -33,6 +37,7 @@
       <div class="table">
         <div>
           <a-table :columns="columns"
+          :rowKey="record => record.id"
           :pagination="pagination"
           :loading="loading"
           @change="handleTableChange"
@@ -94,6 +99,7 @@ import { getDelegate, setDelegate, blocks } from '@/api/block'
 import { convertTime } from '@/utils/gen'
 import {mapState} from 'vuex'
 import {unit} from '@/utils/utils'
+import AnimatedCoin from '@/components/animated-coin/animated-coin'
 
 const columns = [{
   title: i18n.t('block_production.columns.th01'),
@@ -125,6 +131,17 @@ const columns = [{
   scopedSlots: {customRender: 'reward'}
 }]
 export default {
+  sockets: {
+    'blocks/change': function (data) {
+      this._myBlock()
+    },
+    connect: function () {
+      this.id = this.$socket.id
+    },
+    customEmit: function (val) {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
+  },
   data () {
     return {
       onOff: i18n.t('block_production.status.not_register'),
@@ -145,11 +162,24 @@ export default {
       delegateName: '',
       secondSecret: '', // 二级密码
       unit: unit,
-      delegates: true // 注册按钮显示
+      delegates: true, // 注册按钮显示
+      amount: 48,
+      show: false
     }
   },
   created () {
     this._getDelegateDetail()
+    let self = this
+    setTimeout(function nextGetDelegateDetail () {
+      self._getDelegateDetail()
+        .then(value => {
+          setTimeout(nextGetDelegateDetail, 1000 * 303)
+        })
+        .catch(error => {
+          void (error)
+          setTimeout(nextGetDelegateDetail, 1000 * 303)
+        })
+    }, 1000 * 303)
   },
   computed: {
     ...mapState({
@@ -160,14 +190,21 @@ export default {
     publicKey () {
       const data = JSON.parse(sessionStorage.getItem('etmUse') || localStorage.getItem('etmUse')).account.publicKey
       return this.$store.state.user.accountInfo.publicKey || data
-    }
-  },
-  watch: {
-    'delegateInfo.rewards': function (newValue, oldValue) {
-      console.log(1)
+    },
+    coins () {
+      return Array(this.amount).fill(1)
     }
   },
   methods: {
+    add () {
+      this.show = true
+      this.coins.forEach((element, index) => {
+        this.$refs[`coin${index}`][0].tween()
+      })
+      setTimeout(() => {
+        this.show = false
+      }, 3000)
+    },
     handleOk () {
       this.form.validateFields(
         (err) => {
@@ -218,7 +255,6 @@ export default {
       this.loading = true
       try {
         const result = await getDelegate(params)
-        // console.log(result)
         if (result.data.success) {
           this.onOff = i18n.t('block_production.status.has_register')
           this.delegateInfo = result.data.delegate
@@ -231,6 +267,20 @@ export default {
         }
       } catch (err) {
         console.log(err)
+      }
+    },
+    async _myBlock (params = {limit: 1, orderBy: 'height:desc'}) {
+      try {
+        const result = await blocks(params)
+        if (result.data.success) {
+          const myPublicKey = result.data.blocks[0].generatorPublicKey
+          if (this.publicKey === myPublicKey) {
+            this.add()
+            this._getDelegateDetail()
+          }
+        }
+      } catch (error) {
+        console.log(error)
       }
     },
     async _getTableLists (params = {generatorPublicKey: this.publicKey, limit: 10, orderBy: 'height:desc'}) {
@@ -261,7 +311,9 @@ export default {
   },
   components: {
     'no-data': noData,
-    'pop-password': popPassword
+    'pop-password': popPassword,
+    'animated-coin': AnimatedCoin
+
   }
 }
 </script>
