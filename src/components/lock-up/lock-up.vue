@@ -46,7 +46,7 @@
     <!-- 弹框 -->
     <a-modal
       :title="$t('lock_up.lockedModel.title')"
-      destroyOnClose
+      :destroyOnClose=true
       v-model="visible"
       okText="确认"
       @ok="addLock"
@@ -283,6 +283,9 @@ export default {
         if (result && result.data.success) {
           if (result.data.count === 0) {
             this.nodata = true
+          } else if (result.data.count <= (this.pagination.current - 1) * 10 && this.pagination.current > 1) {
+            this.pagination.current--
+            this._allLock()
           } else {
             this.nodata = false
           }

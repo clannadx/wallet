@@ -7,16 +7,13 @@
       <a-tab-pane :tab="$tc('person.tab',1)" key="2" forceRender>
         <second-password></second-password>
       </a-tab-pane>
-      <a-tab-pane :tab="$tc('person.tab',2)" key="3">
-        <lock-up></lock-up>
-      </a-tab-pane>
     </a-tabs>
   </div>
 </template>
 <script>
 import Account from '@/components/account/account'
 import SecondPassword from '@/components/second-password/second-password'
-import LockUp from '@/components/lock-up/lock-up'
+
 export default {
   data () {
     return {}
@@ -26,8 +23,7 @@ export default {
   },
   components: {
     Account,
-    SecondPassword,
-    LockUp
+    SecondPassword
   }
 }
 </script>

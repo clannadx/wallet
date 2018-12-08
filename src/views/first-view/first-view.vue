@@ -18,7 +18,7 @@
       </a-row>
     </div>
     <!-- 图表 -->
-    <div class="charts">
+    <!-- <div class="charts">
       <a-row>
       <a-col :sm="24" :md="12" :xl="6" class="part" style="padding: 12px 12px 15px 0;">
         <chart-card title="昨日收益 (ETM)" total="19,34">
@@ -67,9 +67,9 @@
         </chart-card>
       </a-col>
       </a-row>
-    </div>
+    </div> -->
     <!-- 排名 -->
-    <div class="rank ">
+    <!-- <div class="rank ">
       <a-row>
         <a-col :sm="24" :md="12" :xl="12" class="part-left">
           <a-tabs default-active-key="1" class="part-content" size="large" :tab-bar-style="{marginBottom: '15px', paddingLeft: '16px'}">
@@ -102,7 +102,7 @@
           </a-tabs>
         </a-col>
       </a-row>
-    </div>
+    </div> -->
     <!-- 表格 -->
     <div class="transaction">
       <p class="title">{{$t("first-view.transaction")}}</p>
@@ -140,13 +140,13 @@ import { getTransaction } from '@/api/account'
 import { convertTime } from '@/utils/gen'
 import {unit} from '@/utils/utils'
 import noData from '@/components/nodata/nodata'
-import ChartCard from '@/components/card/card'
-import MiniArea from '@/components/chart/miniArea'
-import MiniBar from '@/components/chart/miniBar'
-import MiniProgress from '@/components/chart/miniProgress'
-import Trend from '@/components/chart/trend'
+// import ChartCard from '@/components/card/card'
+// import MiniArea from '@/components/chart/miniArea'
+// import MiniBar from '@/components/chart/miniBar'
+// import MiniProgress from '@/components/chart/miniProgress'
+// import Trend from '@/components/chart/trend'
 import AnimatedInteger from '@/components/animated-integer/animated-integer'
-import RankingList from '@/components/chart/rankingList'
+// import RankingList from '@/components/chart/rankingList'
 // 表头
 const columns = [{
   title: i18n.t('first-view.table_columns.th02'),
@@ -209,13 +209,13 @@ export default {
   },
   components: {
     'no-data': noData,
-    'chart-card': ChartCard,
-    'mini-area': MiniArea,
-    'mini-bar': MiniBar,
-    'mini-progress': MiniProgress,
-    'animated-integer': AnimatedInteger,
-    'ranking-list': RankingList,
-    Trend
+    // 'chart-card': ChartCard,
+    // 'mini-area': MiniArea,
+    // 'mini-bar': MiniBar,
+    // 'mini-progress': MiniProgress,
+    'animated-integer': AnimatedInteger
+    // 'ranking-list': RankingList,
+    // Trend
   },
   created () {
     this.$store.dispatch('GetInfo')

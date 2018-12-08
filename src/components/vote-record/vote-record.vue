@@ -25,7 +25,7 @@
       </div>
         <no-data v-show="nodata"  ></no-data>
     </div>
-    <pop-voted :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"  @handleOk="handleOk"></pop-voted>
+    <pop-voted :type="type" :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"  @handleOk="handleOk"></pop-voted>
     <pop-password :modal2Visible.sync="modal2Visible" @secondSubmit="secondSubmit"></pop-password>
   </div>
 </template>
@@ -69,13 +69,15 @@ export default {
       selectedRows: [], // 选择的行
       totalVoters: 0,
       pagination: {
+        page: 0,
         defaultPageSize: 10 // 每页个数
       },
       selectRecord: [],
       loading: false,
       modal1Visible: false,
       modal2Visible: false,
-      nodata: false
+      nodata: false,
+      type: 'cancel'
     }
   },
   created () {
@@ -102,7 +104,7 @@ export default {
       this.nodata = false
       this.selectedRowKeys = []
       this.selectedRows = []
-      this._getRecord(this.pagination.page)
+      this._getRecord(0)
     },
     // 删除事件
     deleteRecord () {
@@ -151,7 +153,7 @@ export default {
         this.selectedRowKeys = []
         this.selectedRows = []
         setTimeout(() => {
-          this._getRecord(this.pagination.current)
+          this._getRecord(this.pagination.page)
           this.$store.dispatch('GetInfo')
         }, 4000)
       } else {

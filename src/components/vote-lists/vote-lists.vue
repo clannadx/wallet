@@ -25,7 +25,7 @@
       </div>
         <no-data v-show="nodata"  ></no-data>
     </div>
-    <pop-voted :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"  @handleOk="handleOk"></pop-voted>
+    <pop-voted :type="type" :modal1Visible.sync="modal1Visible" :selectedRows="selectedRows"  @handleOk="handleOk"></pop-voted>
     <pop-password :modal2Visible.sync="modal2Visible" @secondSubmit="secondSubmit"></pop-password>
   </div>
 </template>
@@ -78,7 +78,8 @@ export default {
       loading: false,
       modal1Visible: false,
       modal2Visible: false,
-      nodata: false
+      nodata: false,
+      type: 'new'
     }
   },
   created () {

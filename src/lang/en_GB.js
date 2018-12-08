@@ -273,6 +273,7 @@ export default {
   },
   'pop_voted': {
     'cancel_vote': 'Cancel Vote',
+    'new_vote': 'New Vote',
     'note': 'Voting requires 0.1 ETM fee',
     'submitBtn': 'Submit'
   },

@@ -1,7 +1,7 @@
 <template>
   <a-modal
   :title="$t('pop_password.title')"
-  destroyOnClose
+  :destroyOnClose=true
   v-model="visible"
   @cancel="handleCancel"
 >

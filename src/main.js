@@ -16,7 +16,7 @@ import store from '@/store'
 import './permission'
 Vue.use(new VueSocketIO({
   debug: false,
-  connection: 'http://192.168.2.58:4098',
+  connection: process.env.BASE_API,
   vuex: {
     store,
     actionPrefix: 'SOCKET_',

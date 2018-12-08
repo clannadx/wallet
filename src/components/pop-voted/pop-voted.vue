@@ -1,9 +1,9 @@
 <template>
       <a-modal
-      :title="$t('pop_voted.cancel_vote')"
+      :title=title
       width="450px"
       v-model="visible"
-      destroyOnClose
+      :destroyOnClose=true
       @cancel="handleCancel"
 
   >
@@ -28,6 +28,10 @@
 <script>
 export default {
   props: {
+    type: {
+      type: String,
+      default: ''
+    },
     modal1Visible: {
       type: Boolean,
       default: false
@@ -40,6 +44,17 @@ export default {
   data () {
     return {
       visible: this.modal1Visible
+    }
+  },
+  computed: {
+    title () {
+      if (this.type === 'cancel') {
+        return i18n.t('pop_voted.cancel_vote')
+      } else if (this.type === 'new') {
+        return i18n.t('pop_voted.new_vote')
+      } else {
+        return ''
+      }
     }
   },
   watch: {
