@@ -100,6 +100,7 @@ import { convertTime } from '@/utils/gen'
 import {mapState} from 'vuex'
 import {unit} from '@/utils/utils'
 import AnimatedCoin from '@/components/animated-coin/animated-coin'
+import { setTimeout } from 'timers'
 
 const columns = [{
   title: i18n.t('block_production.columns.th01'),
@@ -131,17 +132,18 @@ const columns = [{
   scopedSlots: {customRender: 'reward'}
 }]
 export default {
-  sockets: {
-    'blocks/change': function (data) {
-      this._myBlock()
-    },
-    connect: function () {
-      this.id = this.$socket.id
-    },
-    customEmit: function (val) {
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
-  },
+  // sockets: {
+  //   'blocks/change': function (data) {
+  //     // console.log(data)
+  //     this._myBlock()
+  //   },
+  //   connect: function () {
+  //     this.id = this.$socket.id
+  //   },
+  //   customEmit: function (val) {
+  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+  //   }
+  // },
   data () {
     return {
       onOff: i18n.t('block_production.status.not_register'),
@@ -164,7 +166,8 @@ export default {
       unit: unit,
       delegates: true, // 注册按钮显示
       amount: 48,
-      show: false
+      show: false,
+      height1: null
     }
   },
   created () {
@@ -180,6 +183,17 @@ export default {
           setTimeout(nextGetDelegateDetail, 1000 * 303)
         })
     }, 1000 * 303)
+    setTimeout(function getBlock () {
+      self._myBlock()
+        .then(req => {
+          setTimeout(getBlock, 3000)
+        })
+        .catch(err => {
+          void (err)
+          console.log(44)
+          setTimeout(getBlock, 3000)
+        })
+    }, 3000)
   },
   computed: {
     ...mapState({
@@ -273,10 +287,14 @@ export default {
       try {
         const result = await blocks(params)
         if (result.data.success) {
+          // console.log(this.height1)
           const myPublicKey = result.data.blocks[0].generatorPublicKey
-          if (this.publicKey === myPublicKey) {
+          if (this.height1 === result.data.blocks[0].height) {
+            return
+          } else if (this.publicKey === myPublicKey) {
             this.add()
             this._getDelegateDetail()
+            this.height1 = result.data.blocks[0].height
           }
         }
       } catch (error) {
